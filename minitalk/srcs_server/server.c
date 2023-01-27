@@ -6,13 +6,11 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:14:58 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/01/27 14:43:46 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/01/27 15:25:51 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Libft/libft.h"
-#include <signal.h>
-#include <stdlib.h>
+#include "../../minishell.h"
 
 int	handling_size(int sig, int size, int *index)
 {

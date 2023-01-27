@@ -6,12 +6,11 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 15:05:38 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/01/27 14:43:41 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/01/27 15:25:02 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Libft/libft.h"
-#include <signal.h>
+#include "../../minishell.h"
 
 int	mt_atoi(const char *str);
 

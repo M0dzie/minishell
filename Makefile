@@ -6,7 +6,7 @@
 #    By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 18:51:59 by thmeyer           #+#    #+#              #
-#    Updated: 2023/01/27 14:45:33 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/01/27 15:22:57 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NOCOLOR= \033[0m
 BGREEN = \033[3;32m
 
 NAME = minishell
-HEADER = 
+HEADER = minishell.h
 
 CC = cc
 C_FLAGS = -Wall -Wextra -Werror

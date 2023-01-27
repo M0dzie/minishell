@@ -6,11 +6,11 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 13:46:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/01/27 10:33:11 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/01/27 15:25:12 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "limits.h"
+#include "../../minishell.h"
 
 int	ft_isdigit(int c)
 {
