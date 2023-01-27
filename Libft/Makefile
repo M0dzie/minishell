@@ -6,7 +6,7 @@
 #    By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/07 13:07:05 by thmeyer           #+#    #+#              #
-#    Updated: 2023/01/27 14:27:41 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/01/27 14:40:51 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 	printnbr.c get_next_line.c get_next_line_utils.c 
 
 OBJS = $(SRCS:%.c=$(DIR_OBJS)%.o)
-DIR_OBJS = ../Objs/
+DIR_OBJS = Objs/
 
 all: directory $(NAME)
 

@@ -6,11 +6,11 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:14:58 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/01/27 11:21:13 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/01/27 14:43:46 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf/ft_printf.h"
+#include "../../Libft/libft.h"
 #include <signal.h>
 #include <stdlib.h>
 

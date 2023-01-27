@@ -6,7 +6,7 @@
 #    By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 18:51:59 by thmeyer           #+#    #+#              #
-#    Updated: 2023/01/27 14:37:31 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/01/27 14:39:38 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ DIR_SRV = srcs_server/
 
 LIBFT_A = $(DIR_LIBFT)libft.a
 
-all: directory rsc $(NAME_S) $(NAME_C)
+all: directory $(NAME_S) $(NAME_C)
 
 $(NAME_S): $(LIBFT_A) $(OBJS_S)
 	$(CC) $(C_FLAGS) -o $(NAME_S) $(OBJS_S) $(LIBFT_A)
@@ -46,16 +46,11 @@ $(NAME_C): $(LIBFT_A) $(OBJS_C)
 $(DIR_OBJS_C)%.o: $(DIR_CLT)%.c Makefile
 	$(CC) $(C_FLAGS) -o $@ -c $< 
 
-rsc:
-	@$(MAKE) -C $(DIR_LIBFT)
-
 clean:
-	@$(MAKE) clean -C $(DIR_LIBFT)
 	$(RM) $(DIR_OBJS_S)
 	$(RM) $(DIR_OBJS_C)
     
 fclean: 
-	@$(MAKE) fclean -C $(DIR_LIBFT)
 	@$(MAKE) clean
 	$(RM) $(NAME_S)
 	$(RM) $(NAME_C)
