@@ -6,7 +6,7 @@
 #    By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 18:51:59 by thmeyer           #+#    #+#              #
-#    Updated: 2023/01/27 15:22:57 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/01/27 16:06:56 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,13 +21,12 @@ C_FLAGS = -Wall -Wextra -Werror
 
 RM = rm -rf
 
-SRCS = 
+SRCS = main.c
 
 OBJS = $(SRCS:%.c=$(DIR_OBJS)%.o)
 
 DIR_OBJS = Objs/
 DIR_LIBFT = Libft/
-DIR_MTLK = minitalk/
 
 LIBFT_A = $(DIR_LIBFT)libft.a
 
@@ -38,21 +37,18 @@ $(NAME): $(LIBFT_A) $(OBJS)
 
 rsc:
 	@$(MAKE) -C $(DIR_LIBFT)
-	@$(MAKE) -C $(DIR_MTLK)
 
 $(DIR_OBJS)%.o: %.c Makefile $(HEADER)
 	$(CC) $(C_FLAGS) -o $@ -c $< 
 
 clean:
 	@$(MAKE) clean -C $(DIR_LIBFT)
-	@$(MAKE) clean -C $(DIR_MTLK)
 	$(RM) $(OBJS)
 	$(RM) $(DIR_OBJS)
 	@echo "$(BGREEN)Clean done$(NOCOLOR)"
     
 fclean: 
 	@$(MAKE) fclean -C $(DIR_LIBFT)
-	@$(MAKE) fclean -C $(DIR_MTLK)
 	@$(MAKE) clean
 	$(RM) $(NAME)
 	@echo "$(BGREEN)Fclean done$(NOCOLOR)"
