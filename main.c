@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/01/30 11:01:04 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/01/30 11:45:25 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@ void	print_pwd(void)
 // 	getenv();
 // }
 
-// char	*read_prompt(char *str)
+// char	*read_prompt(void)
 // {
 // 	char	*line;
 
 // 	line = readline();
+// 	if (line)
+// 		add_history(line);
+// 	else
+// 		exit(0);
 // 	return (line);
 // }
 
@@ -41,14 +45,18 @@ int	main(int argc, char **argv)
 		return (ft_putendl_fd("Error\nminishell doesn't take any parameters.", \
 		2), 0);
 	(void) argv;
-	// while (1)
-	// {
 	pid = fork();
 	if (pid < 0)
 		return (ft_putendl_fd("Error\nNo child process was created.", 2), 0);
+	else if (pid == 0)
+		printf("#### Welcome to Child ####\n");
+	else
+		printf("#### Welcome to Parent ####\n");
 	printf("pid = %d\n", pid);
 	print_pwd();
-	wait(NULL);
-	// }
 	return (0);
 }
+
+// while (1)
+// {
+// }
