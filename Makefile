@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: thmeyer <thmeyer@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 18:51:59 by thmeyer           #+#    #+#              #
-#    Updated: 2023/01/27 16:06:56 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/02/06 17:02:43 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ HEADER = minishell.h
 
 CC = cc
 C_FLAGS = -Wall -Wextra -Werror
+RL_FLAGS = -lreadline
 
 RM = rm -rf
 
@@ -33,13 +34,13 @@ LIBFT_A = $(DIR_LIBFT)libft.a
 all: directory rsc $(NAME)
 
 $(NAME): $(LIBFT_A) $(OBJS)
-	$(CC) $(C_FLAGS) -o $(NAME) $(OBJS) $(LIBFT_A)
+	$(CC) $(C_FLAGS) $(RL_FLAGS) -o $(NAME) $(OBJS) $(LIBFT_A)
 
 rsc:
 	@$(MAKE) -C $(DIR_LIBFT)
 
 $(DIR_OBJS)%.o: %.c Makefile $(HEADER)
-	$(CC) $(C_FLAGS) -o $@ -c $< 
+	$(CC) $(C_FLAGS) $(RL_FLAGS) -o $@ -c $< 
 
 clean:
 	@$(MAKE) clean -C $(DIR_LIBFT)
