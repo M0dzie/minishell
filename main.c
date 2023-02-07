@@ -6,40 +6,20 @@
 /*   By: thmeyer <thmeyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/07 09:42:59 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/07 15:12:06 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_tamer(int sort)
-{
-	char	*output;
-
-	if (sort == 1)
-	{
-		output = getenv("PWD");
-		printf("%s\n", output);
-	}
-}
-
-void	print_env(char **env)
-{
-	int	i;
-
-	i = -1;
-	while (env[++i])
-		printf("%s\n",env[i]);
-}
-
 void	read_prompt(char *input, char **env)
 {
-	if (ft_strncmp(input, "pwd", 3) == 0)
-		print_tamer(1);
-	else if (ft_strncmp(input, "env", 3) == 0)
+	if (ms_strcmp(input, "pwd"))
+		print_pwd();
+	else if (ms_strcmp(input, "env"))
 		print_env(env);
-	else
-		ft_printf("input = %s\n", input);
+	else if (ms_strcmp(input, "echo"))
+		printf("%s\n", input + 5);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -47,18 +27,21 @@ int	main(int argc, char **argv, char **env)
 	char	*input;
 
 	(void) argv;
+	(void) env;
 	if (argc != 1)
 		return (ft_putendl_fd("Error\nminishell doesn't take any parameters.", \
 		2), 0);
 	while (1)
 	{
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, signal_handler);
 		input = readline("\033[1;36mminishell \033[1;34m$> \033[0m");
 		add_history(input);
+		parsing_input(input);
 		read_prompt(input, env);
 	}
 	return (0);
 }
-
 
 	// pid = fork();
 	// if (pid < 0)

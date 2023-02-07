@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thmeyer <thmeyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/07 15:01:16 by thmeyer          ###   ########.fr       */
+/*   Created: 2023/02/07 10:55:12 by thmeyer           #+#    #+#             */
+/*   Updated: 2023/02/07 10:59:06 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "Libft/libft.h"
-# include <signal.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <sys/types.h>
+#include "minishell.h"
 
-char	*parsing_input(char *input);
+void	print_pwd(void)
+{
+	printf("%s\n", getenv("PWD"));
+}
 
-int		ms_strcmp(char *s1, char *s2);
+void	print_env(char **env)
+{
+	int	i;
 
-void	print_pwd(void);
-void	print_env(char **env);
-void	read_prompt(char *input, char **env);
-void	signal_handler(int signal);
-
-#endif
+	i = -1;
+	while (env[++i])
+		printf("%s\n",env[i]);
+}

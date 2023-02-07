@@ -6,7 +6,7 @@
 #    By: thmeyer <thmeyer@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 18:51:59 by thmeyer           #+#    #+#              #
-#    Updated: 2023/02/06 17:30:14 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/02/07 13:53:20 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ RL_FLAGS = -lreadline
 
 RM = rm -rf
 
-SRCS = main.c
+SRCS = main.c built_ins.c parsing.c utils.c
 
 OBJS = $(SRCS:%.c=$(DIR_OBJS)%.o)
 

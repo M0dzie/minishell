@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thmeyer <thmeyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/07 15:01:16 by thmeyer          ###   ########.fr       */
+/*   Created: 2023/02/07 13:53:35 by thmeyer           #+#    #+#             */
+/*   Updated: 2023/02/07 14:26:06 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "Libft/libft.h"
-# include <signal.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <sys/types.h>
+#include "minishell.h"
 
-char	*parsing_input(char *input);
+/*Booleen TRUE = 1, FALSE = 0*/
+int	ms_strcmp(char *s1, char *s2)
+{
+	int	i;
+	int	j;
 
-int		ms_strcmp(char *s1, char *s2);
-
-void	print_pwd(void);
-void	print_env(char **env);
-void	read_prompt(char *input, char **env);
-void	signal_handler(int signal);
-
-#endif
+	i = 0;
+	while (s1[i])
+	{
+		j = 0;
+		while (s1[i + j] == s2[j])
+		{
+			j++;
+			if (s2[j] == '\0')
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
