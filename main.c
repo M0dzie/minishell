@@ -6,7 +6,7 @@
 /*   By: thmeyer <thmeyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/07 09:39:38 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/07 09:42:59 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	read_prompt(char *input, char **env)
 
 int	main(int argc, char **argv, char **env)
 {
-	pid_t	pid;
 	char	*input;
 
 	(void) argv;
@@ -57,7 +56,6 @@ int	main(int argc, char **argv, char **env)
 		add_history(input);
 		read_prompt(input, env);
 	}
-	printf("pid = %d\n", pid);
 	return (0);
 }
 
