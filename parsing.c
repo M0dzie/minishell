@@ -27,6 +27,7 @@ char	*parsing_input(char *input)
 	int	i;
 
 	i = -1;
+	checking_errors(input);
 	if (input[0] == '$')
 		return (printf("$\n"), input + 1);
 	while (input[++i])
