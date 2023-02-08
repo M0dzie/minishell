@@ -6,7 +6,7 @@
 /*   By: thmeyer <thmeyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/08 14:25:39 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/08 16:22:09 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 # include <readline/history.h>
 # include <sys/types.h>
 
-int		checking_quotes(char *input);
+int		checking_quotes(char *input, int i);
 int		ms_strcmp(char *s1, char *s2);
 
-void	checking_errors(char *input);
+void	checking_errors(char *input, int i);
 void	parsing_input(char *input);
 void	print_pwd(void);
 void	print_env(char **env);

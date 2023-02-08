@@ -27,8 +27,8 @@ void	parsing_input(char *input)
 	i = -1;
 	while (input[++i])
 	{
-		if (input[i] == 34 || input[i] == 39)
-			checking_errors(input);
+		// if (input[i] == 34 || input[i] == 39)
+		// 	checking_errors(input, i);
 	}
 }
 
