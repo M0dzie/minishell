@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+void	read_prompt(char *input, char **env)
+{
+	if (ms_strcmp(input, "pwd"))
+		print_pwd();
+	else if (ms_strcmp(input, "env"))
+		print_env(env);
+	else if (ms_strcmp(input, "echo"))
+		printf("%s\n", input + 5);
+}
+
 char	*parsing_input(char *input)
 {
 	int	i;
