@@ -6,7 +6,7 @@
 /*   By: thmeyer <thmeyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/08 11:04:15 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/08 16:05:26 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv, char **env)
 	(void) argv;
 	(void) env;
 	if (argc != 1)
-		return (ft_putendl_fd("Error\nminishell doesn't take any parameters.", \
+		return (ft_putendl_fd("Error\nMinishell doesn't take any parameters.", \
 		2), 0);
 	while (1)
 	{
@@ -34,7 +34,3 @@ int	main(int argc, char **argv, char **env)
 	}
 	return (0);
 }	
-
-	// pid = fork();
-	// if (pid < 0)
-	// 	return (ft_putendl_fd("Error\nNo child process was created.", 2), 0);

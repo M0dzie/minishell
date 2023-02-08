@@ -18,32 +18,18 @@ void	read_prompt(char *input, char **env)
 		print_pwd();
 	else if (ms_strcmp(input, "env"))
 		print_env(env);
-	else if (ms_strcmp(input, "echo"))
-		printf("%s\n", input + 5);
 }
 
-char	*parsing_input(char *input)
+void	parsing_input(char *input)
 {
 	int	i;
 
 	i = -1;
-	checking_errors(input);
-	if (input[0] == '$')
-		return (printf("$\n"), input + 1);
 	while (input[++i])
 	{
-		if (ms_strcmp((input + i), "|"))
-			return (printf("Pipex\n"), input);
-		if (ms_strcmp((input + i), "<<"))
-			return (printf("<<\n"), input);
-		if (ms_strcmp((input + i), "<"))
-			return (printf("<\n"), input);
-		if (ms_strcmp((input + i), ">>"))
-			return (printf(">>\n"), input);
-		if (ms_strcmp((input + i), ">"))
-			return (printf(">\n"), input);
+		if (input[i] == 34 || input[i] == 39)
+			checking_errors(input);
 	}
-	return (input);
 }
 
 void	signal_handler(int signal)
@@ -52,6 +38,7 @@ void	signal_handler(int signal)
 	{
 		printf("\n");
 		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }

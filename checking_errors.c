@@ -6,7 +6,7 @@
 /*   By: thmeyer <thmeyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/08 11:27:18 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/08 15:49:55 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,24 @@ int	checking_quotes(char *input)
 	while (input[++i])
 	{
 		j = i;
-		if (ms_strcmp((input + i), "'"))
+		if (input[i] == 39)
 		{
 			while (input[++j])
 			{
-				if (!ms_strcmp((input + j), "'"))
-					return (-1);
+				if (input[j] == 39)
+					return (0);
 			}
 		}
 		if (input[i] == 34)
 		{
-			while (input[j] != 34)
-				j++;
-			if (input[j] == '\0')
-				return (-1);
+			while (input[++j])
+			{
+				if (input[j] == 34)
+					return (0);
+			}
 		}
 	}
-	return (0);
+	return (-1);
 }
 
 
