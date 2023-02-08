@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   basic_ft.c                                         :+:      :+:    :+:   */
+/*   checking_errors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/23 15:06:41 by thmeyer           #+#    #+#             */
-/*   Updated: 2022/12/08 12:25:44 by thmeyer          ###   ########.fr       */
+/*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
+/*   Updated: 2023/02/08 21:33:36 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-int	printchar(int c)
+char	*checking_quotes(char *input, char c)
 {
-	return (write(1, &c, 1));
-}
+	int	i;
+	int	quote;
 
-int	printstr(char *str)
-{
-	if (!str)
-		return (write(1, "(null)", 6));
-	return (write(1, str, ft_strlen(str)));
+	quote = 0;
+	i = -1;
+	while (input[++i])
+	{
+		if (input[i] == c)
+			quote++;
+	}
+	if (quote % 2 != 0)
+		input = readline("> ");
+	return (input);
 }
