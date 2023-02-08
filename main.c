@@ -6,7 +6,7 @@
 /*   By: thmeyer <thmeyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/07 15:12:06 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/08 09:52:43 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, signal_handler);
+		signal(SIGQUIT, SIG_IGN);
 		input = readline("\033[1;36mminishell \033[1;34m$> \033[0m");
 		add_history(input);
 		parsing_input(input);
 		read_prompt(input, env);
 	}
 	return (0);
-}
+}	
 
 	// pid = fork();
 	// if (pid < 0)

@@ -43,10 +43,4 @@ void	signal_handler(int signal)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	if (signal == 3)
-	{
-		printf("exit\n");
-		rl_clear_history();
-		exit(0);
-	}
 }
