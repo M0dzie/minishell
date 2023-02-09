@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/09 12:14:09 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/09 13:43:03 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	read_prompt(char *input, char **env)
 {
-	parsing_errors(input);
+	if (parsing_errors(input) == -1)
+		return ;
 	if (ms_strcmp(input, "pwd"))
 		print_pwd();
 	else if (ms_strcmp(input, "env"))
