@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   checking_errors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/08 21:33:36 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/09 11:03:42 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*checking_quotes(char *input, char c)
+void	checking_quotes(char *input, char c, int *status)
 {
 	int	i;
 	int	quote;
@@ -25,6 +25,5 @@ char	*checking_quotes(char *input, char c)
 			quote++;
 	}
 	if (quote % 2 != 0)
-		input = readline("> ");
-	return (input);
+		return (*status = 0, ft_putendl_fd("Error\nQuotes must be closed.", 2));
 }

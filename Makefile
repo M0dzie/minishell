@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+         #
+#    By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 18:51:59 by thmeyer           #+#    #+#              #
-#    Updated: 2023/02/08 23:05:58 by mehdisapin       ###   ########.fr        #
+#    Updated: 2023/02/09 10:01:50 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
