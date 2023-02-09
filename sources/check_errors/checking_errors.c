@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/09 12:14:13 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/09 13:30:34 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	checking_quotes(char *input, char c, int *status)
 			quote++;
 	}
 	if (quote % 2 != 0)
-		return (*status = 0, ft_putendl_fd("Error\nQuotes must be closed.", 2));
+		return (*status = 0, ft_putendl_fd("Quotes must be closed.", 2));
 }
 
 void	parsing_errors(char *input)
@@ -39,5 +39,11 @@ void	parsing_errors(char *input)
 	{
 		if ((input[i] == 34 || input[i] == 39) && status == 1)
 			checking_quotes(input, input[i], &status);
+		if (input[i] == ';')
+			return (ft_putendl_fd("Syntax error near unexpected token `;`"\
+			, 2));
+		if (input[i] == '\\')
+			return (ft_putendl_fd("Syntax error near unexpected token `\\`"\
+			, 2));
 	}
 }
