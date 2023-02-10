@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/08 21:09:41 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/09 18:07:54 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,11 @@
 
 void	read_prompt(char *input, char **env)
 {
+	parsing_errors(input);
 	if (ms_strcmp(input, "pwd"))
 		print_pwd();
 	else if (ms_strcmp(input, "env"))
 		print_env(env);
-}
-
-void	parsing_input(char *input)
-{
-	int	i;
-
-	while (input[++i])
-	{
-		if (input[i] == 34 || input[i] == 39)
-			checking_quotes(input, input[i]);
-	}
 }
 
 void	signal_handler(int signal)
