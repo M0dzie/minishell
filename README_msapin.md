@@ -2,15 +2,15 @@
 
 ###  _EXECUTION_
 
-_pwd ignore all arguments_
+_pwd ignore all arguments:_
 ```
 bash $> pwd arg1 agr2 agr3 ...
 /home/mehdisapin/Documents/cursus/minishell
 ```
 
-_pwd ignore all arguments_
+_display the directory same as pwd alone:_
 ```
-bash $> pwd arg1 agr2 agr3 ...
+bash $> pwd
 /home/mehdisapin/Documents/cursus/minishell
 ```
 
@@ -21,12 +21,12 @@ If used with other commands (inside pipes) doesn't do anything but still
 display error if more than one arg_ 
 
 `bash $> cd`  
-_go to root or user home directory_
+_Go to root or user home directory._
 
 #
 
 `bash $> cd ~/Documents`  
-_go to the directory Documents_
+_Go to the directory "Documents"._
 
 #
 
@@ -34,14 +34,14 @@ _go to the directory Documents_
 bash $> cd ~/Documents second_arg
 bash: cd: too many arguments
 ```
-_display error message_
+_Display error message._
 
 #
 
 ```
 bash $> cd | cd ~/Documents/ | cd ~/Documents/cursus | cd ~/Documents/cursus/minishell
 ```
-_doesn't change the directory_
+_Doesn't change the directory._
 
 #
 
@@ -50,8 +50,8 @@ bash $> cd | cd ~/Documents/ | cd cursus | cd minishell second_arg
 bash: cd: cursus/: No such file or directory
 bash: cd: too many arguments
 ```
-_doesn't change the directory but if some arguments are wrong or if more 
-than one argument while print an error_
+_Doesn't change the directory but if some arguments are wrong or if more 
+than one argument while print an error._
 - too many arguments error as the priority over No such file or directory,  
 minishell isn't a directory but it's the second argument that trigger the error
 
@@ -61,14 +61,14 @@ minishell isn't a directory but it's the second argument that trigger the error
 bash $> cd | pwd
 /home/user/current/directory
 ```
-_execute all command but display the last one_
+_Execute all command but display the last one._
 
 #
 
 ```
 bash $> cd | pwd | cd
 ```
-_doesn't print anything and doesn't change directory_
+_Doesn't print anything and doesn't change directory._
 
 ### 46 shell Commands
 
@@ -114,7 +114,7 @@ _end a shell session_
 `sudo`  
 _let you act as a superuser or root user_
 
-`shutdown`
+`shutdown`  
 _power off your computer, use now to do that immediately otherwise default time is one minute_
 
 `htop`  
@@ -156,7 +156,7 @@ _allows you to change the password of user accounts_
 `which`  
 _outputs full path of the shell commands_
 
-`shred`
+`shred`  
 _overrides the contents of a file repeatdly to make it extremely difficult to recover_
 
 `less`  
@@ -171,7 +171,7 @@ _inverse of tail prints first lines (10 first lines by default) use -n flags to 
 `grep`  
 _search for line that match a regular expression and print them_
 
-`whoami`
+`whoami`  
 _display the username same as echo $USER_
 
 `whatis`  
@@ -201,7 +201,7 @@ _check if two files are identical_
 `comm`  
 _diff and cmp in one command_
 
-`export`
+`export`  
 _export environment variables_
 
 `whereis`  
