@@ -1,310 +1,212 @@
-# Minishell Tests
+# Minishell Readme
 
-###  TEST COMMANDS
+###  _EXECUTION_
 
-###  test 1:
-`minishell $> foo`
-
-_expected: $shell: command not found: $command  |  then give prompt back_
-
-###  test 2:
-`minishell $> /bin/ls`
-
-_expected: command executed correctly  |  then give prompt back_
-
-###  test 3:
-`minishell $> /bin/ls -laF`
-
-_expected: command executed correctly with the flags  |  then give prompt back_
-
-###  test 4:
-`minishell $> /bin/ls -l -a -F`
-
-_expected: command executed correctly with the flags like test 4  |  then give prompt back_
-
-###  test 5:       same as test 2 with only command name
-`minishell $> ls`
-
-_expected: command executed correctly  |  then give prompt back_
-
-###  test 6:       same as test 3 with only command name
-`minishell $> ls -laF`
-
-_expected: command executed correctly with the flags  |  then give prompt back_
-
-###  test 7:       same as test 4 with only command name
-`minishell $> ls -l -a -F`
-
-_expected: command executed correctly with the flags like test 4  |  then give prompt back_
-
-
-##  TEST BUILTINS
-
-
-##  _echo
-
-###  test 1:       echo with double quote
-`minishell $> echo "It works"`
-
-_expected: the message must be displayed  |  then give prompt back_
-
-###  test 2:       echo without quote
-`minishell $> echo It works`
-
-_expected: the message must be displayed  |  then give prompt back_
-
-###  test 3:       echo with -n flag
-`minishell $> echo -n "Echo with -n flag"`
-
-_expected: the message must be displayed without newline  |  then give prompt back at the same line_
-
-
-##  _cd & pwd
-
-###  test 4:       absolute path
+_pwd ignore all arguments_
 ```
-minishell $> cd /bin
-minishell $> /bin/pwd
+bash $> pwd arg1 agr2 agr3 ...
+/home/mehdisapin/Documents/cursus/minishell
 ```
 
-_expected: must show the path of bin  |  then give prompt back_
-
-###  test 5:       same as test 4 with only command name
+_pwd ignore all arguments_
 ```
-minishell $> cd /bin 
-minishell $> pwd
+bash $> pwd arg1 agr2 agr3 ...
+/home/mehdisapin/Documents/cursus/minishell
 ```
 
-_expected: must show the path of bin  |  then give prompt back_
+### _cd_
+_cd work if zero or one argument max, the argument must be a valid directory 
+of error will be displayed. \
+If used with other commands (inside pipes) doesn't do anything but still 
+display error if more than one arg_ 
 
-###  test 6:       relative path
+`bash $> cd`  
+_go to root or user home directory_
+
+#
+
+`bash $> cd ~/Documents`  
+_go to the directory Documents_
+
+#
+
 ```
-minishell $> cd ../ 
-minishell $> /bin/pwd
+bash $> cd ~/Documents second_arg
+bash: cd: too many arguments
 ```
+_display error message_
 
-_expected: must show the path above minishell directory  |  then give prompt back_
+#
 
-###  test 7:       same as test 6 with only command name
 ```
-minishell $> cd ../
-minishell $> pwd
+bash $> cd | cd ~/Documents/ | cd ~/Documents/cursus | cd ~/Documents/cursus/minishell
 ```
+_doesn't change the directory_
 
-_expected: must show the path above minishell directory  |  then give prompt back_
+#
 
-###  test 8:       user home folder
 ```
-minishell $> cd 
-minishell $> /bin/pwd
+bash $> cd | cd ~/Documents/ | cd cursus | cd minishell second_arg
+bash: cd: cursus/: No such file or directory
+bash: cd: too many arguments
 ```
+_doesn't change the directory but if some arguments are wrong or if more 
+than one argument while print an error_
+- too many arguments error as the priority over No such file or directory,  
+minishell isn't a directory but it's the second argument that trigger the error
 
-_expected: must show the path of user home directory  |  then give prompt back_
+#
 
-###  test 9:       same as test 8 with only command name
 ```
-minishell $> cd
-minishell $> pwd
+bash $> cd | pwd
+/home/user/current/directory
 ```
+_execute all command but display the last one_
 
-_expected: must show the path of user home directory  |  then give prompt back_
+#
 
-
-###  not sure if needed, have to test chdir
-
-###  test 10:       user home folder
 ```
-minishell $> cd -
-minishell $> /bin/pwd
+bash $> cd | pwd | cd
 ```
+_doesn't print anything and doesn't change directory_
 
-_expected: must show the path above minishell  |  then give prompt back_
+### 46 shell Commands
 
-###  test 11:       same as test 10 with only command name
-```
-minishell $> cd -
-minishell $> pwd
-```
+`ls`  
+_list content of the directory_
 
-_expected: must show the path above minishell  |  then give prompt back_
+`alias`  
+_set temporary alias in shell session_
 
-###  test 12:       user home folder
-```
-minishell $> cd ~/Documents`
-minishell $> /bin/pwd`
-```
-_expected: must show the path of documents folder  |  then give prompt back_
+`unalias`  
+_unset temporary alias in shell session_
 
-###  test 13:       same as test 12 with only command name
-```
-minishell $> cd ~/Documents
-minishell $> pwd
-```
-_expected: must show the path of documents folder  |  then give prompt back_
+`pwd`  
+_print absolute path of working directory_
 
+`cd`  
+_change directory_
 
-##  _exit
+`cp`  
+_copy files or directories with -r flag (recursive)_
 
-###  test 1:
-`minishell $> exit`  
-`then run minishell again ./minishell  `
+`rm`  
+_remove files or directories, if file inside use -rf flags_
 
-_expected: program must terminate  |  then give back the parent shell_
+`mv`  
+_move files or directories_
 
+`mkdir`  
+_create directory, use -p flag to create subdirectories_
 
+`man`  
+_displays manual_
 
-##  TEST ENVIRONNEMENT MANAGEMENT
+`touch`  
+_update the access and modification times of a file, use -m to change modification date to current time_
 
-##  _env
+`chmod`  
+_change the mode of a file (permission)_
 
-###  test 1:
-`minishell $> env`
+`exit`  
+_end a shell session_
 
-_expected: program must display environnement variables  |  then give prompt back_
+`sudo`  
+_let you act as a superuser or root user_
 
-###  test 2:       echo USER
-`minishell $> echo $USER`
+`shutdown`
+_power off your computer, use now to do that immediately otherwise default time is one minute_
 
-_expected: program must display the environnement variable USER  |  then give prompt back_
+`htop`  
+_is an interactive process viewer_
 
-###  test 3:       echo HOME
-`minishell $> echo $HOME`
+`zip`
+_zip files into an archive_
 
-_expected: program must display the environnement variable HOME  |  then give prompt back_
+`unzip`
+_extract the content of a .zip file_
 
-###  test 4:       echo SHELL
-`minishell $> echo $SHELL`  
-_expected: program must display the environnement variable SHELL  |  then give prompt back_
+`apt, yum, pacman`  
+_let you install, update and remove software/packages_
 
+`echo`  
+_display text in the terminal_
 
-##  _export
+`cat`  
+_let you create, view and concatenate files_
 
-###  test 1:       define new env variable
-```
-minishell $> export NEW_VARIABLE=mini  
-minishell $> env
-```
-_expected: program must display environnement variables with NEW_VARIABLE=mini  |  then give prompt back_
+`ps`  
+show processes running in your current shell session_
 
-###  test 2:
-`minishell $> echo $NEW_VARIABLE`
+`kill`  
+_force close a program, use the name or the pid of the program as argument_
 
-_expected: program must display NEW_VARIABLE value (mini)  |  then give prompt back_
+`ping`  
+_use to test network connectivity_
 
-###  test 3:       redefine NEW_VARIABLE env variable
-```
-minishell $> export NEW_VARIABLE=minishell  
-minishell $> env
-```
-_expected: program must display environnement variables with NEW_VARIABLE=minishell  |  then give prompt back_
+`vim`  
+_let you use Vim_
 
-###  test 4:
-`minishell $> echo $NEW_VARIABLE`
+`history`  
+_displays an enumerated list of commands used in the past_
 
-_expected: program must display NEW_VARIABLE value (minishell)  |  then give prompt back_
+`passwd`  
+_allows you to change the password of user accounts_
 
-###  test 5:       env with is path
-`minishell $> /usr/bin/env`
+`which`  
+_outputs full path of the shell commands_
 
-_expected: program must display environnement variables with NEW_VARIABLE=minishell like in test 3  |  then give prompt back_
+`shred`
+_overrides the contents of a file repeatdly to make it extremely difficult to recover_
 
+`less`  
+_let you inspect files backward and forward_
 
-##  _unset
+`tail`  
+_similar to cat, tail prints last line (10 last lines by default) use -n flags to define an other number_
 
-###  test 1:       unset NEW_VARIABLE env variable
-```
-minishell $> unset NEW_VARIABLE  
-minishell $> env
-```
-_expected: program must display environnement variables without NEW_VARIABLE  |  then give prompt back_
+`head`  
+_inverse of tail prints first lines (10 first lines by default) use -n flags to define an other number_
 
-###  test 2:       run unset NEW_VARIABLE again
-```
-minishell $> unset NEW_VARIABLE  
-minishell $> env
-```
-_expected: program must display environnement variables unchanged  |  then give prompt back_
+`grep`  
+_search for line that match a regular expression and print them_
 
-###  test 3:       run env again with is path
-`minishell $> /usr/bin/env`
+`whoami`
+_display the username same as echo $USER_
 
-_expected: program must display environnement variables still without NEW_VARIABLE  |  then give prompt back_
+`whatis`  
+_prints a single-line description of any other command_
 
+`wc`  
+_return the number of words in a text file_
 
-##  TEST PATH MANAGEMENT
+`uname`  
+_prints the operative system, use -a flag for more information_
 
-###  test 1:       unset PATH  then  use ls
-```
-minishell $> unset PATH  
-minishell $> ls
-```
-_expected: program must not be able to use ls  |  then give prompt back_
+`find`  
+_search for files in a directory, find [flags] [path] -name [expression]_
 
-###  test 2:       use ls with is path
-`minishell $> /bin/ls`
+`wget`  
+_utility that let you retrieve content from the internet, wget [url]_
 
-_expected: program must use /bin/ls correctly  |  then give prompt back_
+`clear`  
+_clear the terminal display_
 
-###  test 3:       define PATH again
-```
-minishell $> export PATH=/bin:/usr/bin  
-minishell $> ls
-```
-_expected: program must use ls again correctly  |  then give prompt back_
+`diff`  
+_find the difference between two files_
 
+`cmp`  
+_check if two files are identical_
 
+`comm`  
+_diff and cmp in one command_
 
-##  TEST HISTORY
+`export`
+_export environment variables_
 
-###  test 1:       use up arrow input/key 7 time  then  use the command (env)
-_expected: program must be able to go back and show all cmd used before  |  then give prompt back_
+`whereis`  
+_locate the binary, source and manual pages for a command_
 
-###  test 2:       use up arrow input/key ONE time  then  use the command (env)
-_expected: program should show last used cmd (env)  |  then give prompt back_
+`df`  
+_display disk filesystem information_
 
-
-
-##  TEST SEARCH    -   open a new prompt
-
-###  test 1:       use ctrl-R and search an already used cmd (pwd)  then  enter for using the cmd
-_expected: program must let you search a used cmd and used it  |  then give prompt back, the search line must only display the command used_
-
-###  test 2:       use ctrl-R  then  use ctrl-C
-_expected: program must exit search prompt letting (reverse-i-search)`': ^C displayed   |  then give prompt back_
-
-###  test 3:       use ctrl-R write anything  then  use ctrl-C
-_expected: program must exit search prompt letting (reverse-i-search)`whatever you wrote': ^C displayed |  then give prompt back_
-
-
-
-##  TEST INTERACTIVE MODE
-
-###  test 1:       ctrl-C signal
-`minishell $> ctrl-C input`
-
-_expected: program must display ^C  |  then give prompt back_
-
-`minishell $> ^C`
-
-###  test 2:       ctrl-D signal
-`minishell $> ctrl-D input`
-
-_expected: program must exit the shell correctly and print exit  |  then give back the parent shell_
-```
-minishell $>
-exit
-parent_shell $>
-````
-
-###  test 3:       ctrl-\ signal
-`minishell $> ctrl-\ input`
-
-_expected: program must do nothing_
-
-
-
-###    --interrogations--
-
-- Is mode interactif different than prompt or it's just the way to call shortcut in shell?
-
-- $? working? 
