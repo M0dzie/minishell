@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/13 14:43:53 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/13 16:29:06 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,30 +43,32 @@ int	count_pipes(char *input)
 	return (count);
 }
 
-void	read_prompt(char *input, char **envp, t_minishell *ms)
+void	read_prompt(char *input, char **envp, t_msl *ms)
 {
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
+	if (parsing_errors(input) == -1)
+		return ;
 	ms->c_pipe = count_pipes(input);
-	ms->args = ft_calloc(ms->c_pipe + 2, sizeof(char **));
-	if (!ms->args)
+	ms->cmds = ft_calloc(ms->c_pipe + 2, sizeof(char **));
+	if (!ms->cmds)
 		return ;
 	while (i <= ms->c_pipe)
 	{
 		ms->split = ft_split(input, '|');
 		if (!ms->split)
 			return ;
-		ms->args[i] = ft_split(ms->split[j], ' ');
-		if (!ms->args)
+		ms->cmds[i] = ft_split(ms->split[j], ' ');
+		if (!ms->cmds)
 			return ;
 		i++;
 		j++;
 	}
-	print_args(ms->args);
-	free(ms->split);
+	print_args(ms->cmds);
+	ft_arrfree(ms->split);
 }
 
 void	signal_handler(int signal)
