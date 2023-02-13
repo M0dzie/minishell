@@ -113,7 +113,7 @@ _expected: must show the path of user home directory  |  then give prompt back_
 ###  not sure if needed, have to test chdir
 
 ###  test 10:       user home folder
-```
+```w
 minishell $> cd -
 minishell $> /bin/pwd
 ```
