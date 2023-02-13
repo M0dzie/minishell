@@ -92,12 +92,12 @@ _Give prompt back at the same line as the echo._
 
 ## _cd_
 
-__It will not change of directory if use in a pipe with 
+__It will not change directory if use in a pipe with 
 other command, need to be executed alone to do something.__
 
 
 _cd work if zero or one argument max, the argument must be 
-a valid directory of error will be displayed. \
+a valid directory or error will be displayed. \
 If used with other commands (inside pipes) doesn't change 
 the directory but still display error if more than one arg 
 or if invalid path._ 
@@ -295,7 +295,7 @@ parent_shell $>
 
 ## _<_
 
-_When "<" used will take the file specified at is right as the 
+_When "<" used will take the file specified at its right as the 
 standard input for the command specified after or before it._
 ```
 bash $> < readme wc
@@ -331,7 +331,7 @@ bash: invalid_file: No such file or directory
 
 ## _>_
 
-_When ">" used will take the file specified at is right as the 
+_When ">" used will take the file specified at its right as the 
 standard output. If the file doesn't exist, it will be created.
 Otherwise will truncated all content._
 ```
