@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/13 14:41:55 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/13 16:25:27 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
-	t_minishell	ms;
+	t_msl	ms;
 
 	(void) argv;
 	if (argc != 1)

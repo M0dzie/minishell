@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/13 14:42:10 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/13 16:14:02 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,22 @@
 # include <readline/history.h>
 # include <sys/types.h>
 
-typedef struct s_minishell
+typedef struct s_msl
 {
 	char	**split;
-	char	***args;
+	char	***cmds;
 	int		c_pipe;
-}				t_minishell;
+}				t_msl;
 
 
 int		count_pipes(char *input);
 int		ms_strcmp(char *s1, char *s2);
+int		parsing_errors(char *input);
 
 void	checking_quotes(char *input, char c, int *status);
-void	parsing_errors(char *input);
 void	print_pwd(void);
 void	print_env(char **envp);
-void	read_prompt(char *input, char **envp, t_minishell *ms);
+void	read_prompt(char *input, char **envp, t_msl *ms);
 void	signal_handler(int signal);
 
 #endif
