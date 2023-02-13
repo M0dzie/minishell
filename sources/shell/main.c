@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/13 14:27:59 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/13 14:41:55 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
+	char		*input;
+	t_minishell	ms;
 
 	(void) argv;
 	if (argc != 1)
@@ -28,7 +29,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(input);
 		if (input == 0)
 			return (printf("exit\n"), free(input), rl_clear_history(), 0);
-		read_prompt(input, envp);
+		read_prompt(input, envp, &ms);
 	}
 	return (0);
 }	

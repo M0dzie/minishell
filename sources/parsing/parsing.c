@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/13 14:33:55 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/13 14:43:53 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,33 +43,30 @@ int	count_pipes(char *input)
 	return (count);
 }
 
-void	read_prompt(char *input, char **envp)
+void	read_prompt(char *input, char **envp, t_minishell *ms)
 {
 	int		i;
 	int		j;
-	int		c_pipe;
-	char	**split;
-	char	***args;
 
 	i = 0;
 	j = 0;
-	c_pipe = count_pipes(input);
-	args = ft_calloc(c_pipe + 2, sizeof(char **));
-	if (!args)
+	ms->c_pipe = count_pipes(input);
+	ms->args = ft_calloc(ms->c_pipe + 2, sizeof(char **));
+	if (!ms->args)
 		return ;
-	while (i <= c_pipe)
+	while (i <= ms->c_pipe)
 	{
-		split = ft_split(input, '|');
-		if (!split)
+		ms->split = ft_split(input, '|');
+		if (!ms->split)
 			return ;
-		args[i] = ft_split(split[j], ' ');
-		if (!args)
+		ms->args[i] = ft_split(ms->split[j], ' ');
+		if (!ms->args)
 			return ;
 		i++;
 		j++;
 	}
-	print_args(args);
-	free(split);
+	print_args(ms->args);
+	free(ms->split);
 }
 
 void	signal_handler(int signal)
