@@ -6,38 +6,71 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/13 12:28:16 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/13 14:33:55 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	print_args(char **args)
+void	print_args(char ***args)
 {
-	for (int i = 0; args[i]; i++)
-		printf("%s\n", args[i]);
+	int i = 0;
+	int j = 0;
+
+	while (args[i])
+	{
+		printf("args[%d]\n", i);
+		j = 0;
+		while (args[i][j])
+			printf("%s\n", args[i][j++]);
+		i++;
+	}
 }
 
-void	read_prompt(char *input, char **env)
+int	count_pipes(char *input)
 {
-	int		i;
-	char	**args;
+	int	i;
+	int	count;
 
 	i = 0;
-	args = ft_split(input, ' ');
-	print_args(args);
-	parsing_errors(input);
-	if (ms_strcmp(args[i], "pwd"))
-		print_pwd();
-	else if (ms_strcmp(args[i], "env"))
-		print_env(env);
-	else
-		printf("Command '%s' not found.\n", args[i]);
+	count = 0;
+	while (input[i])
+	{
+		if (input[i] == '|')
+			count++;
+		i++;
+	}
+	return (count);
 }
-// faire une fonction pour savoir si la commande existe, else -> msg error.
-// faire ca pour chaque arguments avec un i++ dans le printf ?
-// Faire un decompte d'erreurs ? Du genre j'envoie 1 pour chaque arg valable, et
-// si la somme n'est pas egal au nb de split -> faux ?
+
+void	read_prompt(char *input, char **envp)
+{
+	int		i;
+	int		j;
+	int		c_pipe;
+	char	**split;
+	char	***args;
+
+	i = 0;
+	j = 0;
+	c_pipe = count_pipes(input);
+	args = ft_calloc(c_pipe + 2, sizeof(char **));
+	if (!args)
+		return ;
+	while (i <= c_pipe)
+	{
+		split = ft_split(input, '|');
+		if (!split)
+			return ;
+		args[i] = ft_split(split[j], ' ');
+		if (!args)
+			return ;
+		i++;
+		j++;
+	}
+	print_args(args);
+	free(split);
+}
 
 void	signal_handler(int signal)
 {

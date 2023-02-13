@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:55:12 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/13 12:10:14 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/13 14:28:25 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	print_pwd(void)
 	printf("%s\n", getenv("PWD"));
 }
 
-void	print_env(char **env)
+void	print_env(char **envp)
 {
 	int	i;
 
 	i = -1;
-	while (env[++i])
-		printf("%s\n",env[i]);
+	while (envp[++i])
+		printf("%s\n",envp[i]);
 }
