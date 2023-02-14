@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/13 16:14:02 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/14 11:09:51 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ typedef struct s_msl
 }				t_msl;
 
 
+int		checking_opened_quotes(char *input, char c);
 int		count_pipes(char *input);
 int		ms_strcmp(char *s1, char *s2);
 int		parsing_errors(char *input);
 
-void	checking_quotes(char *input, char c, int *status);
 void	print_pwd(void);
 void	print_env(char **envp);
 void	read_prompt(char *input, char **envp, t_msl *ms);

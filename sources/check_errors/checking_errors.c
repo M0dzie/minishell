@@ -6,13 +6,13 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/13 16:13:45 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/14 11:10:01 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	checking_quotes(char *input, char c, int *status)
+int	checking_opened_quotes(char *input, char c)
 {
 	int	i;
 	int	quote;
@@ -27,25 +27,26 @@ void	checking_quotes(char *input, char c, int *status)
 	if (quote % 2 != 0)
 	{
 		if (c == 34)
-			return (*status = 0, \
-			ft_putendl_fd("Double quotes must be closed.", 2));
+			ft_putendl_fd("Double quotes must be closed.", 2);
 		else
-			return (*status = 0, \
-			ft_putendl_fd("Single quotes must be closed.", 2));
+			ft_putendl_fd("Single quotes must be closed.", 2);
+		return (1);
 	}
+	return (0);
 }
 
 int	parsing_errors(char *input)
 {
 	int	i;
-	int	status;
 
-	status = 1;
 	i = -1;
 	while (input[++i])
 	{
-		if ((input[i] == 34 || input[i] == 39) && status == 1)
-			return (checking_quotes(input, input[i], &status), -1);
+		if (input[i] == 34 || input[i] == 39)
+		{
+			if (checking_opened_quotes(input, input[i]))
+				return (-1);
+		}
 		if (input[i] == ';')
 			return (ft_putendl_fd("Syntax error near unexpected token `;`", 2), \
 			-1);
