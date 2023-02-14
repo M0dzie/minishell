@@ -78,6 +78,73 @@ except $__
 - ?
 - !
 
+#
+
+__IMPORTANT in bash double quotes let some special character have an
+effect to the shell, example : echo " ` " will open prompt__  
+_In MINISHELL we don't have to handle these special character expect $_
+
+### _Double quotes :_
+
+_Inside double quotes we can write every characters or specials character
+they will be displayed as a normal char._  
+
+_There are two exception:_
+- "  a double quotes inside two double quotes will open prompt, it
+will not be valid in minishell
+- $ the dollar sign will be display if alone but before a word
+it will be remplace by the ENV variable with the same name
+
+```
+minishell $> echo "~ ` # $ & * ( ) \ | [ ] { } ; ' < > / ? !"
+~ ` # $ & * ( ) \ | [ ] { } ; ' < > / ? !
+```
+
+```
+minishell $> echo "$PATH"
+home/username/.local/bin:/home/username/.local/bin:...
+```
+
+_If environmental var doesn't exist will not print anything_
+```
+minishell $> echo "$NON_EXISTING_VAR"
+minishell $>
+```
+
+### _Simple quotes :_
+
+_Inside simple quote we can write every characters or specials character
+they will be displayed as a normal char._  
+
+_There are one exception:_
+- '  a simple quotes inside two simple quote will open prompt, it
+will not be valid in minishell
+
+```
+minishell $> echo '~ ` # $ & * ( ) \ | [ ] { } ; " < > / ? !'
+~ ` # $ & * ( ) \ | [ ] { } ; " < > / ? !
+```
+
+```
+minishell $> echo '$PATH'
+$PATH
+```
+
+### _STRATEGY for PARSING_
+
+_For double quotes, if special character found in it we should split
+it from the sentence and put it as argument between simple quote_
+
+```
+bash $> echo "Hello World!"
+bash $> echo "Hello World"'!'
+
+c
+char    **arg_cmd = {"Hello World", "'!'"}
+```
+
+
+
 
 ## _echo -n flag_
 
