@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/13 16:29:06 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/14 11:35:51 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ void	print_args(char ***args)
 			printf("%s\n", args[i][j++]);
 		i++;
 	}
+}
+
+void	signal_handler(int signal)
+{
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 int	count_pipes(char *input)
@@ -46,10 +54,8 @@ int	count_pipes(char *input)
 void	read_prompt(char *input, char **envp, t_msl *ms)
 {
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	if (parsing_errors(input) == -1)
 		return ;
 	ms->c_pipe = count_pipes(input);
@@ -61,20 +67,11 @@ void	read_prompt(char *input, char **envp, t_msl *ms)
 		ms->split = ft_split(input, '|');
 		if (!ms->split)
 			return ;
-		ms->cmds[i] = ft_split(ms->split[j], ' ');
+		ms->cmds[i] = ft_split(ms->split[i], ' ');
 		if (!ms->cmds)
 			return ;
 		i++;
-		j++;
 	}
 	print_args(ms->cmds);
 	ft_arrfree(ms->split);
-}
-
-void	signal_handler(int signal)
-{
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
 }

@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/14 11:09:51 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/14 14:21:40 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef struct s_msl
 	char	***cmds;
 	int		c_pipe;
 }				t_msl;
-
 
 int		checking_opened_quotes(char *input, char c);
 int		count_pipes(char *input);
