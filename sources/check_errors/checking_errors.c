@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/15 11:43:28 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/15 11:48:39 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*del_quotes(char *input, char c)
 	char	**split;
 
 	i = 0;
-	new_line = ft_calloc(0, 0);
+	new_line = ft_calloc(1, 1);
 	if (!new_line)
 		return (NULL);
 	split = ft_split(input, c);
