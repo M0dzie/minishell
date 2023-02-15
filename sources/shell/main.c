@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/13 16:25:27 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:09:05 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char		*input;
 	t_msl	ms;
 
 	(void) argv;
@@ -25,11 +24,11 @@ int	main(int argc, char **argv, char **envp)
 	{
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, SIG_IGN);
-		input = readline("\033[1;36mminishell \033[1;34m$> \033[0m");
-		add_history(input);
-		if (input == 0)
-			return (printf("exit\n"), free(input), rl_clear_history(), 0);
-		read_prompt(input, envp, &ms);
+		ms.input = readline("\033[1;36mminishell \033[1;34m$> \033[0m");
+		add_history(ms.input);
+		if (ms.input == 0)
+			return (printf("exit\n"), free(ms.input), rl_clear_history(), 0);
+		read_prompt(&ms, envp);
 	}
 	return (0);
 }	
