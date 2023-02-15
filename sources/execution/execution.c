@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/14 22:01:24 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/15 10:40:16 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,10 +142,7 @@ void	builtins_execution(t_msl *ms, char **envp, char **args_cmd)
 		}
 	}
 	else if (strict_cmp("pwd", args_cmd[0]))
-	{
-		tmp_args = ft_arradd_back(tmp_args, tmp_path);
-		execve(tmp_path, tmp_args, NULL);
-	}
+		create_pipe(tmp_args, ms, envp);
 	else if (strict_cmp("export", args_cmd[0]))
 		ft_printf("export execution\n");
 	else if (strict_cmp("unset", args_cmd[0]))
