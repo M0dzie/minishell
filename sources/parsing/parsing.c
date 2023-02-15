@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/15 11:39:21 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/15 19:14:21 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	read_prompt(t_msl *ms, char **envp)
 	i = 0;
 	// if (ft_strncmp(ms->input, "echo", 4) == 0)
 	// 	parsing_errors_echo(ms); + else
+	ms->input = ft_strtrim(ms->input, " ");
 	if (parsing_errors(ms) == -1 || ms->input[i] == '\0')
 		return ;
 	ms->c_pipe = count_pipes(ms->input);
@@ -68,4 +69,5 @@ void	read_prompt(t_msl *ms, char **envp)
 	}
 	print_args(ms->cmds);
 	ft_arrfree(ms->split);
+	execution(ms, ms->input, envp);
 }
