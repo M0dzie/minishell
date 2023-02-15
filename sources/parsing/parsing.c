@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/14 11:35:51 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:42:17 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	read_prompt(char *input, char **envp, t_msl *ms)
 	int		i;
 
 	i = 0;
-	if (parsing_errors(input) == -1)
+	if (parsing_errors(input) == -1 || input[i] == '\0')
 		return ;
 	ms->c_pipe = count_pipes(input);
 	ms->cmds = ft_calloc(ms->c_pipe + 2, sizeof(char **));
