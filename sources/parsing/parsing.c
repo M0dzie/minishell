@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/15 10:11:13 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:45:21 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,6 @@ void	print_args(char ***args)
 			printf("%s\n", args[i][j++]);
 		i++;
 	}
-}
-
-void	signal_handler(int signal)
-{
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
 }
 
 int	count_pipes(char *input)
@@ -56,7 +48,9 @@ void	read_prompt(t_msl *ms, char **envp)
 	int		i;
 
 	i = 0;
-	if (parsing_errors(ms) == -1 || ms->input[i] == '\0')
+	if (ft_strncmp(ms->input, "echo", 4) == 0)
+		parsing_errors_echo(ms);
+	else if (parsing_errors(ms) == -1 || ms->input[i] == '\0')
 		return ;
 	ms->c_pipe = count_pipes(ms->input);
 	ms->cmds = ft_calloc(ms->c_pipe + 2, sizeof(char **));

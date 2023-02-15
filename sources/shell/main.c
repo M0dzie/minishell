@@ -6,11 +6,19 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/15 10:22:44 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:38:00 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	signal_handler(int signal)
+{
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -29,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		if (ms.input == 0)
 			return (printf("exit\n"), free(ms.input), rl_clear_history(), 0);
 		read_prompt(&ms, envp);
-		execution(&ms, ms.input, envp);
+		// execution(&ms, ms.input, envp);
 	}
 	return (0);
 }	
