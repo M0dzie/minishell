@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/15 10:12:51 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:25:08 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ int		count_pipes(char *input);
 int		ms_strcmp(char *s1, char *s2);
 int		parsing_errors(t_msl *ms);
 
-void	print_pwd(void);
-void	print_env(char **envp);
+void	execution(t_msl *ms, char *input, char **envp);
 void	read_prompt(t_msl *ms, char **envp);
 void	signal_handler(int signal);
 
