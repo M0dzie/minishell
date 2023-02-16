@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/15 19:13:35 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/16 10:13:51 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,23 +77,7 @@ char	*del_quotes(t_msl *ms, char c)
 		return (display_errors(ms, 0), new_line);
 	return (new_line);
 }
-
-// void	parsing_errors_echo(t_msl *ms)
-// {
-// 	int	i;
-
-// 	i = -1;
-// 	printf("its echo\n");
-// 	while (ms->input[++i])
-// 	{
-// 		if (ms->input[i] == 34 || ms->input[i] == 39)
-// 		{
-// 			if (!check_opened_quotes(ms->input, ms->input[i]))
-// 				ms->input = del_quotes(ms->input, ms->input[i]);
-// 		}
-// 	}
-// }
-
+ 
 int	parsing_errors(t_msl *ms)
 {
 	int	i;
