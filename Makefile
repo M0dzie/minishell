@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+         #
+#    By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 18:51:59 by thmeyer           #+#    #+#              #
-#    Updated: 2023/02/10 19:50:25 by mehdisapin       ###   ########.fr        #
+#    Updated: 2023/02/16 10:29:31 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ SRC_CHECK_ERR_FILES	=	checking_errors.c
 
 SRC_ENV_VAR_FILES	=	
 
-SRC_PARSING_FILES	=	parsing.c
+SRC_PARSING_FILES	=	parsing.c parsing_quotes.c
 
 SRC_EXECUTION_FILES	=	execution.c	pipex.c
 
