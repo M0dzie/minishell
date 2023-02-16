@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/15 10:40:16 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/16 16:12:31 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,17 +100,51 @@ int	is_builtins(char *cmd)
 	return (0);
 }
 
-void	builtins_execution(t_msl *ms, char **envp, char **args_cmd)
+void	exec_pwd(t_msl *ms, char **args_cmd, char **envp)
 {
-	(void)ms;
-	(void)envp;
-
 	char	*tmp_path;
 	char	**tmp_args;
+	int		i;
 
 	tmp_path = get_cmd_path(args_cmd[0], envp);
 	tmp_args = ft_calloc(1, sizeof(char *));
 	tmp_args = ft_arradd_back(tmp_args, tmp_path);
+
+	ft_printf("\nTest pwd:\n\n", tmp_args[i]);
+	if (args_cmd[1])
+	{
+		if (args_cmd[1][0] == '-')
+		{
+			if (ft_strlen(args_cmd[1]) > 2)
+				ft_printf("bash: pwd: -%c: invalid option\n", args_cmd[1][1]);		// call display error
+			else if (ft_strlen(args_cmd[1]) == 2)
+			{
+				if (args_cmd[1][1] != '-')
+					ft_printf("bash: pwd: -%c: invalid option\n", args_cmd[1][1]);		// call display error
+			}
+			else
+				create_pipe(tmp_args, ms, envp);
+			// tmp_args = ft_arradd_back(tmp_args, args_cmd[1]);
+		}
+		else
+			create_pipe(tmp_args, ms, envp);
+	}
+	// ft_printf("\nList arg:\n", tmp_args[i]);
+	// for (int i = 0; tmp_args[i]; i++)
+	// 	ft_printf("%s\n", tmp_args[i]);
+}
+
+void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
+{
+	(void)ms;
+	(void)envp;
+
+	// char	*tmp_path;
+	// char	**tmp_args;
+
+	// tmp_path = get_cmd_path(args_cmd[0], envp);
+	// tmp_args = ft_calloc(1, sizeof(char *));
+	// tmp_args = ft_arradd_back(tmp_args, tmp_path);
 
 	// ft_printf("%s\n", tmp_args[0]);
 
@@ -142,7 +176,11 @@ void	builtins_execution(t_msl *ms, char **envp, char **args_cmd)
 		}
 	}
 	else if (strict_cmp("pwd", args_cmd[0]))
-		create_pipe(tmp_args, ms, envp);
+	{
+		exec_pwd(ms, args_cmd, envp);
+		// create_pipe(tmp_args, ms, envp);
+		// create_pipe(args_cmd, ms, envp);
+	}
 	else if (strict_cmp("export", args_cmd[0]))
 		ft_printf("export execution\n");
 	else if (strict_cmp("unset", args_cmd[0]))
@@ -185,8 +223,8 @@ void	execution(t_msl *ms, char *input, char **envp)
 	for (int i = 0; i <= ms->c_pipe; i++)
 	{
 		if (is_builtins(ms->cmds[i][0]))
-			builtins_execution(ms, envp, ms->cmds[i]);
+			builtins_execution(ms, ms->cmds[i], envp);
 		else
-			standard_execution(ms, envp, ms->cmds[i]);
+			standard_execution(ms, ms->cmds[i], envp);
 	}
 }
