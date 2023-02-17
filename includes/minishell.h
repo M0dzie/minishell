@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/17 12:17:40 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/17 14:46:41 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ char	*del_quotes(t_msl *ms, char c);
 int		check_opened_quotes(char *input, char c);
 int		count_pipes(char *input);
 int		display_errors(t_msl *ms, int type);
-int		display_errors_redirect(t_msl *ms, int type);
 int		display_errors_pipe(t_msl *ms, int type);
+int		display_errors_redirect(t_msl *ms, int type);
+int		display_errors_redirect2(t_msl *ms, int type);
 int		ms_strcmp(char *s1, char *s2);
 int		parsing_errors(t_msl *ms);
 int		parsing_quotes(t_msl *ms);

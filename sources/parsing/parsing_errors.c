@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checking_errors.c                                  :+:      :+:    :+:   */
+/*   parsing_errors.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/17 12:18:55 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/17 15:05:31 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,8 @@ int	display_errors(t_msl *ms, int type)
 	if (type == ';' && ms->input[1] == ';')
 		ft_putendl_fd("syntax error near unexpected token ';;'", 2);
 	if (type == '(' && (ms->input[1] == ' ' || ms->input[1] == '\0' \
-	|| ms->input[1] == ')'))
+	|| ms->input[1] == ')' || ms->input[1] == '('))
 		ft_putendl_fd("syntax error near unexpected token ')'", 2);
-	return (-1);
-}
-
-int	display_errors_redirect(t_msl *ms, int type)
-{
-	ft_putstr_fd("minishell: ", 2);
 	return (-1);
 }
 
@@ -78,6 +72,8 @@ int	parsing_errors(t_msl *ms)
 	if (ms->input[0] == '|' || ms->input[0] == '&' || ms->input[0] == ';' \
 	|| ms->input[0] == '(')
 		return (display_errors(ms, ms->input[0]));
+	if (ms->input[0] == '>' || ms->input[0] == '<')
+		return (display_errors_redirect(ms, ms->input[0]));
 	if (ms->input[0] == '!' || ms->input[0] == ':' || ms->input[0] == '\t' \
 	|| ms->input[0] == '#')
 		return (-1);
