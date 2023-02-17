@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/17 12:18:55 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:10:17 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	display_errors(t_msl *ms, int type)
 	if (type == ';' && ms->input[1] == ';')
 		ft_putendl_fd("syntax error near unexpected token ';;'", 2);
 	if (type == '(' && (ms->input[1] == ' ' || ms->input[1] == '\0' \
-	|| ms->input[1] == ')'))
+	|| ms->input[1] == ')' || ms->input[1] == '('))
 		ft_putendl_fd("syntax error near unexpected token ')'", 2);
 	return (-1);
 }
