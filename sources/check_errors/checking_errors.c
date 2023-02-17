@@ -6,32 +6,23 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/17 10:01:37 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/17 11:51:22 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	display_errors(t_msl *ms, int type)
+int	display_errors(t_msl *ms, int type)
 {
+	int	i;
+
+	i = -1;
 	ft_putstr_fd("minishell: ", 2);
-	if (type == 0)
-		ft_putendl_fd("command not found", 2);
-	if (type == '"')
-		ft_putendl_fd("double quotes must be closed", 2);
+	if (type == 34)
+		ft_putendl_fd("double quotes must be cloed", 2);
 	if (type == 39)
-		ft_putendl_fd("single quotes must be closed", 2);
-	if (type == ';' || type == '\\')
-	{
-		ft_putstr_fd("syntax error near unexpected token '", 2);
-		ft_putstr_fd(ms->input, 2);
-		ft_putendl_fd("'", 2);
-	}
-	if (type == '/')
-	{
-		ft_putstr_fd(ms->input, 2);
-		ft_putendl_fd(": Is a directory", 2);
-	}
+		ft_putendl_fd("single quotes must be cloed", 2);
+	return (-1);
 }
 
 int	display_errors_pipe(t_msl *ms, int type)
@@ -40,7 +31,8 @@ int	display_errors_pipe(t_msl *ms, int type)
 
 	i = -1;
 	ft_putstr_fd("minishell: ", 2);
-	if ((type == '-' && !ft_isalpha(ms->input[1])) || type == '\\')
+	if ((type == '-' && !ft_isalpha(ms->input[1])) || type == '\\' \
+	|| type == 0)
 	{
 		while (ms->input[++i] && ms->input[i] != '|')
 			ft_putchar_fd(ms->input[i], 2);
@@ -62,10 +54,11 @@ int	display_errors_pipe(t_msl *ms, int type)
 
 int	parsing_errors(t_msl *ms)
 {
-	if (ms->input[0] == '/' || ms->input[0] == '\\' || ms->input[0] == '-')
+	if (ms->input[0] == '/' || ms->input[0] == '\\' || ms->input[0] == '-' \
+	|| ms->input[0] == ' ')
 		return (display_errors_pipe(ms, ms->input[0]));
-	// if (ms->input[0] == ';' || ms->input[0] == '\\' || ms->input[0] == '/')
-	// 	return (display_errors(ms, ms->input[0]), 0);
+	if (ms->input[0] == '|')
+		return (display_errors(ms, ms->input[0]));
 	if (ms->input[0] == '!' || ms->input[0] == ':' || ms->input[0] == '\t' \
 	|| ms->input[0] == '#')
 		return (-1);
