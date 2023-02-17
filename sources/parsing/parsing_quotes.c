@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/17 11:52:28 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/17 19:15:03 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	parsing_quotes(t_msl *ms)
 			}
 		}
 	}
+	ms->input = ft_strtrim(ms->input, " ");
 	if (ms->input[0] == '\0')
 		return (display_errors_pipe(ms, 0));
 	return (0);
