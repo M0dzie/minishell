@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_quotes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/16 10:52:29 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/17 11:52:28 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ char	*del_quotes(t_msl *ms, char c)
 			return (NULL);
 		i++;
 	}
-	free(split);
+	ft_arrfree(split);
 	printf("%s\n", new_line);
-	if (new_line[0] == '\0')
-		return (display_errors(ms, 0), new_line);
 	return (new_line);
 }
 
@@ -66,7 +64,7 @@ int	parsing_quotes(t_msl *ms)
 		if (ms->input[i] == 34 || ms->input[i] == 39)
 		{
 			if (check_opened_quotes(ms->input, ms->input[i]))
-				return (display_errors(ms, ms->input[i]), -1);
+				return (display_errors(ms, ms->input[i]));
 			else
 			{
 				ms->input = del_quotes(ms, ms->input[i]);
@@ -74,5 +72,7 @@ int	parsing_quotes(t_msl *ms)
 			}
 		}
 	}
+	if (ms->input[0] == '\0')
+		return (display_errors_pipe(ms, 0));
 	return (0);
 }
