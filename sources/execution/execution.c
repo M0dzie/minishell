@@ -3,16 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/16 16:12:31 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/17 20:57:02 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include <sys/types.h>
 #include <sys/wait.h>
+
+int	display_error_exec(char *first, char *second, int num_error)
+{	
+	char	*err[10];
+
+	// err[1] = ": wrong function call\n\nexpected: ./pipex file1 cmd1 ... \
+cmd* file2    or    ./pipex here_doc LIMITER cmd cmd1 file";
+	err[2] = ": no such file or directory: ";
+	err[3] = ": environnement PATH not found";
+	err[4] = ": environnement SHELL not found";
+	err[5] = ": command not found";
+	err[6] = "cannot allocate memory : ";
+	err[7] = ": cannot create or modify: ";
+	err[8] = ": environnement VARIABLES not found";
+	err[9] = ": warning: here-document delimited by end-of-file, wanted: ";
+	ft_putstr_fd(first, 2);
+	ft_putstr_fd(second, 2);
+	ft_putendl_fd(err[num_error], 2);
+	return (-1);
+}
 
 char	*get_cmd_path(char *cmd, char **envp)
 {
@@ -44,9 +64,10 @@ void	execute_cmd(char **cmd_args, char **envp)
 	else
 		cmd_path = get_cmd_path(cmd_args[0], envp);
 	execve(cmd_path, cmd_args, envp);
+	display_error_exec("bash: ", cmd_args[0], 5);
 	free(cmd_path);
 	ft_arrfree(cmd_args);
-	// exit(0);
+	exit(127);
 }
 
 void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
@@ -105,33 +126,57 @@ void	exec_pwd(t_msl *ms, char **args_cmd, char **envp)
 	char	*tmp_path;
 	char	**tmp_args;
 	int		i;
+	int		valid;
 
 	tmp_path = get_cmd_path(args_cmd[0], envp);
 	tmp_args = ft_calloc(1, sizeof(char *));
 	tmp_args = ft_arradd_back(tmp_args, tmp_path);
-
-	ft_printf("\nTest pwd:\n\n", tmp_args[i]);
+	valid = 1;
 	if (args_cmd[1])
 	{
 		if (args_cmd[1][0] == '-')
 		{
 			if (ft_strlen(args_cmd[1]) > 2)
+			{
+				valid = 0;
 				ft_printf("bash: pwd: -%c: invalid option\n", args_cmd[1][1]);		// call display error
+			}
 			else if (ft_strlen(args_cmd[1]) == 2)
 			{
 				if (args_cmd[1][1] != '-')
+				{
+					valid = 0;
 					ft_printf("bash: pwd: -%c: invalid option\n", args_cmd[1][1]);		// call display error
+				}
 			}
-			else
-				create_pipe(tmp_args, ms, envp);
-			// tmp_args = ft_arradd_back(tmp_args, args_cmd[1]);
 		}
-		else
-			create_pipe(tmp_args, ms, envp);
 	}
-	// ft_printf("\nList arg:\n", tmp_args[i]);
-	// for (int i = 0; tmp_args[i]; i++)
-	// 	ft_printf("%s\n", tmp_args[i]);
+	if (valid)
+		create_pipe(tmp_args, ms, envp);
+}
+
+void	change_dir(t_msl *ms, char *path)
+{
+	if (ms->c_pipe == 0)
+		chdir(path);
+}
+
+void	exec_cd(t_msl *ms, char **args_cmd)
+{
+	if (ft_arrlen(args_cmd) > 2)
+		ft_printf("bash: cd: too many arguments\n");
+	else if (ft_arrlen(args_cmd) == 2)
+	{
+		// test if valid folder
+		if (access(args_cmd[1], X_OK) == 0)
+			change_dir(ms, args_cmd[1]);
+		else if (access(args_cmd[1], F_OK) == 0)
+			ft_printf("bash: cd: %s: Not a directory\n", args_cmd[1]);
+		else
+			ft_printf("bash: cd: %s: No such file or directory\n", args_cmd[1]);
+	}
+	else
+		change_dir(ms, getenv("HOME"));
 }
 
 void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
@@ -151,36 +196,10 @@ void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
 	// ft_printf("Builtins function : %s\n", tmp_path[0]);
 	if (strict_cmp("echo", args_cmd[0]))
 		ft_printf("echo execution\n");
-	else if (strict_cmp("cd", args_cmd[0]))
-	{
-		if (ft_arrlen(args_cmd) > 2)
-			ft_printf("bash: cd: too many arguments\n");
-		else if (ft_arrlen(args_cmd) == 2)
-		{
-			// test if valid folder
-			if (access(args_cmd[1], X_OK) == 0)
-			{
-				// if no other cmd change directory
-				if (ms->c_pipe == 0)
-					chdir(args_cmd[1]);
-			}
-			else
-				ft_printf("bash: cd: %s: No such file or directory\n", args_cmd[1]);
-		}
-		else
-		{
-			// if only cd check if no pipe to change directory
-			if (ms->c_pipe == 0)
-				chdir(getenv("HOME"));
-				// change to root dir
-		}
-	}
-	else if (strict_cmp("pwd", args_cmd[0]))
-	{
+	else if (strict_cmp("cd", args_cmd[0]))		// WIP
+		exec_cd(ms, args_cmd);
+	else if (strict_cmp("pwd", args_cmd[0]))		// DONE
 		exec_pwd(ms, args_cmd, envp);
-		// create_pipe(tmp_args, ms, envp);
-		// create_pipe(args_cmd, ms, envp);
-	}
 	else if (strict_cmp("export", args_cmd[0]))
 		ft_printf("export execution\n");
 	else if (strict_cmp("unset", args_cmd[0]))
@@ -194,32 +213,19 @@ void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
 	}
 }
 
-void	standard_execution(t_msl *ms, char **envp, char **args_cmd)
+void	standard_execution(t_msl *ms, char **args_cmd, char **envp)
 {
 	(void)ms;
 	(void)envp;
-	ft_printf("Classic function : %s\n", args_cmd[0]);
+	// ft_printf("Classic function : %s\n", args_cmd[0]);
 	create_pipe(args_cmd, ms, envp);
 }
 
 void	execution(t_msl *ms, char *input, char **envp)
 {
-	char	*input_test = "/usr/bin/ls \"-l\" '-a'";
-	char	*args_cmd[] = {"/usr/bin/ls", "'-'l", "-a", NULL};
-	char	*input_echo = "echo \"phrase\" 'a la con'";
 	char	*arr_echo[] = {"/usr/bin/echo", "'~' une phra\"se \"exemple avec \
 'un vrai $PWD' qui ne s\"'\"affichera qu\"'\"entre double quote \"$PWD\"", "'", NULL};
 
-	char	***cmds;
-	char	**tmp_split;
-	int	i;
-
-	ms->c_pipe = count_pipes(input);
-	ms->cmds = ft_calloc(ms->c_pipe + 1, sizeof(char **));
-	ms->split = ft_split(input, '|');
-	i = -1;
-	while (ms->split[++i])
-		ms->cmds[i] = ft_split(ms->split[i], ' ');
 	for (int i = 0; i <= ms->c_pipe; i++)
 	{
 		if (is_builtins(ms->cmds[i][0]))
