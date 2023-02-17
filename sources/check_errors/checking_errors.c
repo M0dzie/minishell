@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checking_errors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/16 13:42:39 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/17 10:01:37 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ int	display_errors_pipe(t_msl *ms, int type)
 		ft_putendl_fd(": command not found", 2);
 		if (ms->input[i] == '|')
 			return (ms->input += i + 1, 0);
-		else
-			return (-1);
 	}
 	i = -1;
 	if (type == '/')
@@ -58,9 +56,8 @@ int	display_errors_pipe(t_msl *ms, int type)
 		ft_putendl_fd(": Is a directory", 2);
 		if (ms->input[i] == '|')
 			return (ms->input += i + 1, 0);
-		else
-			return (-1);
 	}
+	return (-1);
 }
 
 int	parsing_errors(t_msl *ms)
