@@ -6,7 +6,7 @@
 #    By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 18:51:59 by thmeyer           #+#    #+#              #
-#    Updated: 2023/02/17 11:15:18 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/02/17 14:07:17 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,11 +72,11 @@ OBJS_DIRS			=	$(OBJ_BUILTINS_PATH)	$(OBJ_CHECK_ERR_PATH)	\
 
 SRC_BUILTINS_FILES	=	built_in.c
 
-SRC_CHECK_ERR_FILES	=	checking_errors.c
+SRC_CHECK_ERR_FILES	=	
 
 SRC_ENV_VAR_FILES	=	
 
-SRC_PARSING_FILES	=	parsing.c parsing_quotes.c
+SRC_PARSING_FILES	=	parsing.c parsing_quotes.c parsing_errors.c
 
 SRC_EXECUTION_FILES	=	execution.c	pipex.c
 
