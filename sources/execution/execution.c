@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/17 20:57:02 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/17 23:40:08 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	display_error_exec(char *first, char *second, int num_error)
 {	
-	char	*err[10];
+	char	*err[15];		// to correct
 
 	// err[1] = ": wrong function call\n\nexpected: ./pipex file1 cmd1 ... \
 cmd* file2    or    ./pipex here_doc LIMITER cmd cmd1 file";
@@ -28,6 +28,8 @@ cmd* file2    or    ./pipex here_doc LIMITER cmd cmd1 file";
 	err[7] = ": cannot create or modify: ";
 	err[8] = ": environnement VARIABLES not found";
 	err[9] = ": warning: here-document delimited by end-of-file, wanted: ";
+	err[10] = "too many arguments";
+	err[11] = ": numeric argument required";
 	ft_putstr_fd(first, 2);
 	ft_putstr_fd(second, 2);
 	ft_putendl_fd(err[num_error], 2);
@@ -179,6 +181,69 @@ void	exec_cd(t_msl *ms, char **args_cmd)
 		change_dir(ms, getenv("HOME"));
 }
 
+int	is_onlynum(char *arg)
+{
+	int	i;
+	int	lenstr;
+
+	i = -1;
+	lenstr = ft_strlen(arg);
+	if (lenstr == 1 && (arg[0] == '-' || arg[0] == '+'))
+		return (0);
+	else if (lenstr > 1)
+	{
+		if (arg[0] == '-' || arg[0] == '+')
+			i++;
+	}
+	while (arg[++i])
+	{
+		if (!ft_isdigit(arg[i]))
+			return (0);
+	}
+	return (1);
+}
+
+void	display_exit(int exit_nb, int num_error, char *arg)
+{
+	if (num_error > 0)
+	{
+		ft_putendl_fd("exit", 2);
+		display_error_exec("bash: exit: ", arg, num_error);
+	}
+	else
+		ft_putendl_fd("exit", 1);
+	exit (exit_nb);
+}
+
+void	exec_exit(t_msl *ms, char **args_cmd)
+{
+	if (ms->c_pipe == 0)
+	{	
+		if (ft_arrlen(args_cmd) > 2)
+		{
+			if (is_onlynum(args_cmd[1]))
+			{
+				display_exit(1, 10, NULL);
+				// ft_printf("bash: exit: too many arguments\n");
+			}
+			else
+				display_exit(2, 11, args_cmd[1]);
+				// ft_printf("bash: exit: FIRST_ARG: numeric argument required\n");
+		}
+		else if (ft_arrlen(args_cmd) == 2)
+		{
+			if (is_onlynum(args_cmd[1]))
+				display_exit(ft_atoi(args_cmd[1]), 0, NULL);
+				// ft_printf("Exit valid with number to user with : %s\n", args_cmd[1]);
+			else
+				display_exit(2, 11, args_cmd[1]);
+				// ft_printf("bash: exit: FIRST_ARG: numeric argument required\n");
+		}
+		else
+			display_exit(0, 0, NULL);
+	}
+}
+
 void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
 {
 	(void)ms;
@@ -208,8 +273,9 @@ void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
 		ft_printf("env execution\n");
 	else if (strict_cmp("exit", args_cmd[0]))
 	{
-		if (ms->c_pipe == 0)
-			exit (0);
+		// if (ms->c_pipe == 0)
+		// 	exit (0);
+		exec_exit(ms, args_cmd);
 	}
 }
 
