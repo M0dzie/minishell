@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:04:40 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/18 10:55:17 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/18 12:04:55 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,8 @@ int	display_errors_redirect2(t_msl *ms, int type)
 	if (ms->input[i] == '|')
 		return (ft_putendl_fd("syntax error near unexpected token '|'", \
 		2), -1);
-	if (type == '>' && ms->input[1] == ' ' && ms->input[2] == '>')
-		return (ft_putendl_fd("syntax error near unexpected token '>'", 2), -1);
-	if (type == '<' && ms->input[1] == ' ' && ms->input[2] == '<')
-		return (ft_putendl_fd("syntax error near unexpected token '<'", 2), -1);
-	if (type == '<' && ms->input[1] == '<' && ms->input[2] == ' ' && \
-	ms->input[3] == '<')
-		return (ft_putendl_fd("syntax error near unexpected token '<<'", 2), -1);
-	if (type == '>' && ms->input[1] == '>' && ms->input[2] == ' ' && \
-	ms->input[3] == '>')
-		return (ft_putendl_fd("syntax error near unexpected token '>>'", 2), -1);
+	else if (ft_isalpha(ms->input[i]))
+		return (0);
 	return (display_errors_redirect3(ms, type));
 }
 
@@ -67,7 +59,35 @@ int	display_errors_redirect3(t_msl *ms, int type)
 	int	i;
 
 	i = 0;
-	if (type == '<')
+	if (type == '<' && ms->input[1] == '<')
+	{
+		i = 2;
+		while (ms->input[i] == ' ' || ms->input[i] == '\t')
+			i++;
+		if (ms->input[i] == '<' && ms->input[i + 1] == '<')
+			return (ft_putendl_fd("syntax error near unexpected token '<<'", 2), -1);
+		if (ms->input[i] == '>' && ms->input[i + 1] == '>')
+			return (ft_putendl_fd("syntax error near unexpected token '>>'", 2), -1);
+	}
+	if (type == '>' && ms->input[1] == '>')
+	{
+		i = 2;
+		while (ms->input[i] == ' ' || ms->input[i] == '\t')
+			i++;
+		if (ms->input[i] == '>' && ms->input[i + 1] == '>')
+			return (ft_putendl_fd("syntax error near unexpected token '>>'", 2), -1);
+		if (ms->input[i] == '<' && ms->input[i + 1] == '<')
+			return (ft_putendl_fd("syntax error near unexpected token '<<'", 2), -1);
+	}
+	return (display_errors_redirect4(ms, type));
+}
+
+int	display_errors_redirect4(t_msl *ms, int type)
+{
+	int	i;
+
+	i = 0;
+	if (type == '<' && ms->input[1] == ' ')
 	{
 		i++;
 		while (ms->input[i] == ' ' || ms->input[i] == '\t')
@@ -77,7 +97,7 @@ int	display_errors_redirect3(t_msl *ms, int type)
 		if (ms->input[i] == '>')
 			return (ft_putendl_fd("syntax error near unexpected token '>'", 2), -1);
 	}
-	if (type == '>')
+	if (type == '>' && ms->input[1] == ' ')
 	{
 		i++;
 		while (ms->input[i] == ' ' || ms->input[i] == '\t')
