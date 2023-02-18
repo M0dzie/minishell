@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/18 20:15:32 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/18 21:57:28 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int		display_errors_redirect2(t_msl *ms, int type);
 int		display_errors_redirect3(t_msl *ms, int type);
 int		display_errors_redirect4(t_msl *ms, int type);
 int		ms_strcmp(char *s1, char *s2);
+int		parsing_echo(t_msl *ms);
 int		parsing_errors(t_msl *ms);
 int		parsing_quotes(t_msl *ms);
 

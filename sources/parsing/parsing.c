@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/18 10:42:33 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/18 22:03:50 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	read_prompt(t_msl *ms, char **envp)
 
 	i = -1;
 	ms->input = ft_strtrim(ms->input, " ");
+	// if (ft_strncmp(ms->input, "echo", 4) == 0)
+	// 	return (parsing_echo(ms));
 	if (ms->input[0] == '\0' || parsing_quotes(ms) == -1 || \
 	parsing_errors(ms) == -1)
 		return (free(ms->input));

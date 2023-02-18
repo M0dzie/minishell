@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/18 14:24:44 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/18 21:45:44 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	display_errors(t_msl *ms, int type)
 		ft_putendl_fd("double quotes must be closed", 2);
 	if (type == 39)
 		ft_putendl_fd("single quotes must be closed", 2);
-	if (type == '|' && (ms->input[1] == ' ' || ms->input[1] == '\0'))
+	if (type == '|' && (ms->input[1] == ' ' || ms->input[1] == '\0' \
+	|| ft_isalpha(ms->input[1])))
 		ft_putendl_fd("syntax error near unexpected token '|'", 2);
 	if (type == '|' && ms->input[1] == '|')
 		ft_putendl_fd("syntax error near unexpected token '||'", 2);
