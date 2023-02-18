@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:04:40 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/18 10:55:17 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/18 11:47:31 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ int	display_errors_redirect2(t_msl *ms, int type)
 	if (ms->input[i] == '|')
 		return (ft_putendl_fd("syntax error near unexpected token '|'", \
 		2), -1);
-	if (type == '>' && ms->input[1] == ' ' && ms->input[2] == '>')
-		return (ft_putendl_fd("syntax error near unexpected token '>'", 2), -1);
-	if (type == '<' && ms->input[1] == ' ' && ms->input[2] == '<')
-		return (ft_putendl_fd("syntax error near unexpected token '<'", 2), -1);
+	else if (ft_isalpha(ms->input[i]))
+		return (0);
 	if (type == '<' && ms->input[1] == '<' && ms->input[2] == ' ' && \
 	ms->input[3] == '<')
 		return (ft_putendl_fd("syntax error near unexpected token '<<'", 2), -1);
