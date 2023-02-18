@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/17 15:05:31 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/18 11:13:11 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ int	display_errors_pipe(t_msl *ms, int type)
 
 	i = -1;
 	ft_putstr_fd("minishell: ", 2);
-	if ((type == '-' && !ft_isalpha(ms->input[1])) || type == '\\' \
-	|| type == 0)
+	if (type == ' ' || type == 0)
 	{
-		while (ms->input[++i] && ms->input[i] != '|')
-			ft_putchar_fd(ms->input[i], 2);
+		i = 1;
 		ft_putendl_fd(": command not found", 2);
+		while (ms->input[i] == ' ')
+			i++;
 		if (ms->input[i] == '|')
 			return (ms->input += i + 1, 0);
+		printf("input = %s\n", ms->input);
 	}
-	i = -1;
 	if (type == '/')
 	{
 		while (ms->input[++i] && ms->input[i] != '|')
@@ -66,8 +66,7 @@ int	display_errors_pipe(t_msl *ms, int type)
 
 int	parsing_errors(t_msl *ms)
 {
-	if (ms->input[0] == '/' || ms->input[0] == '\\' || ms->input[0] == '-' \
-	|| ms->input[0] == ' ')
+	if (ms->input[0] == '/' || ms->input[0] == ' ')
 		return (display_errors_pipe(ms, ms->input[0]));
 	if (ms->input[0] == '|' || ms->input[0] == '&' || ms->input[0] == ';' \
 	|| ms->input[0] == '(')
