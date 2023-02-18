@@ -16,9 +16,9 @@ int	display_errors(t_msl *ms, int type)
 {
 	ft_putstr_fd("minishell: ", 2);
 	if (type == 34)
-		ft_putendl_fd("double quotes must be cloed", 2);
+		ft_putendl_fd("double quotes must be closed", 2);
 	if (type == 39)
-		ft_putendl_fd("single quotes must be cloed", 2);
+		ft_putendl_fd("single quotes must be closed", 2);
 	if (type == '|' && (ms->input[1] == ' ' || ms->input[1] == '\0'))
 		ft_putendl_fd("syntax error near unexpected token '|'", 2);
 	if (type == '|' && ms->input[1] == '|')
