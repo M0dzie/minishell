@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/18 12:12:14 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/18 14:24:44 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	display_errors_pipe(t_msl *ms, int type)
 			ft_putchar_fd(ms->input[i], 2);
 		ft_putendl_fd(": command not found", 2);
 		if (ms->input[i] == '|')
-			return (ms->input += i + 1, 0);
+			return (ms->input = ft_strtrim(&ms->input[i + 1], " "), 0);
 	}
 	if (type == '/')
 	{
