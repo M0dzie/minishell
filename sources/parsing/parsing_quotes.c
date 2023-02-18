@@ -6,13 +6,13 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/18 13:27:35 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/18 20:16:10 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	check_opened_quotes(char *input, char c)
+int	check_opened_quotes(t_msl *ms, char *input, char c)
 {
 	int	i;
 	int	quote;
@@ -22,7 +22,10 @@ int	check_opened_quotes(char *input, char c)
 	while (input[++i])
 	{
 		if (input[i] == c)
+		{
 			quote++;
+			ms->lst_quote = i;
+		}
 	}
 	if (quote % 2 != 0)
 		return (1);
@@ -56,19 +59,21 @@ char	*del_quotes(t_msl *ms, char c)
 
 int	parsing_quotes(t_msl *ms)
 {
-	int	i;
+	int		i;
+	char	*input;
 
 	i = -1;
-	while (ms->input[++i])
+	input = ms->input;
+	while (input[++i])
 	{
-		if (ms->input[i] == 34 || ms->input[i] == 39)
+		if (input[i] == 34 || input[i] == 39)
 		{
-			if (check_opened_quotes(ms->input, ms->input[i]))
-				return (display_errors(ms, ms->input[i]));
+			if (check_opened_quotes(ms, input, input[i]))
+				return (display_errors(ms, input[i]));
 			else
 			{
-				ms->input = del_quotes(ms, ms->input[i]);
-				i = -1;
+				ms->input = del_quotes(ms, input[i]);
+				input += ms->lst_quote;
 			}
 		}
 	}

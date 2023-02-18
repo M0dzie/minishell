@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/18 11:55:00 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/18 20:15:32 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ typedef struct s_msl
 	char	**split;
 	char	***cmds;
 	int		c_pipe;
+	int		lst_quote;
 }				t_msl;
 
 char	*del_quotes(t_msl *ms, char c);
 
-int		check_opened_quotes(char *input, char c);
+int		check_opened_quotes(t_msl *ms, char *input, char c);
 int		count_pipes(char *input);
 int		display_errors(t_msl *ms, int type);
 int		display_errors_pipe(t_msl *ms, int type);
