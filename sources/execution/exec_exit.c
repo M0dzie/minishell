@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 19:28:54 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/19 19:30:58 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/19 20:02:40 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	display_exit(int exit_nb, int num_error, char *arg)
 long	ft_atolong(const char *str)
 {
 	long long	i;
-	int		sign;
+	int			sign;
 	long long	return_int;
 
 	i = 0;
@@ -95,6 +95,8 @@ int	is_toolong(char *arg)
 			if (ft_strncmp(arg, "9223372036854775807", 19) > 0)
 				display_exit(2, 11, arg);
 		}
+		else if (len == 20)
+			display_exit(2, 11, arg);
 	}
 	return (0);
 }
@@ -106,13 +108,9 @@ void	exec_exit(t_msl *ms, char **args_cmd)
 		if (ft_arrlen(args_cmd) > 2)
 		{
 			if (is_onlynum(args_cmd[1]))
-			{
 				display_exit(1, 10, NULL);
-				// ft_printf("bash: exit: too many arguments\n");
-			}
 			else
 				display_exit(2, 11, args_cmd[1]);
-				// ft_printf("bash: exit: FIRST_ARG: numeric argument required\n");
 		}
 		else if (ft_arrlen(args_cmd) == 2)
 		{
@@ -123,7 +121,6 @@ void	exec_exit(t_msl *ms, char **args_cmd)
 			}
 			else
 				display_exit(2, 11, args_cmd[1]);
-				// ft_printf("bash: exit: FIRST_ARG: numeric argument required\n");
 		}
 		else
 			display_exit(0, 0, NULL);
