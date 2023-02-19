@@ -6,11 +6,12 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/19 19:41:17 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/19 22:41:12 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <errno.h>
 
 int	display_error_exec(char *first, char *second, int num_error)
 {	
@@ -120,40 +121,6 @@ int	is_builtins(char *cmd)
 	return (0);
 }
 
-int	invalid_pwd(char c)
-{
-	display_error_exec("bash: pwd: -", &c, 1);
-	return (0);
-}
-
-void	exec_pwd(t_msl *ms, char **args_cmd, char **envp)
-{
-	char	*tmp_path;
-	char	**tmp_args;
-	int		i;
-	int		valid;
-
-	tmp_path = get_cmd_path(args_cmd[0], envp);
-	tmp_args = ft_calloc(1, sizeof(char *));
-	tmp_args = ft_arradd_back(tmp_args, tmp_path);
-	valid = 1;
-	if (args_cmd[1])
-	{
-		if (args_cmd[1][0] == '-')
-		{
-			if (ft_strlen(args_cmd[1]) > 2)
-				valid = invalid_pwd(args_cmd[1][1]);
-			else if (ft_strlen(args_cmd[1]) == 2)
-			{
-				if (args_cmd[1][1] != '-')
-					valid = invalid_pwd(args_cmd[1][1]);
-			}
-		}
-	}
-	if (valid)
-		create_pipe(tmp_args, ms, envp);
-}
-
 void	change_dir(t_msl *ms, char *path)
 {
 	if (ms->c_pipe == 0)
@@ -178,6 +145,22 @@ void	exec_cd(t_msl *ms, char **args_cmd)
 		change_dir(ms, getenv("HOME"));
 }
 
+void	exec_echo(t_msl *ms, char **args_cmd, char **envp)
+{
+	// if $? in parsing change this with ms->rtn_int
+	char	*tmp_arg[] = {"echo", ft_itoa(ms->rtn_int), NULL};
+	create_pipe(tmp_arg, ms, envp);
+
+	// printf("Errno : %d\n", errno);
+	
+	// create_pipe(args_cmd, ms, envp);
+}
+
+void	exec_env(t_msl *ms, char **args_cmd, char **envp)
+{	
+	create_pipe(args_cmd, ms, envp);
+}
+
 void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
 {
 	(void)ms;
@@ -194,7 +177,7 @@ void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
 
 	// ft_printf("Builtins function : %s\n", tmp_path[0]);
 	if (strict_cmp("echo", args_cmd[0]))
-		ft_printf("echo execution\n");
+		exec_echo(ms, args_cmd, envp);
 	else if (strict_cmp("cd", args_cmd[0]))		// WIP
 		exec_cd(ms, args_cmd);
 	else if (strict_cmp("pwd", args_cmd[0]))		// DONE
@@ -204,13 +187,9 @@ void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
 	else if (strict_cmp("unset", args_cmd[0]))
 		ft_printf("unset execution\n");
 	else if (strict_cmp("env", args_cmd[0]))
-		ft_printf("env execution\n");
-	else if (strict_cmp("exit", args_cmd[0]))
-	{
-		// if (ms->c_pipe == 0)
-		// 	exit (0);
+		exec_env(ms, args_cmd, envp);
+	else if (strict_cmp("exit", args_cmd[0]))		// DONE
 		exec_exit(ms, args_cmd);
-	}
 }
 
 void	standard_execution(t_msl *ms, char **args_cmd, char **envp)
@@ -226,6 +205,7 @@ void	execution(t_msl *ms, char *input, char **envp)
 	char	*arr_echo[] = {"/usr/bin/echo", "'~' une phra\"se \"exemple avec \
 'un vrai $PWD' qui ne s\"'\"affichera qu\"'\"entre double quote \"$PWD\"", "'", NULL};
 
+	// ms->rtn_int = 0;
 	for (int i = 0; i <= ms->c_pipe; i++)
 	{
 		if (is_builtins(ms->cmds[i][0]))
