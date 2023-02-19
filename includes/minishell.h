@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/19 19:45:35 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/19 21:50:52 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_msl
 	char	***cmds;
 	int		c_pipe;
 	int		lst_quote;
+	int		rtn_int;
 }				t_msl;
 
 char	*del_quotes(char *input, int index, char c);
@@ -47,6 +48,9 @@ int		parsing_quotes(t_msl *ms);
 void	execution(t_msl *ms, char *input, char **envp);
 int		display_error_exec(char *first, char *second, int num_error);
 void	exec_exit(t_msl *ms, char **args_cmd);
+void	exec_pwd(t_msl *ms, char **args_cmd, char **envp);
+void	create_pipe(char **args_cmd, t_msl *ms, char **envp);
+char	*get_cmd_path(char *cmd, char **envp);
 
 void	parsing_errors_echo(t_msl *sl);
 void	read_prompt(t_msl *ms, char **envp);
