@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/19 18:17:34 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/19 18:30:16 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char	*get_old_line(char *input, int index)
 	while (++i < index)
 		old_line[i] = input[i];
 	old_line[i] = '\0';
-	printf("old_line = %s\n", old_line);
 	return (old_line);
 }
 
@@ -54,25 +53,24 @@ char	*del_quotes(char *input, int index, char c)
 	char	*new_line;
 	char	**split;
 
-	i = 0;
+	i = -1;
 	old_line = get_old_line(input, index);
 	new_line = ft_calloc(1, 1);
-	if (!new_line)
-		return (NULL);
 	split = ft_split(input + index, c);
-	if (!split)
+	if (!new_line || !old_line || !split)
 		return (NULL);
-	while (split[i])
+	while (split[++i])
 	{
 		new_line = ft_strjoin(new_line, split[i]);
 		if (!new_line)
 			return (NULL);
-		i++;
 	}
 	ft_arrfree(split);
 	new_line = ft_strjoin(old_line, new_line);
+	if (!new_line)
+		return (NULL);
 	printf("new_line = %s\n", new_line);
-	return (new_line);
+	return (free(old_line), new_line);
 }
 
 int	parsing_quotes(t_msl *ms)
@@ -84,7 +82,6 @@ int	parsing_quotes(t_msl *ms)
 	input = ms->input;
 	while (input[++i])
 	{
-		printf("%d = %s\n", i, input + i);
 		if (input[i] == 34 || input[i] == 39)
 		{
 			if (check_opened_quotes(ms, input, i, input[i]))
