@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/19 18:02:26 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/19 19:45:35 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 
 typedef struct s_msl
 {
@@ -44,6 +45,9 @@ int		parsing_errors(t_msl *ms);
 int		parsing_quotes(t_msl *ms);
 
 void	execution(t_msl *ms, char *input, char **envp);
+int		display_error_exec(char *first, char *second, int num_error);
+void	exec_exit(t_msl *ms, char **args_cmd);
+
 void	parsing_errors_echo(t_msl *sl);
 void	read_prompt(t_msl *ms, char **envp);
 void	signal_handler(int signal);
