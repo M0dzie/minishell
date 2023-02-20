@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/20 09:48:00 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/20 12:22:54 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ void	execution(t_msl *ms, char *input, char **envp);
 int		display_error_exec(char *first, char *second, int num_error);
 void	exec_exit(t_msl *ms, char **args_cmd);
 void	exec_pwd(t_msl *ms, char **args_cmd, char **envp);
-void	exec_cd(t_msl *ms, char **args_cmd);
+void	exec_cd(t_msl *ms, char **args_cmd, char **envp);
 void	create_pipe(char **args_cmd, t_msl *ms, char **envp);
 char	*get_cmd_path(char *cmd, char **envp);
+void	execute_cmd(char **cmd_args, char **envp);
 
 void	parsing_errors_echo(t_msl *sl);
 void	read_prompt(t_msl *ms, char **envp);

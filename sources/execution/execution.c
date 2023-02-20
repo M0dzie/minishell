@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/19 22:41:12 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/20 13:21:17 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	display_error_exec(char *first, char *second, int num_error)
 	char	*err[15];		// to correct
 
 	err[1] = ": invalid option";
-	err[2] = ": no such file or directory: ";
+	err[2] = ": No such file or directory";
 	err[3] = ": environnement PATH not found";
 	err[4] = ": environnement SHELL not found";
 	err[5] = ": command not found";
@@ -28,6 +28,7 @@ int	display_error_exec(char *first, char *second, int num_error)
 	err[9] = ": warning: here-document delimited by end-of-file, wanted: ";
 	err[10] = "too many arguments";
 	err[11] = ": numeric argument required";
+	err[12] = ": Not a directory";
 	ft_putstr_fd(first, 2);
 	ft_putstr_fd(second, 2);
 	ft_putendl_fd(err[num_error], 2);
@@ -121,39 +122,15 @@ int	is_builtins(char *cmd)
 	return (0);
 }
 
-void	change_dir(t_msl *ms, char *path)
-{
-	if (ms->c_pipe == 0)
-		chdir(path);
-}
-
-void	exec_cd(t_msl *ms, char **args_cmd)
-{
-	if (ft_arrlen(args_cmd) > 2)
-		ft_printf("bash: cd: too many arguments\n");
-	else if (ft_arrlen(args_cmd) == 2)
-	{
-		// test if valid folder
-		if (access(args_cmd[1], X_OK) == 0)
-			change_dir(ms, args_cmd[1]);
-		else if (access(args_cmd[1], F_OK) == 0)
-			ft_printf("bash: cd: %s: Not a directory\n", args_cmd[1]);
-		else
-			ft_printf("bash: cd: %s: No such file or directory\n", args_cmd[1]);
-	}
-	else
-		change_dir(ms, getenv("HOME"));
-}
-
 void	exec_echo(t_msl *ms, char **args_cmd, char **envp)
 {
 	// if $? in parsing change this with ms->rtn_int
-	char	*tmp_arg[] = {"echo", ft_itoa(ms->rtn_int), NULL};
-	create_pipe(tmp_arg, ms, envp);
+	// char	*tmp_arg[] = {"echo", ft_itoa(ms->rtn_int), NULL};
+	// create_pipe(tmp_arg, ms, envp);
 
 	// printf("Errno : %d\n", errno);
 	
-	// create_pipe(args_cmd, ms, envp);
+	create_pipe(args_cmd, ms, envp);
 }
 
 void	exec_env(t_msl *ms, char **args_cmd, char **envp)
@@ -179,7 +156,7 @@ void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
 	if (strict_cmp("echo", args_cmd[0]))
 		exec_echo(ms, args_cmd, envp);
 	else if (strict_cmp("cd", args_cmd[0]))		// WIP
-		exec_cd(ms, args_cmd);
+		exec_cd(ms, args_cmd, envp);
 	else if (strict_cmp("pwd", args_cmd[0]))		// DONE
 		exec_pwd(ms, args_cmd, envp);
 	else if (strict_cmp("export", args_cmd[0]))
