@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/19 18:30:16 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/20 13:41:30 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ char	*del_quotes(char *input, int index, char c)
 	new_line = ft_strjoin(old_line, new_line);
 	if (!new_line)
 		return (NULL);
-	printf("new_line = %s\n", new_line);
 	return (free(old_line), new_line);
 }
 
