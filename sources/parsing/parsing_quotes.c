@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/20 17:20:44 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/20 17:27:37 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,38 +68,23 @@ char	*del_quotes(char *input, int index, char c)
 int	parsing_quotes(t_msl *ms)
 {
 	int		i;
-	char	*input;
 
 	i = -1;
-	input = ms->input;
-	while (input[++i])
+	while (ms->input[++i])
 	{
-		printf("input[%d] = %s\n", i, input + i);
-		if (input[i] == 34 || input[i] == 39)
+		printf("input[%d] = %s\n", i, ms->input + i);
+		if (ms->input[i] == 34 || ms->input[i] == 39)
 		{
-			if (check_opened_quotes(ms, i + 1, input[i]))
-				return (display_errors(ms, input[i]));
-			input = del_quotes(input, i, input[i]);
+			if (check_opened_quotes(ms, i + 1, ms->input[i]))
+				return (display_errors(ms, ms->input[i]));
+			ms->input = del_quotes(ms->input, i, ms->input[i]);
 			i = ms->lst_quote - 2;
 		}
 	}
-	ms->input = input;
 	if (ms->input[0] == '\0' || ms->input[0] == ' ')
 		return (display_errors_pipe(ms, ms->input[0]));
 	return (0);
 }
-
-// int	check_opened_quotes(t_msl *ms, int i, char c)
-// {
-// 	printf("open quote = %s\n", ms->input + i);
-// 	if (ms->input[i] == '\0')
-// 		return (1);
-// 	while (ms->input[i] && ms->input[i] != c)
-// 		i++;
-// 	if (ms->input[i] == c)
-// 		return (ms->lst_quote = i, 0);
-// 	return (1);
-// }
 
 // int	word_len_in_quotes(t_msl *ms, int i)
 // {
