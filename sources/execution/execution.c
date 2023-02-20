@@ -6,12 +6,13 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/20 13:21:17 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/20 22:05:31 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include <errno.h>
+#include <stdlib.h>
 
 int	display_error_exec(char *first, char *second, int num_error)
 {	
@@ -77,7 +78,9 @@ void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
 	(void)ms;
 
 	pid_t	pid;
+	int		pipefd[2];
 
+	pipe(pipefd);
 	pid = fork();
 	if (pid == 0)
 		execute_cmd(args_cmd, envp);
@@ -135,6 +138,12 @@ void	exec_echo(t_msl *ms, char **args_cmd, char **envp)
 
 void	exec_env(t_msl *ms, char **args_cmd, char **envp)
 {	
+	int	i;
+
+	i = -1;
+	while (envp[++i])
+		printf("%s\n", envp[i]);
+	printf("\n");
 	create_pipe(args_cmd, ms, envp);
 }
 
