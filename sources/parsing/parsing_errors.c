@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/18 21:45:44 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/20 12:38:54 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int	display_errors_pipe(t_msl *ms, int type)
 
 int	parsing_errors(t_msl *ms)
 {
-	if (ms->input[0] == '/' || ms->input[0] == ' ')
+	if (ms->input[0] == '/' && (ms->input[1] == '.' || \
+	ms->input[1] == '/') || ms->input[0] == ' ')
 		return (display_errors_pipe(ms, ms->input[0]));
 	if (ms->input[0] == '|' || ms->input[0] == '&' || ms->input[0] == ';' \
 	|| ms->input[0] == '(')
