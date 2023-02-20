@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/20 12:22:54 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/20 16:02:57 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ typedef struct s_msl
 	int		rtn_int;
 }				t_msl;
 
-char	*del_quotes(char *input, int index, char c);
+// char	*del_quotes(char *input, int index, char c);
+char	*del_quotes(t_msl *ms, char *input, int i, char c);
 
 int		check_opened_quotes(t_msl *ms, char *input, int i, char c);
 int		count_pipes(char *input);
