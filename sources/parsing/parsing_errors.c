@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 16:10:03 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 18:03:19 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ int	parsing_pipes_input(t_msl *ms)
 
 int	parsing_errors(t_msl *ms)
 {
-	if (ms->c_pipe > 0)
-		return (parsing_pipes_input(ms));
 	if (ms->input[0] == '/' && (ms->input[1] == '.' || \
 	ms->input[1] == '/') || ms->input[0] == ' ')
 		return (display_errors_pipe(ms, ms->input[0]));
@@ -92,5 +90,7 @@ int	parsing_errors(t_msl *ms)
 	if (ms->input[0] == '!' || ms->input[0] == ':' || ms->input[0] == '\t' \
 	|| ms->input[0] == '#')
 		return (-1);
+	if (ms->c_pipe > 0)
+		return (parsing_pipes_input(ms));
 	return (0);
 }
