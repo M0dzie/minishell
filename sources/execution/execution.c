@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/21 10:21:29 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/21 11:23:47 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,22 +72,6 @@ void	execute_cmd(char **cmd_args, char **envp)
 	exit(127);
 }
 
-// void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
-// {
-// 	(void)args_cmd;
-// 	(void)ms;
-
-// 	pid_t	pid;
-// 	int		pipefd[2];
-
-// 	pipe(pipefd);
-// 	pid = fork();
-// 	if (pid == 0)
-// 		execute_cmd(args_cmd, envp);
-// 	else
-// 		wait(NULL);
-// }
-
 void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
 {
 	(void)args_cmd;
@@ -95,24 +79,40 @@ void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
 
 	pid_t	pid;
 	int		pipefd[2];
-	int		rtn;
 
 	pipe(pipefd);
 	pid = fork();
 	if (pid == 0)
-	{
-		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
 		execute_cmd(args_cmd, envp);
-	}
 	else
-	{
-		close(pipefd[1]);
-		dup2(pipefd[0], 0);
-		// wait(NULL);
-		waitpid(pid, &rtn, 0);
-	}
+		wait(NULL);
 }
+
+// void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
+// {
+// 	(void)args_cmd;
+// 	(void)ms;
+
+// 	pid_t	pid;
+// 	int		pipefd[2];
+// 	int		rtn;
+
+// 	pipe(pipefd);
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		close(pipefd[0]);
+// 		dup2(pipefd[1], STDOUT_FILENO);
+// 		execute_cmd(args_cmd, envp);
+// 	}
+// 	else
+// 	{
+// 		close(pipefd[1]);
+// 		dup2(pipefd[0], 0);
+// 		// wait(NULL);
+// 		waitpid(pid, &rtn, 0);
+// 	}
+// }
 
 int	strict_cmp(const char *builts, const char *cmd)
 {
