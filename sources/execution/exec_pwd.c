@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pwd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 21:21:14 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/20 21:11:19 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/21 14:32:30 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ void	exec_pwd(t_msl *ms, char **args_cmd, char **envp)
 		}
 	}
 	if (valid == 0)
-		create_pipe(tmp_args, ms, envp);
+		handle_cmd(ms, tmp_args, envp);
 	ms->rtn_int = valid;
 }
