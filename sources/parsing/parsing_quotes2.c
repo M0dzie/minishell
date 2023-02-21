@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:13:09 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 13:59:47 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:28:05 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ char	*clear_line(char *before_quote, char *new_word, char *after_quote)
 
 	i = -1;
 	j = -1;
-	clear = ft_calloc(ft_strlen(before_quote) + ft_strlen(after_quote) + 1, \
-	sizeof(char));
+	clear = ft_calloc(ft_strlen(before_quote) + ft_strlen(after_quote) + \
+	ft_strlen(new_word) + 1, sizeof(char));
 	if (!clear)
 		return (NULL);
 	while (before_quote[++i])

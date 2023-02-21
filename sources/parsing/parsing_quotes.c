@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 13:59:39 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:30:22 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ char	*del_quotes(char *input, int index, int lst_quote, char quote)
 	new_line = clear_line(before_quote, new_word, after_quote);
 	if (!new_line)
 		return (NULL);
-	return (free(before_quote), free(new_word), free(after_quote), new_line);
+	return (free(before_quote), free(new_word), free(after_quote), \
+	free(input), new_line);
 }
 
 int	parsing_quotes(t_msl *ms)
