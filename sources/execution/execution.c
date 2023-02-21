@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/21 11:23:47 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:33:02 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	execute_cmd(char **cmd_args, char **envp)
 	exit(127);
 }
 
-void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
+void	pipe_one(char **args_cmd, t_msl *ms, char **envp)
 {
 	(void)args_cmd;
 	(void)ms;
@@ -88,31 +88,31 @@ void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
 		wait(NULL);
 }
 
-// void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
-// {
-// 	(void)args_cmd;
-// 	(void)ms;
+void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
+{
+	(void)args_cmd;
+	(void)ms;
 
-// 	pid_t	pid;
-// 	int		pipefd[2];
-// 	int		rtn;
+	pid_t	pid;
+	int		pipefd[2];
+	int		rtn;
 
-// 	pipe(pipefd);
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		close(pipefd[0]);
-// 		dup2(pipefd[1], STDOUT_FILENO);
-// 		execute_cmd(args_cmd, envp);
-// 	}
-// 	else
-// 	{
-// 		close(pipefd[1]);
-// 		dup2(pipefd[0], 0);
-// 		// wait(NULL);
-// 		waitpid(pid, &rtn, 0);
-// 	}
-// }
+	pipe(pipefd);
+	pid = fork();
+	if (pid == 0)
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
+		execute_cmd(args_cmd, envp);
+	}
+	else
+	{
+		close(pipefd[1]);
+		dup2(pipefd[0], 0);
+		wait(NULL);
+		// waitpid(pid, &rtn, 0);
+	}
+}
 
 int	strict_cmp(const char *builts, const char *cmd)
 {
@@ -158,26 +158,43 @@ void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
 
 	if (strict_cmp("echo", args_cmd[0]))
 		exec_echo(ms, args_cmd, envp);
-	else if (strict_cmp("cd", args_cmd[0]))		// WIP
-		exec_cd(ms, args_cmd, envp);
 	else if (strict_cmp("pwd", args_cmd[0]))		// DONE
 		exec_pwd(ms, args_cmd, envp);
+	else if (strict_cmp("env", args_cmd[0]))
+		exec_env(ms, args_cmd, envp);
+	else if (strict_cmp("cd", args_cmd[0]))		// WIP
+		exec_cd(ms, args_cmd, envp);
 	else if (strict_cmp("export", args_cmd[0]))
 		exec_export(ms, args_cmd, envp);
 	else if (strict_cmp("unset", args_cmd[0]))
 		exec_unset(ms, args_cmd, envp);
-	else if (strict_cmp("env", args_cmd[0]))
-		exec_env(ms, args_cmd, envp);
 	else if (strict_cmp("exit", args_cmd[0]))		// DONE
 		exec_exit(ms, args_cmd);
 }
 
+void	handle_cmd(t_msl *ms, char **args_cmd, char **envp)
+{
+	if (ms->c_pipe == 0)
+	{
+		// printf("Just one command\n\n");
+		pipe_one(args_cmd, ms, envp);
+	}
+	else if (ms->c_cmd == 1)
+	{
+		// printf("\nLast command\n");
+		// execute_cmd(args_cmd, envp);
+		pipe_one(args_cmd, ms, envp);
+	}
+	else
+	{
+		// printf("Command intermediaire\n");
+		create_pipe(args_cmd, ms, envp);
+	}
+}
+
 void	standard_execution(t_msl *ms, char **args_cmd, char **envp)
 {
-	(void)ms;
-	(void)envp;
-	// ft_printf("Classic function : %s\n", args_cmd[0]);
-	create_pipe(args_cmd, ms, envp);
+	handle_cmd(ms, args_cmd, envp);
 }
 
 void	execution(t_msl *ms, char *input, char **envp)
@@ -186,11 +203,15 @@ void	execution(t_msl *ms, char *input, char **envp)
 'un vrai $PWD' qui ne s\"'\"affichera qu\"'\"entre double quote \"$PWD\"", "'", NULL};
 
 	// ms->rtn_int = 0;
+	// if (ms->c_pipe == 0)
+	// 	pipe_one()
+	// printf("number of cmd : %d\n", ms->c_cmd);
 	for (int i = 0; i <= ms->c_pipe; i++)
 	{
 		if (is_builtins(ms->cmds[i][0]))
 			builtins_execution(ms, ms->cmds[i], envp);
 		else
 			standard_execution(ms, ms->cmds[i], envp);
+		ms->c_cmd--;
 	}
 }
