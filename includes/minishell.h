@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 16:04:16 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:32:28 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ int		display_errors_redirect2(t_msl *ms, int type);
 int		display_errors_redirect3(t_msl *ms, int type);
 int		display_errors_redirect4(t_msl *ms, int type);
 int		ms_strcmp(char *s1, char *s2);
-int		parsing_echo(t_msl *ms);
 int		parsing_errors(t_msl *ms);
 int		parsing_pipes_input(t_msl *ms);
 int		parsing_quotes(t_msl *ms);
 
 void	count_pipes(t_msl *ms);
+void	parsing_echo(t_msl *ms);
 
 void	execution(t_msl *ms, char *input, char **envp);
 void	create_pipe(char **args_cmd, t_msl *ms, char **envp);

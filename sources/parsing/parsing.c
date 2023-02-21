@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 16:09:35 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:32:07 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	read_prompt(t_msl *ms, char **envp)
 	if (ms->input[0] == '\0' || parsing_quotes(ms) == -1 || \
 	parsing_errors(ms) == -1)
 		return (free(ms->input));
-	// if (ft_strncmp(ms->input, "echo", 4) == 0)
-	// 	return (parsing_echo(ms));
+	if (ft_strncmp(ms->input, "echo", 4) == 0)
+		parsing_echo(ms);
 	ms->cmds = ft_calloc(ms->c_pipe + 2, sizeof(char **));
 	if (!ms->cmds)
 		return ;
