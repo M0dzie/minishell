@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 14:37:35 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/21 15:47:59 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	*get_after_quote(char *input, int index);
 char	*get_before_quote(char *input, int index);
 
 int		check_opened_quotes(t_msl *ms, int i, char c);
-int		count_pipes(char *input);
 int		display_errors(t_msl *ms, int type);
 int		display_errors_pipe(t_msl *ms, int type);
 int		display_errors_redirect(t_msl *ms, int type);
@@ -56,13 +55,15 @@ int		parsing_echo(t_msl *ms);
 int		parsing_errors(t_msl *ms);
 int		parsing_quotes(t_msl *ms);
 
+void	count_pipes(t_msl *ms);
+
 void	execution(t_msl *ms, char *input, char **envp);
 void	create_pipe(char **args_cmd, t_msl *ms, char **envp);
 char	*get_cmd_path(char *cmd, char **envp);
 void	execute_cmd(char **cmd_args, char **envp);
 int		display_error_exec(char *first, char *second, int num_error);
 void	handle_cmd(t_msl *ms, char **tmp_args, char **envp);
-void    init_env(t_msl *ms, char **envp);
+void	init_env(t_msl *ms, char **envp);
 
 void	exec_exit(t_msl *ms, char **args_cmd);
 void	exec_pwd(t_msl *ms, char **args_cmd, char **envp);
