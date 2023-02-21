@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 13:56:33 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:29:49 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
 
 typedef struct s_msl
 {
@@ -53,6 +60,8 @@ void	create_pipe(char **args_cmd, t_msl *ms, char **envp);
 char	*get_cmd_path(char *cmd, char **envp);
 void	execute_cmd(char **cmd_args, char **envp);
 int		display_error_exec(char *first, char *second, int num_error);
+void	handle_cmd(t_msl *ms, char **tmp_args, char **envp);
+void    init_env(t_msl *ms, char **envp);
 
 void	exec_exit(t_msl *ms, char **args_cmd);
 void	exec_pwd(t_msl *ms, char **args_cmd, char **envp);

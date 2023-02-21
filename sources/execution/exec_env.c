@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:38:38 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/21 09:39:09 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/21 14:31:53 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void	exec_env(t_msl *ms, char **args_cmd, char **envp)
 {	
-	int	i;
+	// int	i;
 
-	i = -1;
-	while (envp[++i])
-		printf("%s\n", envp[i]);
-	printf("\n");
-	create_pipe(args_cmd, ms, envp);
+	// i = -1;
+	// while (envp[++i])
+	// 	printf("%s\n", envp[i]);
+	// printf("\n");
+	// create_pipe(args_cmd, ms, envp);
+	handle_cmd(ms, args_cmd, envp);
 }
