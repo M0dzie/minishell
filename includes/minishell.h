@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 16:32:28 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 17:07:19 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-typedef struct s_env
+typedef struct s_var
 {
 	char			*name;
 	char			*value;
-	struct s_env	*next;
-}					t_env;
+	struct s_var	*next;
+}					t_var;
 
 typedef struct s_msl
 {
