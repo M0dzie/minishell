@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/20 13:44:16 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:46:07 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	read_prompt(t_msl *ms, char **envp)
 	// if (ft_strncmp(ms->input, "echo", 4) == 0)
 	// 	return (parsing_echo(ms));
 	ms->c_pipe = count_pipes(ms->input);
+	ms->c_cmd = count_pipes(ms->input) + 1;
 	ms->cmds = ft_calloc(ms->c_pipe + 2, sizeof(char **));
 	if (!ms->cmds)
 		return ;
