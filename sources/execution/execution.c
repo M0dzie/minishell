@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/21 14:33:02 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/21 16:02:00 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
 	{
 		close(pipefd[1]);
 		dup2(pipefd[0], 0);
-		wait(NULL);
+		// wait(NULL);
 		// waitpid(pid, &rtn, 0);
 	}
 }
