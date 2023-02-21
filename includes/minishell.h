@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 09:45:46 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/21 11:06:00 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ typedef struct s_msl
 	int			rtn_int;
 }				t_msl;
 
-char	*clear_line(char *input, char *before_line, char *line, char *next_line);
+char	*clear_line(char *input, char *before_line, char *line, \
+		char *next_line);
 char	*del_quotes(char *input, int index, int lst_quote, char c);
 char	*get_after_quote(char *input, int index);
 char	*get_before_quote(char *input, int index);

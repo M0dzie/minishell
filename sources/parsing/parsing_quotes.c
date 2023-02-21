@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_quotes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/20 19:17:50 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 11:15:59 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,65 +21,6 @@ int	check_opened_quotes(t_msl *ms, int i, char c)
 	if (ms->input[i] == c)
 		return (ms->lst_quote = i, 0);
 	return (1);
-}
-
-char	*get_before_quote(char *input, int index)
-{
-	int		i;
-	char	*before_quote;
-
-	i = -1;
-	before_quote = malloc(sizeof(char) * index + 1);
-	if (!before_quote)
-		return (NULL);
-	while (++i < index)
-		before_quote[i] = input[i];
-	before_quote[i] = '\0';
-	printf("before_quote = %s\n", before_quote);
-	return (before_quote);
-}
-
-char	*get_after_quote(char *input, int index)
-{
-	int		i;
-	int		len;
-	char	*after_quote;
-
-	i = -1;
-	len = ft_strlen(input) - index;
-	after_quote = ft_calloc(len + 1, sizeof(char));
-	if (!after_quote)
-		return (NULL);
-	while (i++ < len)
-		after_quote[i] = input[index + i];
-	printf("after_quote = %s\n", after_quote);
-	return (after_quote);
-}
-
-char	*clear_line(char *input, char *before_quote, char *line, char *after_quote)
-{
-	int		i;
-	int		j;
-	int		w_len;
-	char	*clear;
-
-	i = -1;
-	j = -1;
-	clear = ft_calloc(ft_strlen(before_quote) + ft_strlen(after_quote) + 1, \
-	sizeof(char));
-	if (!clear)
-		return (NULL);
-	while (before_quote[++i])
-		clear[i] = before_quote[i];
-	printf("b_clear = %s\n", clear);
-	while (++j < (ft_strlen(input) - ft_strlen(after_quote) - 2))
-		clear[i++] = line[j];
-	j = -1;
-	printf("l_clear = %s\n", clear);
-	while (after_quote[++j])
-		clear[i++] = after_quote[j];
-	printf("a_clear = %s\n", clear);
-	return (free(line), clear);
 }
 
 char	*del_quotes(char *input, int index, int lst_quote, char quote)
@@ -148,7 +89,8 @@ int	parsing_quotes(t_msl *ms)
 		{
 			if (check_opened_quotes(ms, i + 1, ms->input[i]))
 				return (display_errors(ms, ms->input[i]));
-			ms->input = del_quotes(ms->input, i, ms->lst_quote + 1, ms->input[i]);
+			ms->input = del_quotes(ms->input, i, ms->lst_quote + 1, \
+			ms->input[i]);
 			i = ms->lst_quote - 2;
 		}
 		// if (ms->input[ms->lst_quote - 1] == '\0')
