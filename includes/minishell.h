@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 14:29:49 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/21 14:37:35 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_msl
 	int			c_pipe;
 	int			lst_quote;
 	int			rtn_int;
+	int			c_cmd;
 }				t_msl;
 
 char	*clear_line(char *before_line, char *new_word, char *next_line);
