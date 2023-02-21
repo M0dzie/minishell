@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:41:27 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/21 14:31:37 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/21 14:49:58 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ void	exec_echo(t_msl *ms, char **args_cmd, char **envp)
 
 	// printf("Errno : %d\n", errno);
 	
-	create_pipe(args_cmd, ms, envp);
+	// create_pipe(args_cmd, ms, envp);
 	handle_cmd(ms, args_cmd, envp);
 }
