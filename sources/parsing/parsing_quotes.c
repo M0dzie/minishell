@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 11:15:59 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 11:35:28 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ int	check_opened_quotes(t_msl *ms, int i, char c)
 		return (ms->lst_quote = i, 0);
 	return (1);
 }
+
+// int	word_en(char *input, int i, char quote)
+// {
+// 	int	len;
+
+// 	len = 0;
+// 	while (input[i++] != quote)
+// 		len++;
+// }
 
 char	*del_quotes(char *input, int index, int lst_quote, char quote)
 {
