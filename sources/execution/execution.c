@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/20 22:05:31 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/21 10:21:29 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,22 @@ void	execute_cmd(char **cmd_args, char **envp)
 	exit(127);
 }
 
+// void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
+// {
+// 	(void)args_cmd;
+// 	(void)ms;
+
+// 	pid_t	pid;
+// 	int		pipefd[2];
+
+// 	pipe(pipefd);
+// 	pid = fork();
+// 	if (pid == 0)
+// 		execute_cmd(args_cmd, envp);
+// 	else
+// 		wait(NULL);
+// }
+
 void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
 {
 	(void)args_cmd;
@@ -79,13 +95,23 @@ void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
 
 	pid_t	pid;
 	int		pipefd[2];
+	int		rtn;
 
 	pipe(pipefd);
 	pid = fork();
 	if (pid == 0)
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
 		execute_cmd(args_cmd, envp);
+	}
 	else
-		wait(NULL);
+	{
+		close(pipefd[1]);
+		dup2(pipefd[0], 0);
+		// wait(NULL);
+		waitpid(pid, &rtn, 0);
+	}
 }
 
 int	strict_cmp(const char *builts, const char *cmd)
@@ -125,43 +151,11 @@ int	is_builtins(char *cmd)
 	return (0);
 }
 
-void	exec_echo(t_msl *ms, char **args_cmd, char **envp)
-{
-	// if $? in parsing change this with ms->rtn_int
-	// char	*tmp_arg[] = {"echo", ft_itoa(ms->rtn_int), NULL};
-	// create_pipe(tmp_arg, ms, envp);
-
-	// printf("Errno : %d\n", errno);
-	
-	create_pipe(args_cmd, ms, envp);
-}
-
-void	exec_env(t_msl *ms, char **args_cmd, char **envp)
-{	
-	int	i;
-
-	i = -1;
-	while (envp[++i])
-		printf("%s\n", envp[i]);
-	printf("\n");
-	create_pipe(args_cmd, ms, envp);
-}
-
 void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
 {
 	(void)ms;
 	(void)envp;
 
-	// char	*tmp_path;
-	// char	**tmp_args;
-
-	// tmp_path = get_cmd_path(args_cmd[0], envp);
-	// tmp_args = ft_calloc(1, sizeof(char *));
-	// tmp_args = ft_arradd_back(tmp_args, tmp_path);
-
-	// ft_printf("%s\n", tmp_args[0]);
-
-	// ft_printf("Builtins function : %s\n", tmp_path[0]);
 	if (strict_cmp("echo", args_cmd[0]))
 		exec_echo(ms, args_cmd, envp);
 	else if (strict_cmp("cd", args_cmd[0]))		// WIP
@@ -169,9 +163,9 @@ void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
 	else if (strict_cmp("pwd", args_cmd[0]))		// DONE
 		exec_pwd(ms, args_cmd, envp);
 	else if (strict_cmp("export", args_cmd[0]))
-		ft_printf("export execution\n");
+		exec_export(ms, args_cmd, envp);
 	else if (strict_cmp("unset", args_cmd[0]))
-		ft_printf("unset execution\n");
+		exec_unset(ms, args_cmd, envp);
 	else if (strict_cmp("env", args_cmd[0]))
 		exec_env(ms, args_cmd, envp);
 	else if (strict_cmp("exit", args_cmd[0]))		// DONE
