@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:13:09 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 11:15:10 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 13:59:47 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ char	*get_before_quote(char *input, int index)
 	while (++i < index)
 		before_quote[i] = input[i];
 	before_quote[i] = '\0';
-	printf("before_quote = %s\n", before_quote);
 	return (before_quote);
 }
 
@@ -41,12 +40,10 @@ char	*get_after_quote(char *input, int index)
 		return (NULL);
 	while (i++ < len)
 		after_quote[i] = input[index + i];
-	printf("after_quote = %s\n", after_quote);
 	return (after_quote);
 }
 
-char	*clear_line(char *input, char *before_quote, char *line, \
-char *after_quote)
+char	*clear_line(char *before_quote, char *new_word, char *after_quote)
 {
 	int		i;
 	int		j;
@@ -61,13 +58,10 @@ char *after_quote)
 		return (NULL);
 	while (before_quote[++i])
 		clear[i] = before_quote[i];
-	printf("b_clear = %s\n", clear);
-	while (++j < (ft_strlen(input) - ft_strlen(after_quote) - 2))
-		clear[i++] = line[j];
+	while (++j < ft_strlen(new_word))
+		clear[i++] = new_word[j];
 	j = -1;
-	printf("l_clear = %s\n", clear);
 	while (after_quote[++j])
 		clear[i++] = after_quote[j];
-	printf("a_clear = %s\n", clear);
-	return (free(line), clear);
+	return (clear);
 }

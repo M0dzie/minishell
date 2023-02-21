@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 11:35:28 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 13:59:39 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,69 +23,39 @@ int	check_opened_quotes(t_msl *ms, int i, char c)
 	return (1);
 }
 
-// int	word_en(char *input, int i, char quote)
-// {
-// 	int	len;
+char	*word_to_change(char *input, char quote)
+{
+	int		len;
+	char	*word;
 
-// 	len = 0;
-// 	while (input[i++] != quote)
-// 		len++;
-// }
+	len = 0;
+	while (input[len] != quote)
+		len++;
+	word = ft_calloc(len + 1, sizeof(char));
+	if (!word)
+		return (NULL);
+	while (len--)
+		word[len] = input[len];
+	return (word);
+}
 
 char	*del_quotes(char *input, int index, int lst_quote, char quote)
 {
-	int		i;
+	char	*new_word;
 	char	*before_quote;
-	char	*new_line;
 	char	*after_quote;
-	char	**split;
+	char	*new_line;
 
-	i = -1;
 	before_quote = get_before_quote(input, index);
+	new_word = word_to_change(input + index + 1, quote);
 	after_quote = get_after_quote(input, lst_quote);
-	new_line = ft_calloc(1, 1);
-	split = ft_split(input + index, quote);
-	if (!new_line || !before_quote || !split || !after_quote)
+	if (!before_quote || !new_word || !after_quote)
 		return (NULL);
-	while (split[++i])
-	{
-		new_line = ft_strjoin(new_line, split[i]);
-		if (!new_line)
-			return (NULL);
-	}
-	ft_arrfree(split);
-	new_line = clear_line(input, before_quote, new_line, after_quote);
+	new_line = clear_line(before_quote, new_word, after_quote);
 	if (!new_line)
 		return (NULL);
-	printf("new_line = %s\n", new_line);
-	return (free(before_quote), free(after_quote), new_line);
+	return (free(before_quote), free(new_word), free(after_quote), new_line);
 }
-
-// char	*del_quotes(char *input, int index, char c)
-// {
-// 	int		i;
-// 	char	*old_line;
-// 	char	*new_line;
-// 	char	**split;
-
-// 	i = -1;
-// 	old_line = get_before_quote(input, index);
-// 	new_line = ft_calloc(1, 1);
-// 	split = ft_split(input + index, c);
-// 	if (!new_line || !old_line || !split)
-// 		return (NULL);
-// 	while (split[++i])
-// 	{
-// 		new_line = ft_strjoin(new_line, split[i]);
-// 		if (!new_line)
-// 			return (NULL);
-// 	}
-// 	ft_arrfree(split);
-// 	new_line = ft_strjoin(old_line, new_line);
-// 	if (!new_line)
-// 		return (NULL);
-// 	return (free(old_line), new_line);
-// }
 
 int	parsing_quotes(t_msl *ms)
 {
@@ -102,8 +72,6 @@ int	parsing_quotes(t_msl *ms)
 			ms->input[i]);
 			i = ms->lst_quote - 2;
 		}
-		// if (ms->input[ms->lst_quote - 1] == '\0')
-		// 	break ;
 	}
 	if (ms->input[0] == '\0' || ms->input[0] == ' ')
 		return (display_errors_pipe(ms, ms->input[0]));
