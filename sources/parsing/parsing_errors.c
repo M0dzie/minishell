@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 13:27:49 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:10:03 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,24 @@ int	display_errors_pipe(t_msl *ms, int type)
 	return (-1);
 }
 
+int	parsing_pipes_input(t_msl *ms)
+{
+	int	i;
+
+	i = -1;
+	while (ms->input[++i])
+	{
+		if (ms->input[i] == '|' && !ms->input[i + 1])
+			return (ft_putendl_fd("syntax error near unexpected token '|'", \
+			2), -1);
+	}
+	return (0);
+}
+
 int	parsing_errors(t_msl *ms)
 {
+	if (ms->c_pipe > 0)
+		return (parsing_pipes_input(ms));
 	if (ms->input[0] == '/' && (ms->input[1] == '.' || \
 	ms->input[1] == '/') || ms->input[0] == ' ')
 		return (display_errors_pipe(ms, ms->input[0]));
