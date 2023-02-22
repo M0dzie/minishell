@@ -3,44 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:07:13 by msapin            #+#    #+#             */
-/*   Updated: 2023/02/22 12:06:24 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/22 17:45:46 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	display_env(t_var **stack, char **envp)		// need cleanup of unused envp
+void	display_env(t_msl *ms)
 {
 	t_var	*vars;
-	int		i = 0;
 
-	if (!(*stack))
+	if (!ms->env)
 		return ;
-	else
+	vars = ms->env;
+	while (vars != NULL)
 	{
-		vars = (*stack);
-		while (vars != NULL)
-		{
-			// printf("%s\n", envp[i]);
-			printf("%s=%s\n", vars->name, vars->value);
-			vars = vars->next;
-			i++;
-		}
+		printf("%s=%s\n", vars->name, vars->value);
+		vars = vars->next;
 	}
 }
 
-void	var_add_back(t_var **stack, t_var *var)
+void	var_add_back(t_msl *ms, t_var *var)
 {
 	t_var	*add_back;
 
-	if (!(*stack))
-		(*stack) = var;
+	if (!ms->env->name)
+		ms->env = var;
 	else
 	{
-		add_back = (*stack);
+		add_back = ms->env;
 		while (add_back->next != NULL)
 			add_back = add_back->next;
 		add_back->next = var;
@@ -88,17 +82,18 @@ void	init_env(t_msl *ms, char **envp)
 {
 	char	**tmp_split;
 	int		i;
-	t_var	*env_vars;
-
-	// add protection if not envp
 
 	i = -1;
-	while (envp[++i])
+	ms->env = ft_calloc(ft_arrlen(envp), sizeof(char *));
+	if (!ms->env)
+	{
+		display_error_exec("bash: ", "ms->env: ", 6);
+		return ;
+	}
+	// while (envp[++i])
+	while (i++ < 5)
 	{
 		tmp_split = split_equal(envp[i]);
-		var_add_back(&env_vars, new_var(tmp_split[0], tmp_split[1]));
+		var_add_back(ms, new_var(tmp_split[0], tmp_split[1]));
 	}
-	if (tmp_split)
-		ft_arrfree(tmp_split);
-	display_env(&env_vars, envp);
 }
