@@ -3,14 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:07:13 by msapin            #+#    #+#             */
-/*   Updated: 2023/02/22 17:45:46 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/22 22:12:08 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	envsize(t_msl *ms)
+{
+	int		envsize;
+	t_var	*tmp_env;
+
+	envsize = 0;
+	tmp_env = ms->env;
+	while (tmp_env != NULL)
+	{
+		envsize++;
+		tmp_env = tmp_env->next;
+	}
+	return (envsize);
+}
+
+char	*getenv_var(char *name, char *value)
+{
+	char 	*str_var;
+	int		varlen;
+	int		i;
+	int		j;
+
+	varlen = ft_strlen(name) + ft_strlen(value) + 1;
+	str_var = ft_calloc(varlen + 1, sizeof(char));
+	if (!str_var)
+		return (display_error_exec("bash: ", "getenv_var: ", 6), NULL);
+	i = -1;
+	while (name[++i])
+		str_var[i] = name[i];
+	str_var[i] = '=';
+	i += 1;
+	j = -1;
+	while (value[++j])
+		str_var[i + j] = value[j];
+	return (str_var);
+}
+
+char	**ft_getenv(t_msl *ms)
+{
+	t_var	*tmp_env;
+	char 	**getenv;
+	int		nb_var;
+	int		i;
+
+	nb_var = envsize(ms);
+	getenv = ft_calloc(nb_var, sizeof(char *));
+	if (!getenv)
+		return (display_error_exec("bash: ", "ms->env: ", 6), NULL);
+	if (nb_var == 0)
+		return (display_error_exec("bash: ", "getenv: ", 8), NULL);
+	tmp_env = ms->env;
+	i = 0;
+	while (tmp_env != NULL)
+	{
+		getenv[i] = getenv_var(tmp_env->name, tmp_env->value);
+		tmp_env = tmp_env->next;
+		i++;
+	}
+	return (getenv);
+}
 
 void	display_env(t_msl *ms)
 {
@@ -90,8 +151,8 @@ void	init_env(t_msl *ms, char **envp)
 		display_error_exec("bash: ", "ms->env: ", 6);
 		return ;
 	}
-	// while (envp[++i])
-	while (i++ < 5)
+	while (envp[++i])
+	// while (i++ < 5)
 	{
 		tmp_split = split_equal(envp[i]);
 		var_add_back(ms, new_var(tmp_split[0], tmp_split[1]));
