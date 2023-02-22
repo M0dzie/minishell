@@ -6,94 +6,94 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:04:40 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/22 13:47:40 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/22 17:57:37 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	display_errors_redirect(t_msl *ms, int type)
+int	display_errors_redirect(char *input, int type)
 {
 	int	i;
 
 	i = 1;
 	ft_putstr_fd("minishell: ", 2);
-	if (ms->input[i] == type)
+	if (input[i] == type)
 		i++;
-	while (ms->input[i] == ' ' || ms->input[i] == '\t')
+	while (input[i] == ' ' || input[i] == '\t')
 		i++;
-	if (ms->input[i] == '|')
+	if (input[i] == '|')
 		return (ft_putendl_fd("syntax error near unexpected token '|'", \
 		2), -1);	
-	if (type == '<' && ms->input[1] == '<' && ms->input[2] == '<')
+	if (type == '<' && input[1] == '<' && input[2] == '<')
 		return (ft_putendl_fd("syntax error near unexpected token '<<'", 2), \
 		-1);
-	if (type == '>' && ms->input[1] == '>' && ms->input[2] == '>')
+	if (type == '>' && input[1] == '>' && input[2] == '>')
 		return (ft_putendl_fd("syntax error near unexpected token '>>'", 2), \
 		-1);
-	if (ms->input[1] == '\0' || (ms->input[1] == type && \
-	ms->input[2] == '\0') || (ms->input[0] == '<' && ms->input[1] == '>' && \
-	ms->input[2] == '\0'))
+	if (input[1] == '\0' || (input[1] == type && \
+	input[2] == '\0') || (input[0] == '<' && input[1] == '>' && \
+	input[2] == '\0'))
 		return (ft_putendl_fd("syntax error near unexpected token 'newline'", \
 		2), -1);
-	return (display_errors_redirect2(ms, type));
+	return (display_errors_redirect2(input, type));
 }
 
-int	display_errors_redirect2(t_msl *ms, int type)
+int	display_errors_redirect2(char *input, int type)
 {
 	int	i;
 
 	i = 0;
-	if (ms->input[0] == '>' && ms->input[1] == '<')
+	if (input[0] == '>' && input[1] == '<')
 		return (ft_putendl_fd("syntax error near unexpected token '<'", 2), -1);
-	if (ms->input[0] == '<' && ms->input[1] == '>')
+	if (input[0] == '<' && input[1] == '>')
 		i = 2;
-	while (ms->input[i] == ' ' || ms->input[i] == '\t')
+	while (input[i] == ' ' || input[i] == '\t')
 		i++;
-	if (ms->input[i] == '|')
+	if (input[i] == '|')
 		return (ft_putendl_fd("syntax error near unexpected token '|'", \
 		2), -1);
-	else if (ft_isalpha(ms->input[i]))
+	else if (ft_isalpha(input[i]))
 		return (0);
-	return (display_errors_redirect3(ms, type));
+	return (display_errors_redirect3(input, type));
 }
 
-int	display_errors_redirect3(t_msl *ms, int type)
+int	display_errors_redirect3(char *input, int type)
 {
 	int	i;
 
 	i = 0;
 
-	if ((type == '<' && ms->input[1] == '<') || (type == '>' && \
-	ms->input[1] == '>'))
+	if ((type == '<' && input[1] == '<') || (type == '>' && \
+	input[1] == '>'))
 	{
 		i = 2;
-		while (ms->input[i] == ' ' || ms->input[i] == '\t')
+		while (input[i] == ' ' || input[i] == '\t')
 			i++;
-		if (ms->input[i] == '<' && ms->input[i + 1] == '<')
+		if (input[i] == '<' && input[i + 1] == '<')
 			return (ft_putendl_fd("syntax error near unexpected token '<<'", \
 			2), -1);
-		if (ms->input[i] == '>' && ms->input[i + 1] == '>')
+		if (input[i] == '>' && input[i + 1] == '>')
 			return (ft_putendl_fd("syntax error near unexpected token '>>'", \
 			2), -1);
 	}
-	return (display_errors_redirect4(ms, type));
+	return (display_errors_redirect4(input, type));
 }
 
-int	display_errors_redirect4(t_msl *ms, int type)
+int	display_errors_redirect4(char *input, int type)
 {
 	int	i;
 
 	i = 0;
-	if ((type == '<' || type == '>') && ms->input[1] == ' ')
+	if ((type == '<' || type == '>') && input[1] == ' ')
 	{
 		i++;
-		while (ms->input[i] == ' ' || ms->input[i] == '\t')
+		while (input[i] == ' ' || input[i] == '\t')
 			i++;
-		if (ms->input[i] == '<')
+		if (input[i] == '<')
 			return (ft_putendl_fd("syntax error near unexpected token '<'", \
 			2), -1);
-		if (ms->input[i] == '>')
+		if (input[i] == '>')
 			return (ft_putendl_fd("syntax error near unexpected token '>'", \
 			2), -1);
 	}
