@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/21 16:02:00 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/22 18:45:11 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ int	display_error_exec(char *first, char *second, int num_error)
 	err[3] = ": environnement PATH not found";
 	err[4] = ": environnement SHELL not found";
 	err[5] = ": command not found";
-	err[6] = "cannot allocate memory : ";
+	err[6] = "cannot allocate memory";
 	err[7] = ": cannot create or modify: ";
 	err[8] = ": environnement VARIABLES not found";
 	err[9] = ": warning: here-document delimited by end-of-file, wanted: ";
 	err[10] = "too many arguments";
 	err[11] = ": numeric argument required";
 	err[12] = ": Not a directory";
+	err[13] = "': Permission denied";
 	ft_putstr_fd(first, 2);
 	ft_putstr_fd(second, 2);
 	ft_putendl_fd(err[num_error], 2);
