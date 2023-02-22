@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/22 13:48:50 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/22 15:34:30 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	display_errors(t_msl *ms, int type)
 		ft_putendl_fd("syntax error near unexpected token ';'", 2);
 	if (type == ';' && ms->input[1] == ';')
 		ft_putendl_fd("syntax error near unexpected token ';;'", 2);
-	if (type == '(' && (ms->input[1] == ' ' || ms->input[1] == '\0' \
-	|| ms->input[1] == ')' || ms->input[1] == '('))
+	if ((type == '(' || type == ')') && (ms->input[1] == ' ' || \
+	ms->input[1] == '\0' || ms->input[1] == ')' || ms->input[1] == '('))
 		ft_putendl_fd("syntax error near unexpected token ')'", 2);
 	return (-1);
 }
@@ -63,34 +63,49 @@ int	display_errors_pipe(t_msl *ms, int type)
 	return (-1);
 }
 
-int	parsing_pipes_input(t_msl *ms)
+// int	parsing_pipes_input(t_msl *ms)
+// {
+// 	int	i;
+
+// 	i = -1;
+// 	while (ms->input[++i])
+// 	{
+// 		if (ms->input[i] == '|' && !ms->input[i + 1])
+// 			return (ft_putendl_fd("syntax error near unexpected token '|'", \
+// 			2), -1);
+// 	}
+// 	return (0);
+// }
+
+int	pos_pipes(char *input)
 {
 	int	i;
 
-	i = -1;
-	while (ms->input[++i])
+	i = 0;
+	while (input[i])
 	{
-		if (ms->input[i] == '|' && !ms->input[i + 1])
-			return (ft_putendl_fd("syntax error near unexpected token '|'", \
-			2), -1);
+		if (input[i] == '|' && input[i + 1])
+			return (i + 1);
+		i++;
 	}
 	return (0);
 }
 
-int	parsing_errors(t_msl *ms)
+int	parsing_errors(t_msl *ms, char *input, int c_pipe)
 {
-	if (ms->input[0] == '/' && (ms->input[1] == '.' || \
-	ms->input[1] == '/') || ms->input[0] == ' ')
-		return (display_errors_pipe(ms, ms->input[0]));
-	if (ms->input[0] == '|' || ms->input[0] == '&' || ms->input[0] == ';' \
-	|| ms->input[0] == '(')
-		return (display_errors(ms, ms->input[0]));
-	if (ms->input[0] == '>' || ms->input[0] == '<')
-		return (display_errors_redirect(ms, ms->input[0]));
-	if (ms->input[0] == '!' || ms->input[0] == ':' || ms->input[0] == '\t' \
-	|| ms->input[0] == '#')
+	if (input[0] == '/' && (input[1] == '.' || \
+	input[1] == '/') || input[0] == ' ')
+		return (display_errors_pipe(ms, input[0]));
+	if (input[0] == '|' || input[0] == '&' || input[0] == ';' \
+	|| input[0] == '(' || input[0] == ')')
+		return (display_errors(ms, input[0]));
+	if (input[0] == '>' || input[0] == '<')
+		return (display_errors_redirect(ms, input[0]));
+	if (input[0] == '!' || input[0] == ':' || input[0] == '\t' \
+	|| input[0] == '#')
 		return (-1);
-	if (ms->c_pipe > 0)
-		return (parsing_pipes_input(ms));
+	if (c_pipe > 0)
+		parsing_errors(ms, input + pos_pipes(input), c_pipe - 1);
+		// return (parsing_pipes_input(ms));
 	return (0);
 }
