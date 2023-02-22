@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:07:13 by msapin            #+#    #+#             */
-/*   Updated: 2023/02/21 18:48:10 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/22 12:06:24 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	display_env(t_var **stack)
+void	display_env(t_var **stack, char **envp)		// need cleanup of unused envp
 {
 	t_var	*vars;
+	int		i = 0;
 
 	if (!(*stack))
 		return ;
@@ -23,8 +24,10 @@ void	display_env(t_var **stack)
 		vars = (*stack);
 		while (vars != NULL)
 		{
+			// printf("%s\n", envp[i]);
 			printf("%s=%s\n", vars->name, vars->value);
 			vars = vars->next;
+			i++;
 		}
 	}
 }
@@ -64,22 +67,20 @@ char	**split_equal(char *env_var)
 	int		len;
 	int		len_two;
 
-	// split_equal
 	len = 0;
 	split_equal = ft_calloc(3, sizeof(char *));
 	while (env_var[len] != '=')
 		len++;
-	split_equal[0] = ft_calloc(len, sizeof(char));
+	split_equal[0] = ft_calloc(len + 1, sizeof(char));
 	i = -1;
 	while (++i < len)
 		split_equal[0][i] = env_var[i];
-	len + 1;
+	len += 1;
 	len_two = ft_strlen(env_var) - len;
-	split_equal[1] = ft_calloc(len_two, sizeof(char));
+	split_equal[1] = ft_calloc(len_two + 1, sizeof(char));
 	i = -1;
 	while (++i < len_two)
 		split_equal[1][i] = env_var[i + len];
-	// printf("len end line : %d\n", len_two);
 	return (split_equal);
 }
 
@@ -89,15 +90,15 @@ void	init_env(t_msl *ms, char **envp)
 	int		i;
 	t_var	*env_vars;
 
+	// add protection if not envp
+
 	i = -1;
 	while (envp[++i])
-	// while (++i < 1)
 	{
 		tmp_split = split_equal(envp[i]);
-		// printf("%s = %s\n", tmp_split[0], tmp_split[1]);
 		var_add_back(&env_vars, new_var(tmp_split[0], tmp_split[1]));
-		// printf("VAR NAME : %s\n", tmp_split[0]);
-		// printf("VALUE : %s\n\n", tmp_split[1]);
 	}
-	display_env(&env_vars);
+	if (tmp_split)
+		ft_arrfree(tmp_split);
+	display_env(&env_vars, envp);
 }
