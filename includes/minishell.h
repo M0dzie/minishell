@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/22 18:19:10 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/22 18:47:26 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*get_before_quote(char *input, int index);
 
 int		check_opened_quotes(t_msl *ms, int i, char c);
 int		display_errors(char *input, int type);
-int		display_errors_pipe(char *input, int type);
+int		display_errors_pipe(t_msl *ms, char *input, int type);
 int		display_errors_redirect(char *input, int type);
 int		display_errors_redirect2(char *input, int type);
 int		display_errors_redirect3(char *input, int type);

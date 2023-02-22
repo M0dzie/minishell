@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/22 18:19:30 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/22 18:54:47 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	display_errors(char *input, int type)
 	return (-1);
 }
 
-int	display_errors_pipe(char *input, int type)
+int	display_errors_pipe(t_msl *ms, char *input, int type)
 {
 	int	i;
 
@@ -50,7 +50,7 @@ int	display_errors_pipe(char *input, int type)
 			ft_putchar_fd(input[i], 2);
 		ft_putendl_fd(": command not found", 2);
 		if (input[i] == '|')
-			return (input = ft_strtrim(&input[i + 1], " "), 0);
+			return (ms->input = ft_strtrim(&input[i + 1], " "), 0);
 	}
 	if (type == '/')
 	{
@@ -58,7 +58,7 @@ int	display_errors_pipe(char *input, int type)
 			ft_putchar_fd(input[i], 2);
 		ft_putendl_fd(": Is a directory", 2);
 		if (input[i] == '|')
-			return (input += i + 1, 0);
+			return (ms->input += i + 1, 0);
 	}
 	return (-1);
 }
@@ -83,7 +83,7 @@ int	parsing_errors(t_msl *ms, char *input, int c_pipe)
 {
 	if (input[0] == '/' && (input[1] == '.' || \
 	input[1] == '/') || input[0] == ' ')
-		return (display_errors_pipe(input, input[0]));
+		return (display_errors_pipe(ms, input, input[0]));
 	if (input[0] == '|' || input[0] == '&' || input[0] == ';' \
 	|| input[0] == '(' || input[0] == ')')
 		return (display_errors(input, input[0]));

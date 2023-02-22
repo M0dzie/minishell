@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/22 18:20:35 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/22 18:47:47 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,6 @@ int	parsing_quotes(t_msl *ms)
 		}
 	}
 	if (ms->input[0] == '\0' || ms->input[0] == ' ')
-		return (display_errors_pipe(ms->input, ms->input[0]));
+		return (display_errors_pipe(ms, ms->input, ms->input[0]));
 	return (0);
 }

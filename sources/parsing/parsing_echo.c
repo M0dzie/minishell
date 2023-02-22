@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 21:55:22 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 16:32:16 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/22 18:31:34 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@
 
 void	parsing_echo(t_msl *ms)
 {
-	printf("enter parsing echo\n");
+	printf("input_echo = %s\n", ms->input);
 }
