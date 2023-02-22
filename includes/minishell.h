@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/21 18:26:36 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/22 14:08:39 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,16 @@ typedef struct s_var
 
 typedef struct s_msl
 {
-	char		*input;
-	char		**split;
-	char		***cmds;
-	int			c_pipe;
-	int			lst_quote;
-	int			rtn_int;
-	int			c_cmd;
-}				t_msl;
+	char	*input;
+	char	**split;
+	char	***cmds;
+	int		c_pipe;
+	int		lst_quote;
+	int		rtn_int;
+	int		c_cmd;
+	t_var	*env;
+	pid_t	pid;
+}			t_msl;
 
 char	*clear_line(char *before_line, char *new_word, char *next_line);
 char	*del_quotes(char *input, int index, int lst_quote, char c);
