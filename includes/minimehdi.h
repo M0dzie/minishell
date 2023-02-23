@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 17:05:37 by msapin            #+#    #+#             */
-/*   Updated: 2023/02/23 14:07:25 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/23 15:19:54 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@ char	**ft_getenv(t_msl *ms);
 void	pipe_one(char **args_cmd, t_msl *ms, char **envp);
 int		strict_cmp(const char *builts, const char *cmd);
 t_var	*getvar(t_msl *ms, char *name);
+char	**split_equal(char *env_var);
 
 #endif
