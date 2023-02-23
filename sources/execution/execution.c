@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/23 16:33:37 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/23 19:06:18 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
 	else if (strict_cmp("cd", args_cmd[0]))		// WIP
 		exec_cd(ms, args_cmd, envp);
 	else if (strict_cmp("export", args_cmd[0]))
-		exec_export(ms, args_cmd, envp);
+		ms->status = exec_export(ms, args_cmd, envp);
 	else if (strict_cmp("unset", args_cmd[0]))
 		exec_unset(ms, args_cmd, envp);
 	else if (strict_cmp("exit", args_cmd[0]))		// DONE
