@@ -1,8 +1,2 @@
-#####			INFO			#####
-
-# libft changes
-void	free_tab(char **all_arg)	->		void	ft_arrfree(char **array)
-void	free_stack(t_list **lst)	->		void	ft_lstfree(t_list **lst)
-
 #####     NEED CHANGE     #####
 ls | ""  and "" | ls    ->    rajouter une condition de sortie pour un argument vide (cmd not found)
