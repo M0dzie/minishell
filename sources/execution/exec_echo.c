@@ -6,11 +6,12 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:41:27 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/21 14:49:58 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/23 13:32:41 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "../../includes/minimehdi.h"
 
 void	exec_echo(t_msl *ms, char **args_cmd, char **envp)
 {
@@ -21,5 +22,8 @@ void	exec_echo(t_msl *ms, char **args_cmd, char **envp)
 	// printf("Errno : %d\n", errno);
 	
 	// create_pipe(args_cmd, ms, envp);
-	handle_cmd(ms, args_cmd, envp);
+	if (strict_cmp(args_cmd[1], "$?"))
+		printf("%d\n", ms->status);
+	else
+		handle_cmd(ms, args_cmd, envp);
 }

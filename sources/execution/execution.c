@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/22 18:45:11 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/23 14:01:02 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,9 +160,9 @@ void	builtins_execution(t_msl *ms, char **args_cmd, char **envp)
 	if (strict_cmp("echo", args_cmd[0]))
 		exec_echo(ms, args_cmd, envp);
 	else if (strict_cmp("pwd", args_cmd[0]))		// DONE
-		exec_pwd(ms, args_cmd, envp);
+		ms->status = exec_pwd(ms, args_cmd, envp);
 	else if (strict_cmp("env", args_cmd[0]))
-		exec_env(ms, args_cmd, envp);
+		ms->status = exec_env(ms, args_cmd, envp);
 	else if (strict_cmp("cd", args_cmd[0]))		// WIP
 		exec_cd(ms, args_cmd, envp);
 	else if (strict_cmp("export", args_cmd[0]))

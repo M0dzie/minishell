@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:07:13 by msapin            #+#    #+#             */
-/*   Updated: 2023/02/22 22:12:08 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/23 14:04:47 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "../../includes/minimehdi.h"
+
+t_var	*getvar(t_msl *ms, char *name)
+{
+	t_var	*tmp_stack;
+
+	tmp_stack = ms->env;
+	while (tmp_stack != NULL)
+	{
+		if (strict_cmp(tmp_stack->name, name))
+			return (tmp_stack);
+		tmp_stack = tmp_stack->next;
+	}
+	return (NULL);
+}
 
 int	envsize(t_msl *ms)
 {
