@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 21:21:14 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/23 13:27:55 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/23 14:01:14 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	invalid_pwd(char c)
 	return (2);
 }
 
-void	exec_pwd(t_msl *ms, char **args_cmd, char **envp)
+int	exec_pwd(t_msl *ms, char **args_cmd, char **envp)
 {
 	char	*tmp_path;
 	char	**tmp_args;
@@ -44,5 +44,5 @@ void	exec_pwd(t_msl *ms, char **args_cmd, char **envp)
 	}
 	if (valid == 0)
 		handle_cmd(ms, tmp_args, envp);
-	ms->status = valid;
+	return (valid);
 }
