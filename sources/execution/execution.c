@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/23 14:01:02 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/23 16:33:37 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	display_error_exec(char *first, char *second, int num_error)
 	err[11] = ": numeric argument required";
 	err[12] = ": Not a directory";
 	err[13] = "': Permission denied";
+	err[14] = "': not a valid identifier";
 	ft_putstr_fd(first, 2);
 	ft_putstr_fd(second, 2);
 	ft_putendl_fd(err[num_error], 2);
