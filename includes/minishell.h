@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/23 13:42:58 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/23 18:01:45 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ void	handle_cmd(t_msl *ms, char **tmp_args, char **envp);
 void	init_env(t_msl *ms, char **envp);
 
 void	exec_exit(t_msl *ms, char **args_cmd);
-void	exec_pwd(t_msl *ms, char **args_cmd, char **envp);
+int		exec_pwd(t_msl *ms, char **args_cmd, char **envp);
 void	exec_cd(t_msl *ms, char **args_cmd, char **envp);
-void	exec_env(t_msl *ms, char **args_cmd, char **envp);
+int		exec_env(t_msl *ms, char **args_cmd, char **envp);
 void	exec_echo(t_msl *ms, char **args_cmd, char **envp);
-void	exec_export(t_msl *ms, char **args_cmd, char **envp);
+int		exec_export(t_msl *ms, char **args_cmd, char **envp);
 void	exec_unset(t_msl *ms, char **args_cmd, char **envp);
 
 void	parsing_errors_echo(t_msl *sl);
