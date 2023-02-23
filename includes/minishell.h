@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/22 18:47:26 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/23 12:23:21 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int		display_errors_redirect(char *input, int type);
 int		display_errors_redirect2(char *input, int type);
 int		display_errors_redirect3(char *input, int type);
 int		display_errors_redirect4(char *input, int type);
+int		find_echo(t_msl *ms, char *input);
 int		ms_strcmp(char *s1, char *s2);
 int		parsing_errors(t_msl *ms, char *input, int c_pipe);
 int		parsing_pipes_input(t_msl *ms);
