@@ -1,2 +1,3 @@
 #####     NEED CHANGE     #####
+
 ls | ""  and "" | ls    ->    rajouter une condition de sortie pour un argument vide (cmd not found)
