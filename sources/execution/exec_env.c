@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:38:38 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/23 14:03:07 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/23 14:04:20 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,6 @@ int	is_denied(char *arg)
 	if (access(arg, W_OK) == 0)
 		return (display_error_exec("env: '", arg, 13), -1);
 	return (0);
-}
-
-t_var	*getvar(t_msl *ms, char *name)
-{
-	t_var	*tmp_stack;
-
-	tmp_stack = ms->env;
-	while (tmp_stack != NULL)
-	{
-		if (strict_cmp(tmp_stack->name, name))
-			return (tmp_stack);
-		tmp_stack = tmp_stack->next;
-	}
-	return (NULL);
 }
 
 int	cmd_valid(t_msl *ms, char **arg)
