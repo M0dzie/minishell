@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:07:13 by msapin            #+#    #+#             */
-/*   Updated: 2023/02/23 14:58:52 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/23 18:49:24 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,8 @@ char	**split_equal(char *env_var)
 	int		len;
 	int		len_two;
 
+	// if (!ft_strchr(env_var, '='))
+	// 	return (ft_split(env_var, '='));
 	len = 0;
 	split_equal = ft_calloc(3, sizeof(char *));
 	while (env_var[len] != '=')
