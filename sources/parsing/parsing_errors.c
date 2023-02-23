@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/23 10:29:20 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/23 10:48:16 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ int	pos_pipes(char *input)
 
 int	parsing_errors(t_msl *ms, char *input, int c_pipe)
 {
-	printf("input = %s\n", input);
 	if (input[0] == '/' && (input[1] == '.' || \
 	input[1] == '/') || input[0] == ' ')
 		return (display_errors_pipe(ms, input, input[0]));
