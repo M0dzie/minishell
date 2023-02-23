@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/22 18:47:26 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/23 13:42:58 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_msl
 	char	***cmds;
 	int		c_pipe;
 	int		lst_quote;
-	int		rtn_int;
+	int		status;
 	int		c_cmd;
 	t_var	*env;
 	pid_t	pid;
@@ -58,7 +58,7 @@ int		parsing_pipes_input(t_msl *ms);
 int		parsing_quotes(t_msl *ms);
 
 void	count_pipes(t_msl *ms);
-void	parsing_echo(t_msl *ms);
+void	parsing_echo(t_msl *ms, char **envp);
 
 void	execution(t_msl *ms, char *input, char **envp);
 void	create_pipe(char **args_cmd, t_msl *ms, char **envp);

@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/22 18:54:47 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/23 10:48:16 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int	display_errors_pipe(t_msl *ms, char *input, int type)
 			ft_putchar_fd(input[i], 2);
 		ft_putendl_fd(": command not found", 2);
 		if (input[i] == '|')
-			return (ms->input = ft_strtrim(&input[i + 1], " "), 0);
+			return (input = ft_strtrim(&input[i + 1], " "), \
+			ms->input = ft_strtrim(&input[i + 1], " "), 0);
 	}
 	if (type == '/')
 	{
@@ -58,7 +59,7 @@ int	display_errors_pipe(t_msl *ms, char *input, int type)
 			ft_putchar_fd(input[i], 2);
 		ft_putendl_fd(": Is a directory", 2);
 		if (input[i] == '|')
-			return (ms->input += i + 1, 0);
+			return (input += i + 1, ms->input += i + 1, 0);
 	}
 	return (-1);
 }
@@ -89,8 +90,7 @@ int	parsing_errors(t_msl *ms, char *input, int c_pipe)
 		return (display_errors(input, input[0]));
 	if (input[0] == '>' || input[0] == '<')
 		return (display_errors_redirect(input, input[0]));
-	if (input[0] == '!' || input[0] == ':' || input[0] == '\t' \
-	|| input[0] == '#')
+	if (input[0] == '\t' || input[0] == '#')
 		return (-1);
 	if (c_pipe > 0 && input[ft_strlen(input) - 1] == '|')
 		return (ft_putendl_fd("syntax error near unexpected token '|'", 2), -1);
