@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:38:38 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/23 14:04:20 by msapin           ###   ########.fr       */
+/*   Updated: 2023/02/25 19:23:14 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ int	exec_env(t_msl *ms, char **args_cmd, char **envp)
 			}
 		}
 	}
-	display_env(ms);
+	display_env(ms, 0);
 	return (0);
 }
