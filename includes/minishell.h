@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/23 18:01:45 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/25 19:56:45 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_var
 {
 	char			*name;
 	char			*value;
+	int				in_env;
 	struct s_var	*next;
 }					t_var;
 
@@ -37,6 +38,7 @@ typedef struct s_msl
 	int		status;
 	int		c_cmd;
 	t_var	*env;
+	t_var	*export;
 	pid_t	pid;
 }			t_msl;
 
@@ -74,7 +76,7 @@ void	exec_cd(t_msl *ms, char **args_cmd, char **envp);
 int		exec_env(t_msl *ms, char **args_cmd, char **envp);
 void	exec_echo(t_msl *ms, char **args_cmd, char **envp);
 int		exec_export(t_msl *ms, char **args_cmd, char **envp);
-void	exec_unset(t_msl *ms, char **args_cmd, char **envp);
+int		exec_unset(t_msl *ms, char **args_cmd, char **envp);
 
 void	parsing_errors_echo(t_msl *sl);
 void	read_prompt(t_msl *ms, char **envp);

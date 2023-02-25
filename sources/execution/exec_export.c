@@ -6,49 +6,16 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:43:24 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/23 21:04:24 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/25 20:05:33 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/minimehdi.h"
 
-// void	rm_env_var(t_msl *ms)
-// {
-// 	t_var	tmp_stack;
-
-// 	tmp_stack = ms->env;
-// 	while
-// }
-
-t_var	*getlast_var(t_msl *ms)
-{
-	t_var	*tmp_stack;
-
-	tmp_stack = ms->env;
-	while (tmp_stack->next != NULL)
-	{
-		tmp_stack = tmp_stack->next;
-	}
-	return (tmp_stack);
-}
-
-int	is_in_env(t_msl *ms, char *var_name)
-{
-	t_var *tmp_stack;
-
-	tmp_stack = ms->env;
-	while (tmp_stack != NULL)
-	{
-		printf("%s\n", tmp_stack->name);
-		tmp_stack = tmp_stack->next;
-	}
-	return (0);
-}
-
 int	invalid_first(char *name)
 {
-	char 	*invalid_char;
+	char	*invalid_char;
 	int		i;
 
 	invalid_char = "1234567890=";
@@ -63,11 +30,11 @@ int	invalid_first(char *name)
 
 int	invalid_option(char *name)
 {
-	char 	*invalid_opt;
+	char	*invalid_opt;
 	int		i;
 	int		namelen;
 
-	namelen = ft_strlen(name) ;
+	namelen = ft_strlen(name);
 	if (name[0] == '-' && namelen > 1)
 	{
 		invalid_opt = ft_calloc(3, sizeof(char));
@@ -82,14 +49,14 @@ int	invalid_option(char *name)
 
 int	invalid_identifier(char *name)
 {
-	char 	*invalid_char;
+	char	*invalid_char;
 	int		i;
 	int		j;
 
 	if (invalid_first(name))
 		return (display_error_exec("bash: export: '", name, 14), 1);
 	else if (invalid_option(name))
-		return (1);
+		return (2);
 	invalid_char = "`~!@#$%^&*-+.,/\\?:{}[]";
 	i = -1;
 	while (name[++i])
@@ -104,38 +71,49 @@ int	invalid_identifier(char *name)
 	return (0);
 }
 
-int	add_env_var(t_msl *ms)
+void	var_handling(t_msl *ms, char *args_cmd)
 {
+	t_var	*tmp_var;
+	char	**tmp_split;
 
-	return (0);
+	if (ft_strchr(args_cmd, '='))
+	{
+		tmp_split = split_equal(args_cmd);
+		tmp_var = getvar(ms, tmp_split[0]);
+		if (tmp_var)
+		{
+			tmp_var->value = tmp_split[1];
+			tmp_var->in_env = 1;
+		}
+		else
+			var_add_back(ms, new_var(tmp_split[0], tmp_split[1], 1));
+	}
+	else
+	{
+		tmp_var = getvar(ms, args_cmd);
+		if (!tmp_var)
+			var_add_back(ms, new_var(args_cmd, NULL, 0));
+	}
 }
 
 int	exec_export(t_msl *ms, char **args_cmd, char **envp)
 {
-	t_var	*tmp_var;
-	char	**tmp_split;
 	int		i;
 	int		valid;
+	int		rtn;
 
 	i = 0;
-	valid = 0;
+	rtn = 0;
 	if (ft_arrlen(args_cmd) == 1)
-		printf("display export\n");
+		// display_export(ms);
+		display_env(ms, 1);
 	while (args_cmd[++i])
 	{
-		if (invalid_identifier(args_cmd[i]))
-			valid = 1;
-		if (valid == 0 && ms->c_pipe == 0 && ft_strchr(args_cmd[i], '='))
-		{
-			tmp_split = split_equal(args_cmd[i]);
-			tmp_var = getvar(ms, tmp_split[0]);
-			if (tmp_var)
-				tmp_var->value = tmp_split[1];
-			else
-				var_add_back(ms, new_var(tmp_split[0], tmp_split[1]));
-		}
-		else if (valid == 0 && ms->c_pipe == 0)
-			printf("add to export\n");
+		valid = invalid_identifier(args_cmd[i]);
+		if (valid == 0 && ms->c_pipe == 0)
+			var_handling(ms, args_cmd[i]);
+		else
+			rtn = valid;
 	}
-	return (valid);
+	return (rtn);
 }
