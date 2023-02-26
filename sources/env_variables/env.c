@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:07:13 by msapin            #+#    #+#             */
-/*   Updated: 2023/02/25 20:11:20 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/26 12:30:19 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,68 +121,17 @@ char	**ft_getenv(t_msl *ms, int mode)
 	return (getenv);
 }
 
-// int	in_export(t_msl *ms, t_var *var)
-// {
-// 	t_var	*tmp_env;
-
-// 	if (!ms->export->name)
-// 		return (0);
-// 	tmp_env = ms->export;
-// 	while (tmp_env != NULL)
-// 	{
-// 		printf("Test\n");
-// 		if (strict_cmp(tmp_env->name, var->name))
-// 			return (1);
-// 		tmp_env = tmp_env->next;
-// 	}
-// 	return (0);
-// }
-
-int	in_export(t_msl *ms, char *var)
-{
-	t_var	*tmp_env;
-
-	if (!ms->export->name)
-		return (0);
-	tmp_env = ms->export;
-	while (tmp_env != NULL)
-	{
-		printf("Test\n");
-		if (strict_cmp(tmp_env->name, var))
-			return (1);
-		tmp_env = tmp_env->next;
-	}
-	return (0);
-}
-
-int	len_biggest(char *s1, char *s2)
-{
-	int	len_s1;
-	int	len_s2;
-
-	len_s1 = ft_strlen_null(s1);
-	len_s2 = ft_strlen_null(s2);
-	if (len_s1 > len_s2)
-		return (len_s1);
-	if (len_s1 < len_s2)
-		return (len_s2);
-	return (len_s1);
-}
-
 int	len_until_eq(char *s1, char *s2)
 {
 	int	len_s1;
 	int	len_s2;
 
-	// len_s1 = ft_strlen_null(s1);
-	// len_s2 = ft_strlen_null(s2);
 	len_s1 = 0;
 	len_s2 = 0;
 	while (s1[len_s1] && s1[len_s1] != '=')
 		len_s1++;
 	while (s2[len_s2] && s2[len_s2] != '=')
 		len_s2++;
-	// printf("%d %d\n", len_s1, len_s2);
 	if (len_s1 > len_s2)
 		return (len_s1);
 	if (len_s1 < len_s2)
@@ -190,63 +139,24 @@ int	len_until_eq(char *s1, char *s2)
 	return (len_s1);
 }
 
-void	add_sorted(t_msl *ms, t_var *var)
-{
-	t_var	*add_back;
-
-	if (!var)
-		return ;
-	if (!ms->export->name)
-	{
-		// printf("first\n");
-		ms->export = var;
-		// env = var;
-	}
-	else
-	{
-		add_back = ms->export;
-		while (add_back->next != NULL)
-		{
-			// printf("%s\n", add_back->name);
-			add_back = add_back->next;
-		}
-		add_back->next = var;
-	}
-	// printf("%s\n", (*env)->name);
-}
-
 int	ft_strcmp(char *s1, char *s2)
 {
-	size_t			i;
-	int				return_value;
-	int			len_biggest;
-	int		c;
-	// unsigned char	*str_1;
-	// unsigned char	*str_2;
+	size_t	i;
+	int		return_value;
+	int		len_biggest;
 
 	i = 0;
 	return_value = 0;
 	len_biggest = len_until_eq(s1, s2);
-	// str_1 = (unsigned char *)s1;
-	// str_2 = (unsigned char *)s2;
 	while (i < len_biggest)
 	{
 		if ((s1[i] == '=' || !s1[i]) && s2[i])
-		{
-			c = -(int)s2[i];
-			// printf("end s1 value : %d\n", c);
-			return (c);
-		}
+			return (-(int)s2[i]);
 		else if ((s2[i] == '=' || !s2[i]) && s1[i])
-		{
-			c = (int)s1[i];
-			// printf("end s2 value : %d\n", c);
-			return (c);
-		}
+			return ((int)s1[i]);
 		else if (s1[i] != s2[i])
 		{
 			return_value = s1[i] - s2[i];
-			// printf("%c %c", s1[i], s2[i]);
 			return (return_value);
 		}
 		i++;
@@ -254,7 +164,7 @@ int	ft_strcmp(char *s1, char *s2)
 	return (0);
 }
 
-void	*getenv_sorted(t_msl *ms)
+void	*display_sorted(t_msl *ms)
 {
 	int		i;
 	int		j;
@@ -291,18 +201,20 @@ void	display_env(t_msl *ms, int mode)
 
 	if (ms->env->name)
 	{
-		vars = ms->env;
-		while (vars != NULL)
+		if (mode == 0)
 		{
-			if (vars->in_env && mode == 0)
-				printf("%s=%s\n", vars->name, vars->value);
-			else if (mode == 1)
-				getenv_sorted(ms);
-			vars = vars->next;
+			vars = ms->env;
+			while (vars != NULL)
+			{
+				if (vars->in_env)
+					printf("%s=%s\n", vars->name, vars->value);
+				vars = vars->next;
+			}
+			printf("_=/usr/bin/env\n");
 		}
+		else if (mode == 1)
+			display_sorted(ms);
 	}
-	if (mode == 0)
-		printf("_=/usr/bin/env\n");
 }
 
 void	var_add_back(t_msl *ms, t_var *var)
