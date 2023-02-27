@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/25 20:24:11 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/27 12:05:39 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ int	strict_cmp(const char *builts, const char *cmd)
 	size_t	cmd_len;
 
 	i = -1;
+	if (!builts || !cmd)
+		return (0);
 	cmd_len = ft_strlen(cmd);
 	if (ft_strlen(builts) != ft_strlen(cmd))
 		return (0);
