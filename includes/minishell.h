@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/27 09:47:13 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/27 10:50:35 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		parsing_pipes_input(t_msl *ms);
 int		parsing_quotes(t_msl *ms);
 
 void	count_pipes(t_msl *ms);
-void	parsing_echo(t_msl *ms, char **envp);
+void	parsing_echo(t_msl *ms, char *input, char **envp);
 
 void	execution(t_msl *ms, char *input, char **envp);
 void	create_pipe(char **args_cmd, t_msl *ms, char **envp);
