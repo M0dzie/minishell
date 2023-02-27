@@ -6,13 +6,13 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/23 10:48:16 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/27 09:47:53 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	display_errors(char *input, int type)
+int	display_errors(t_msl *ms, char *input, int type)
 {
 	ft_putstr_fd("minishell: ", 2);
 	if (type == 34)
@@ -35,7 +35,7 @@ int	display_errors(char *input, int type)
 	if ((type == '(' || type == ')') && (input[1] == ' ' || \
 	input[1] == '\0' || input[1] == ')' || input[1] == '('))
 		ft_putendl_fd("syntax error near unexpected token ')'", 2);
-	return (-1);
+	return (ms->status = 2, -1);
 }
 
 int	display_errors_pipe(t_msl *ms, char *input, int type)
@@ -49,6 +49,7 @@ int	display_errors_pipe(t_msl *ms, char *input, int type)
 		while (input[++i] && input[i] != '|')
 			ft_putchar_fd(input[i], 2);
 		ft_putendl_fd(": command not found", 2);
+		ms->status = 127;
 		if (input[i] == '|')
 			return (input = ft_strtrim(&input[i + 1], " "), \
 			ms->input = ft_strtrim(&input[i + 1], " "), 0);
@@ -58,6 +59,7 @@ int	display_errors_pipe(t_msl *ms, char *input, int type)
 		while (input[++i] && input[i] != '|')
 			ft_putchar_fd(input[i], 2);
 		ft_putendl_fd(": Is a directory", 2);
+		ms->status = 126;
 		if (input[i] == '|')
 			return (input += i + 1, ms->input += i + 1, 0);
 	}
@@ -87,13 +89,14 @@ int	parsing_errors(t_msl *ms, char *input, int c_pipe)
 		return (display_errors_pipe(ms, input, input[0]));
 	if (input[0] == '|' || input[0] == '&' || input[0] == ';' \
 	|| input[0] == '(' || input[0] == ')')
-		return (display_errors(input, input[0]));
+		return (display_errors(ms, input, input[0]));
 	if (input[0] == '>' || input[0] == '<')
-		return (display_errors_redirect(input, input[0]));
+		return (display_errors_redirect(ms, input, input[0]));
 	if (input[0] == '\t' || input[0] == '#')
 		return (-1);
 	if (c_pipe > 0 && input[ft_strlen(input) - 1] == '|')
-		return (ft_putendl_fd("syntax error near unexpected token '|'", 2), -1);
+		return (ft_putendl_fd("syntax error near unexpected token '|'", 2), \
+		ms->status = 2, -1);
 	if (c_pipe > 0 && input[ft_strlen(input) - 1] != '|')
 		return (parsing_errors(ms, input + pos_pipes(input), c_pipe - 1));
 	return (0);

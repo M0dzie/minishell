@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/25 19:56:45 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/02/27 09:47:13 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ char	*get_after_quote(char *input, int index);
 char	*get_before_quote(char *input, int index);
 
 int		check_opened_quotes(t_msl *ms, int i, char c);
-int		display_errors(char *input, int type);
+int		display_errors(t_msl *ms, char *input, int type);
 int		display_errors_pipe(t_msl *ms, char *input, int type);
-int		display_errors_redirect(char *input, int type);
-int		display_errors_redirect2(char *input, int type);
-int		display_errors_redirect3(char *input, int type);
-int		display_errors_redirect4(char *input, int type);
+int		display_errors_redirect(t_msl *ms, char *input, int type);
+int		display_errors_redirect2(t_msl *ms, char *input, int type);
+int		display_errors_redirect3(t_msl *ms, char *input, int type);
+int		display_errors_redirect4(t_msl *ms, char *input, int type);
 int		ms_strcmp(char *s1, char *s2);
 int		parsing_errors(t_msl *ms, char *input, int c_pipe);
 int		parsing_pipes_input(t_msl *ms);
