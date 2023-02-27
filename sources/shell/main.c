@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/22 14:55:47 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/27 09:53:41 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	signal_handler(int signal)
 		return ;
 }
 // need pid cat;
+// handle ctrl C in a child process with just redisplay ?
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -35,6 +36,7 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_putendl_fd("Error\nMinishell doesn't take any parameters.", \
 		2), 0);
 	init_env(&ms, envp);
+	ms.status = 0;
 	while (1)
 	{
 		rl_catch_signals = 0;
