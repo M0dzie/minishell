@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/27 11:24:04 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/02/28 16:07:11 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ void	count_pipes(t_msl *ms)
 void	read_prompt(t_msl *ms, char **envp)
 {
 	int		i;
-	char	*input;
 
 	i = -1;
-	input = ms->input;
 	ms->input = ft_strtrim(ms->input, " ");
 	count_pipes(ms);
 	if (ms->input[0] == '\0' || parsing_errors(ms, ms->input, \
@@ -72,3 +70,13 @@ void	read_prompt(t_msl *ms, char **envp)
 	print_args(ms->cmds);
 	execution(ms, ms->input, envp);
 }
+
+/*
+liste chianee
+t_makrs enum
+t_type enum
+
+
+type 0 cmds
+type 1 (-n)
+type 2 texte */
