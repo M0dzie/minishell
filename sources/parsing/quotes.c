@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_quotes.c                                   :+:      :+:    :+:   */
+/*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/28 15:50:04 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/01 21:54:22 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	parsing_quotes(t_msl *ms)
 	i = -1;
 	while (ms->input[++i])
 	{
-		if (ms->input[i] == 34 || ms->input[i] == 39)
+		if (ms->input[i] == '\'' || ms->input[i] == '\"')
 		{
 			if (check_opened_quotes(ms, i + 1, ms->input[i]))
 				return (display_errors(ms, ms->input, ms->input[i]));
