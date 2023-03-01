@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/02/27 10:50:35 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/01 21:43:56 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,22 @@ char	*clear_line(char *before_line, char *new_word, char *next_line);
 char	*del_quotes(char *input, int index, int lst_quote, char c);
 char	*get_after_quote(char *input, int index);
 char	*get_before_quote(char *input, int index);
+char	**ms_split(char *str);
 
 int		check_opened_quotes(t_msl *ms, int i, char c);
+int		count_tokens(char *input);
 int		display_errors(t_msl *ms, char *input, int type);
 int		display_errors_pipe(t_msl *ms, char *input, int type);
 int		display_errors_redirect(t_msl *ms, char *input, int type);
 int		display_errors_redirect2(t_msl *ms, char *input, int type);
 int		display_errors_redirect3(t_msl *ms, char *input, int type);
 int		display_errors_redirect4(t_msl *ms, char *input, int type);
+int 	is_space(char c);
 int		ms_strcmp(char *s1, char *s2);
 int		parsing_errors(t_msl *ms, char *input, int c_pipe);
 int		parsing_pipes_input(t_msl *ms);
 int		parsing_quotes(t_msl *ms);
+int		token_len(char *input, char quote, int i);
 
 void	count_pipes(t_msl *ms);
 void	parsing_echo(t_msl *ms, char *input, char **envp);
