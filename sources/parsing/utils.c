@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/01 21:43:24 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/01 21:55:45 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ int	count_tokens(char *input)
 	return (n_tok);
 }
 
-int	token_len(char *input, char quote, int i)
+int	token_len(char *input, char sep, int i)
 {
-	int	size;
+	int	len;
 
-	size = 0;
-	while (input[i] != quote && input[i])
+	len = 0;
+	while (input[i] != sep && input[i])
 	{
-		size++;
+		len++;
 		i++;
 	}
-	return (size);
+	return (len);
 }
 
 char	**ms_split(char *input)
@@ -54,7 +54,7 @@ char	**ms_split(char *input)
     int		i; 
 	int		j;
 	int		k;
-	int		in_quote;
+	// int		in_quote;
     char	**split;
     
     split = ft_calloc((count_tokens(input) + 1), sizeof(char *));
@@ -63,16 +63,19 @@ char	**ms_split(char *input)
     i = -1;
     j = 0;
     k = 0;
-    in_quote = 0;
+    // in_quote = 0;
     while (input[++i])
     {
-        if ((input[i] == '\"' || input[i] == '\'') && (i == 0 \
-		|| input[i - 1] != '\\'))
+        // if ((input[i] == '\"' || input[i] == '\'') && (i == 0 \
+		// || input[i - 1] != '\\'))
+        if (input[i] == '\"' || input[i] == '\'')
 		{
-            in_quote = !in_quote;
-			printf("in_quote = %d\n", in_quote);
+            // in_quote = !in_quote;
+			i += token_len(input, input[i], i);
+			printf("index = %d\n", i);
 		}
-        if (!in_quote && is_space(input[i]))
+        // if (!in_quote && is_space(input[i]))
+        if (is_space(input[i]))
         {
             if (k > 0)
             {
