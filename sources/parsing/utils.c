@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/02 11:09:47 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/02 14:08:26 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,6 @@ int	count_tokens(char *input)
 	}
 	return (n_tok);
 }
-
-// int	token_len(char *input, char sep, int i)
-// {
-// 	int	len;
-
-// 	len = 0;
-// 	while (input[i] != sep && input[i])
-// 	{
-// 		len++;
-// 		i++;
-// 	}
-// 	return (len + 2);
-// }
 
 char	**ms_split(char *input)
 {
