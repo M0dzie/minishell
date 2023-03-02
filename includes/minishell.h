@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/01 21:43:56 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/02 14:08:23 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,11 @@ int		display_errors_redirect(t_msl *ms, char *input, int type);
 int		display_errors_redirect2(t_msl *ms, char *input, int type);
 int		display_errors_redirect3(t_msl *ms, char *input, int type);
 int		display_errors_redirect4(t_msl *ms, char *input, int type);
-int 	is_space(char c);
+int		is_space(char c);
 int		ms_strcmp(char *s1, char *s2);
 int		parsing_errors(t_msl *ms, char *input, int c_pipe);
 int		parsing_pipes_input(t_msl *ms);
 int		parsing_quotes(t_msl *ms);
-int		token_len(char *input, char quote, int i);
 
 void	count_pipes(t_msl *ms);
 void	parsing_echo(t_msl *ms, char *input, char **envp);
