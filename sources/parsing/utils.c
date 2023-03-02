@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/02 09:57:30 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/02 11:03:25 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,45 +46,37 @@ int	token_len(char *input, char sep, int i)
 		len++;
 		i++;
 	}
-	printf("len = %d\n", len + 1);
-	return (len + 1);
+	return (len + 2);
 }
 
 char	**ms_split(char *input)
 {
-	int	i;
-	int	j;
-	int	k;
-	// int		in_quote;
+	int		i;
+	int		j;
+	int		k;
+	int		in_quote;
     char	**split;
 
 	split = ft_calloc((count_tokens(input) + 1), sizeof(char *));
 	if (!split)
 		return (NULL);
 	i = -1;
-	j = 0;
+	j = -1;
 	k = 0;
-	// in_quote = 0;
+	in_quote = 0;
 	while (input[++i])
 	{
-		// if ((input[i] == '\"' || input[i] == '\'') && (i == 0 \
+		if ((input[i] == '\"' || input[i] == '\'') && (i == 0 \
 		|| input[i - 1] != '\\'))
-		if (input[i] == '\"' || input[i] == '\'')
-		{
-			i += token_len(input, input[i], i + 1);
-			// in_quote = !in_quote;
-		}
-        // if (!in_quote && is_space(input[i]))
-        if (is_space(input[i]))
+			in_quote = !in_quote;
+        if (!in_quote && is_space(input[i]))
         {
             if (k > 0)
             {
-                split[j] = ft_calloc((k + 1), sizeof(char));
+                split[++j] = ft_calloc((k + 1), sizeof(char));
                 if (!split[j])
                     return (NULL);
-                for (int l = 0; l < k; l++)
-                    split[j][l] = input[i - k + l];
-                j++;
+				ft_strlcpy(split[j], input + (i - k), k + 1);
                 k = 0;
             }
         }
@@ -93,12 +85,10 @@ char	**ms_split(char *input)
     }
     if (k > 0)
     {
-        split[j] = ft_calloc((k + 1), sizeof(char));
+        split[++j] = ft_calloc((k + 1), sizeof(char));
         if (!split[j])
             return (NULL);
-        for (int l = 0; l < k; l++)
-            split[j][l] = input[i - k + l];
-        j++;
+				ft_strlcpy(split[j], input + (i - k), k + 1);
     }
     return (split);
 }
