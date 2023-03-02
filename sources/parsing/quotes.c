@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/02 11:18:46 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/02 19:30:39 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,26 @@ int	check_opened_quotes(t_msl *ms, int i, char quote)
 	if (ms->input[i] == quote)
 		return (ms->lst_quote = i, 0);
 	return (1);
+}
+
+char	*parsing_quotes_split(t_msl *ms, char *split)
+{
+	int		i;
+
+	i = -1;
+	while (split[++i])
+	{
+		if (split[i] == '\'' || split[i] == '\"')
+		{
+			check_opened_quotes(ms, i + 1, ms->input[i]);
+			split = del_quotes(split, i, ms->lst_quote + 1, \
+			split[i]);
+			if (!split)
+				return (NULL);
+			i = ms->lst_quote - 2;
+		}
+	}
+	return (split);
 }
 
 int	parsing_quotes(t_msl *ms)
