@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/01 21:49:37 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/02 19:00:08 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	read_prompt(t_msl *ms, char **envp)
 		ms->split = ft_split(ms->input, '|');
 		if (!ms->split)
 			return (free(ms->input));
-		ms->cmds[i] = ms_split(ms->split[i]);
+		ms->cmds[i] = ms_split(ms, ms->split[i]);
 		if (!ms->cmds)
 			return (free(ms->input), ft_arrfree(ms->split));
 	}

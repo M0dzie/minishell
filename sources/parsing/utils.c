@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/02 14:08:26 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/02 19:04:19 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	count_tokens(char *input)
 	return (n_tok);
 }
 
-char	**ms_split(char *input)
+char	**ms_split(t_msl *ms, char *input)
 {
 	int		i;
 	int		j;
@@ -54,8 +54,16 @@ char	**ms_split(char *input)
 	while (input[++i])
 	{
 		if ((input[i] == '\"' || input[i] == '\'') && (i == 0 \
-		|| input[i - 1] != '\\'))
-			in_quote = !in_quote;
+		|| ft_isascii(input[i - 1])))
+        {
+            if (in_quote && input[i] == ms->lst_quote)
+                in_quote = 0;
+            else if (!in_quote)
+            {
+			    in_quote = 1;
+                ms->lst_quote = input[i];   
+            }
+        }
 		if (!in_quote && is_space(input[i]))
 		{
 			if (k > 0)
