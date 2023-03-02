@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/01 21:55:45 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/02 09:57:30 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_space(char c)
 {
-    if (c == ' ' || c == '\t')
+	if (c == ' ' || c == '\t')
 		return (1);
 	return (0);
 }
@@ -46,33 +46,33 @@ int	token_len(char *input, char sep, int i)
 		len++;
 		i++;
 	}
-	return (len);
+	printf("len = %d\n", len + 1);
+	return (len + 1);
 }
 
 char	**ms_split(char *input)
 {
-    int		i; 
-	int		j;
-	int		k;
+	int	i;
+	int	j;
+	int	k;
 	// int		in_quote;
     char	**split;
-    
-    split = ft_calloc((count_tokens(input) + 1), sizeof(char *));
-    if (!split)
-        return (NULL);
-    i = -1;
-    j = 0;
-    k = 0;
-    // in_quote = 0;
-    while (input[++i])
-    {
-        // if ((input[i] == '\"' || input[i] == '\'') && (i == 0 \
-		// || input[i - 1] != '\\'))
-        if (input[i] == '\"' || input[i] == '\'')
+
+	split = ft_calloc((count_tokens(input) + 1), sizeof(char *));
+	if (!split)
+		return (NULL);
+	i = -1;
+	j = 0;
+	k = 0;
+	// in_quote = 0;
+	while (input[++i])
+	{
+		// if ((input[i] == '\"' || input[i] == '\'') && (i == 0 \
+		|| input[i - 1] != '\\'))
+		if (input[i] == '\"' || input[i] == '\'')
 		{
-            // in_quote = !in_quote;
-			i += token_len(input, input[i], i);
-			printf("index = %d\n", i);
+			i += token_len(input, input[i], i + 1);
+			// in_quote = !in_quote;
 		}
         // if (!in_quote && is_space(input[i]))
         if (is_space(input[i]))
