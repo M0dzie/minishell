@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/02 11:03:25 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/02 11:09:47 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,18 @@ int	count_tokens(char *input)
 	return (n_tok);
 }
 
-int	token_len(char *input, char sep, int i)
-{
-	int	len;
+// int	token_len(char *input, char sep, int i)
+// {
+// 	int	len;
 
-	len = 0;
-	while (input[i] != sep && input[i])
-	{
-		len++;
-		i++;
-	}
-	return (len + 2);
-}
+// 	len = 0;
+// 	while (input[i] != sep && input[i])
+// 	{
+// 		len++;
+// 		i++;
+// 	}
+// 	return (len + 2);
+// }
 
 char	**ms_split(char *input)
 {
@@ -69,26 +69,26 @@ char	**ms_split(char *input)
 		if ((input[i] == '\"' || input[i] == '\'') && (i == 0 \
 		|| input[i - 1] != '\\'))
 			in_quote = !in_quote;
-        if (!in_quote && is_space(input[i]))
-        {
-            if (k > 0)
-            {
-                split[++j] = ft_calloc((k + 1), sizeof(char));
-                if (!split[j])
-                    return (NULL);
+		if (!in_quote && is_space(input[i]))
+		{
+			if (k > 0)
+			{
+				split[++j] = ft_calloc((k + 1), sizeof(char));
+				if (!split[j])
+					return (NULL);
 				ft_strlcpy(split[j], input + (i - k), k + 1);
-                k = 0;
-            }
-        }
-        else
-            k++;
-    }
-    if (k > 0)
-    {
-        split[++j] = ft_calloc((k + 1), sizeof(char));
-        if (!split[j])
-            return (NULL);
-				ft_strlcpy(split[j], input + (i - k), k + 1);
-    }
-    return (split);
+				k = 0;
+			}
+		}
+		else
+			k++;
+	}
+	if (k > 0)
+	{
+		split[++j] = ft_calloc((k + 1), sizeof(char));
+		if (!split[j])
+			return (NULL);
+		ft_strlcpy(split[j], input + (i - k), k + 1);
+	}
+	return (split);
 }
