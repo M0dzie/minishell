@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/02 19:24:03 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:09:03 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*get_before_quote(char *input, int index);
 char	**ms_split(t_msl *ms, char *input);
 char	*parsing_quotes_split(t_msl *ms, char *split);
 
-int		check_opened_quotes(t_msl *ms, int i, char c);
+int		check_opened_quotes(t_msl *ms, char *input, int i, char c);
 int		count_tokens(char *input);
 int		display_errors(t_msl *ms, char *input, int type);
 int		display_errors_pipe(t_msl *ms, char *input, int type);
