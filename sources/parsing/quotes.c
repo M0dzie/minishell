@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/03 16:41:32 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:15:37 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	check_opened_quotes(t_msl *ms, int i, char quote)
+int	check_opened_quotes(t_msl *ms, char *input, int i, char quote)
 {
-	if (ms->input[i] == '\0')
+	if (input[i] == '\0')
 		return (1);
-	while (ms->input[i] && ms->input[i] != quote)
+	while (input[i] && input[i] != quote)
 		i++;
-	if (ms->input[i] == quote)
+	if (input[i] == quote)
 		return (ms->lst_quote = i, 0);
 	return (1);
 }
@@ -32,7 +32,7 @@ char	*parsing_quotes_split(t_msl *ms, char *split)
 	{
 		if (split[i] == '\'' || split[i] == '\"')
 		{
-			check_opened_quotes(ms, i + 1, ms->input[i]);
+			check_opened_quotes(ms, split, i + 1, split[i]);
 			split = del_quotes(split, i, ms->lst_quote + 1, \
 			split[i]);
 			if (!split)
@@ -52,7 +52,7 @@ int	parsing_quotes(t_msl *ms)
 	{
 		if (ms->input[i] == '\'' || ms->input[i] == '\"')
 		{
-			if (check_opened_quotes(ms, i + 1, ms->input[i]))
+			if (check_opened_quotes(ms, ms->input, i + 1, ms->input[i]))
 				return (display_errors(ms, ms->input, ms->input[i]));
 			i = ms->lst_quote;
 		}
