@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   switch_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/07 11:56:22 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/07 17:29:24 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,16 @@ int	check_sign(char *split, int i)
 
 char	*get_value(t_msl *ms, char *split)
 {
+	if (split[0] == ' ' || !split[0])
+		return ("$");
+	if (split[0] == '?')
+		return (ft_itoa(ms->status));
 	split = ft_strtrim(split, "$ \'\"");
 	if (!split)
 		return (NULL);
 	// je dois penser a garder que la variables STRICTE donc refaire un check
 	// $, le seul delim qui reste
-	printf("split = %s\n", split);
+	printf("clean var = %s\n", split);
 	return ("Salut");
 }
 
