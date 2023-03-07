@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/07 10:34:27 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/07 11:12:45 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ char	*parsing_quotes_split(t_msl *ms, char *split)
 			if (!split)
 				return (NULL);
 		}
-			// changer la variable d'environnement ici
-			// le i ne change pas, juste la string doit etre realloc
 		if (split[i] == '\'' || split[i] == '\"')
 		{
 			check_opened_quotes(ms, split, i + 1, split[i]);
