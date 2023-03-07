@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/07 17:44:36 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/07 22:33:14 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,9 @@ int	check_sign(char *split, int i)
 
 char	*get_value(t_msl *ms, char *split)
 {
-	split = ft_strtrim(split, "$ \'\"");
-	if (!split)
-		return (NULL);
+	// split = ft_strtrim(split, "$ \'\""); ca marche pas
 	printf("clean var = %s\n", split);
-	if (!split[0])
+	if (split[0] == '$')
 		return ("$");
 	if (split[0] == '?')
 		return (ft_itoa(ms->status));
@@ -70,5 +68,6 @@ char	*switch_var(t_msl *ms, char *split, int i)
 	printf("var = %s\n", var);
 	// if (split[i] == '$')
 	// 	switch_var(ms, split, i);
+	// faire la boucle dans get_value
 	return (free(before), free(next), var);
 }
