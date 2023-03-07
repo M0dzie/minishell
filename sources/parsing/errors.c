@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/02 11:19:42 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/07 09:37:50 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	display_errors(t_msl *ms, char *input, int type)
 		ms->status = 1, -1);
 	if (type == '\'')
 		return (ft_putendl_fd("single quotes must be closed", 2), \
-		ms->status = 0, -1);
+		ms->status = 1, -1);
 	if (type == '|' && (input[1] == ' ' || input[1] == '\0' \
 	|| ft_isalpha(input[1])))
 		ft_putendl_fd("syntax error near unexpected token '|'", 2);
@@ -46,16 +46,16 @@ int	display_errors_pipe(t_msl *ms, char *input, int type)
 
 	i = -1;
 	ft_putstr_fd("minishell: ", 2);
-	if (type == ' ' || type == 0)
-	{
-		while (input[++i] && input[i] != '|')
-			ft_putchar_fd(input[i], 2);
-		ft_putendl_fd(": command not found", 2);
-		ms->status = 127;
-		if (input[i] == '|')
-			return (input = ft_strtrim(&input[i + 1], " "), \
-			ms->input = ft_strtrim(&input[i + 1], " "), 0);
-	}
+	// if (type == ' ' || type == 0)
+	// {
+	// 	while (input[++i] && input[i] != '|')
+	// 		ft_putchar_fd(input[i], 2);
+	// 	ft_putendl_fd(": command not found", 2);
+	// 	ms->status = 127;
+	// 	if (input[i] == '|')
+	// 		return (input = ft_strtrim(&input[i + 1], " "), \
+	// 		ms->input = ft_strtrim(&input[i + 1], " "), 0);
+	// }
 	if (type == '/')
 	{
 		while (input[++i] && input[i] != '|')

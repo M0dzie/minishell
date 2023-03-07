@@ -6,7 +6,7 @@
 #    By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 18:51:59 by thmeyer           #+#    #+#              #
-#    Updated: 2023/03/02 10:00:31 by thmeyer          ###   ########.fr        #
+#    Updated: 2023/03/07 09:35:58 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ HEADER		=	includes/minishell.h
 LIBFT_DIR	=	includes/libft/
 LIBFT_A		=	$(LIBFT_DIR)libft.a
 
-C_FLAGS		=	-Wall -Wextra -Werror
+C_FLAGS		=	-Wall -Wextra -Werror 
 RL_FLAGS	=	-lreadline
 
 RM			=	rm -rf
@@ -74,7 +74,7 @@ SRC_BUILTINS_FILES	=	built_in.c
 
 SRC_CHECK_ERR_FILES	=	
 
-SRC_ENV_VAR_FILES	=	env.c
+SRC_ENV_VAR_FILES	=	env.c switch_var.c 
 
 SRC_PARSING_FILES	=	parsing.c quotes.c errors.c redir.c parsing_echo.c \
 						del_quotes.c parsing2.c utils.c

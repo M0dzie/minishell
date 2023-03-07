@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/06 17:15:37 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/07 11:12:45 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ char	*parsing_quotes_split(t_msl *ms, char *split)
 	i = -1;
 	while (split[++i])
 	{
+		if (split[i] == '$' || (split[i] == '\"' && check_sign(split, i + 1)))
+		{
+			split = switch_var(ms, split, i);
+			if (!split)
+				return (NULL);
+		}
 		if (split[i] == '\'' || split[i] == '\"')
 		{
 			check_opened_quotes(ms, split, i + 1, split[i]);
@@ -57,7 +63,5 @@ int	parsing_quotes(t_msl *ms)
 			i = ms->lst_quote;
 		}
 	}
-	// if (ms->input[0] == '\0' || ms->input[0] == ' ')
-	// 	return (display_errors_pipe(ms, ms->input, ms->input[0]));
 	return (0);
 }
