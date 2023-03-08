@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/08 13:22:23 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/08 13:30:57 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ char	*get_value(t_msl *ms, char *token)
 {
 	if (token[0] == '?')
 		return (ft_itoa(ms->status));
-	// if (token[0] == '$' || token[0] == ' ' || !token[0] || token[0] == '\'' \
-	// || token[0] == '\"')
-	// 	return ("$");
+	if (token[0] == '$' || token[0] == ' ' || !token[0] || token[0] == '\'' \
+	|| token[0] == '\"')
+		return ("$");
 }
 
 char	*switch_var(t_msl *ms, char *token, int i)
