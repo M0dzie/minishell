@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   split_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/06 17:44:02 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/08 10:36:17 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ char	**ms_split(t_msl *ms, char *input)
 	int		j;
 	int		k;
 	int		in_quote;
-	char	**split;
+	char	**token;
 
-	split = ft_calloc((count_tokens(input) + 1), sizeof(char *));
-	if (!split)
+	token = ft_calloc((count_tokens(input) + 1), sizeof(char *));
+	if (!token)
 		return (NULL);
 	i = -1;
 	j = -1;
@@ -68,12 +68,12 @@ char	**ms_split(t_msl *ms, char *input)
 		{
 			if (k > 0)
 			{
-				split[++j] = ft_calloc((k + 1), sizeof(char));
-				if (!split[j])
+				token[++j] = ft_calloc((k + 1), sizeof(char));
+				if (!token[j])
 					return (NULL);
-				ft_strlcpy(split[j], input + (i - k), k + 1);
-				split[j] = parsing_quotes_split(ms, split[j]);
-				if (!split[j])
+				ft_strlcpy(token[j], input + (i - k), k + 1);
+				token[j] = parsing_quotes_split(ms, token[j]);
+				if (!token[j])
 					return (NULL);
 				k = 0;
 			}
@@ -83,13 +83,13 @@ char	**ms_split(t_msl *ms, char *input)
 	}
 	if (k > 0)
 	{
-		split[++j] = ft_calloc((k + 1), sizeof(char));
-		if (!split[j])
+		token[++j] = ft_calloc((k + 1), sizeof(char));
+		if (!token[j])
 			return (NULL);
-		ft_strlcpy(split[j], input + (i - k), k + 1);
-		split[j] = parsing_quotes_split(ms, split[j]);
-		if (!split[j])
+		ft_strlcpy(token[j], input + (i - k), k + 1);
+		token[j] = parsing_quotes_split(ms, token[j]);
+		if (!token[j])
 			return (NULL);
 	}
-	return (split);
+	return (token);
 }
