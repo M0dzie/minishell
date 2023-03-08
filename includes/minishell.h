@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/07 10:35:09 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/08 10:37:38 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ char	*del_quotes(char *input, int index, int lst_quote, char c);
 char	*get_after_quote(char *input, int index);
 char	*get_before_quote(char *input, int index);
 char	**ms_split(t_msl *ms, char *input);
-char	*parsing_quotes_split(t_msl *ms, char *split);
-char	*switch_var(t_msl *ms, char *split, int i);
+char	*parsing_quotes_split(t_msl *ms, char *token);
+char	*switch_var(t_msl *ms, char *token, int i);
 
 int		check_opened_quotes(t_msl *ms, char *input, int i, char c);
-int		check_sign(char *split, int i);
+int		check_sign(char *token, int i);
 int		count_tokens(char *input);
 int		display_errors(t_msl *ms, char *input, int type);
 int		display_errors_pipe(t_msl *ms, char *input, int type);

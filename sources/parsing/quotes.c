@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/07 11:12:45 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/08 10:36:36 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,30 +23,30 @@ int	check_opened_quotes(t_msl *ms, char *input, int i, char quote)
 	return (1);
 }
 
-char	*parsing_quotes_split(t_msl *ms, char *split)
+char	*parsing_quotes_split(t_msl *ms, char *token)
 {
 	int		i;
 
 	i = -1;
-	while (split[++i])
+	while (token[++i])
 	{
-		if (split[i] == '$' || (split[i] == '\"' && check_sign(split, i + 1)))
+		if (token[i] == '$' || (token[i] == '\"' && check_sign(token, i + 1)))
 		{
-			split = switch_var(ms, split, i);
-			if (!split)
+			token = switch_var(ms, token, i);
+			if (!token)
 				return (NULL);
 		}
-		if (split[i] == '\'' || split[i] == '\"')
+		if (token[i] == '\'' || token[i] == '\"')
 		{
-			check_opened_quotes(ms, split, i + 1, split[i]);
-			split = del_quotes(split, i, ms->lst_quote + 1, \
-			split[i]);
-			if (!split)
+			check_opened_quotes(ms, token, i + 1, token[i]);
+			token = del_quotes(token, i, ms->lst_quote + 1, \
+			token[i]);
+			if (!token)
 				return (NULL);
 			i = ms->lst_quote - 2;
 		}
 	}
-	return (split);
+	return (token);
 }
 
 int	parsing_quotes(t_msl *ms)
