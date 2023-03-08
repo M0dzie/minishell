@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/08 13:30:57 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/08 15:08:01 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,25 @@ int	check_sign(char *token, int i)
 
 char	*get_value(t_msl *ms, char *token)
 {
+	int		i;
+	t_var	*tmp;
+
 	if (token[0] == '?')
 		return (ft_itoa(ms->status));
 	if (token[0] == '$' || token[0] == ' ' || !token[0] || token[0] == '\'' \
 	|| token[0] == '\"')
 		return ("$");
+	i = 0;
+	while (token[i] && token[i] != '\"' && token[i] && '\'' && \
+	token[i] != ' ' && token[i] != '$')
+		i++;
+	token = get_before_quote(token, i);
+	if (!token)
+		return (NULL);
+	tmp = getvar(ms, token);
+	if (!tmp)
+		return (free(tmp), free(token), "");
+	return (free(token), tmp->value);
 }
 
 char	*switch_var(t_msl *ms, char *token, int i)
