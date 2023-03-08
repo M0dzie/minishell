@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/08 13:41:52 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/08 15:21:14 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	*parsing_env_var(t_msl *ms, char *token)
 	i = -1;
 	while (token[++i])
 	{
+		if (token[i] == '\'')
+			break ;
 		if (token[i] == '$' || (token[i] == '\"' && check_sign(token, i + 1)))
 		{
 			token = switch_var(ms, token, i);
