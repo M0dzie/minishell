@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/14 11:28:36 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/14 12:33:36 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	*switch_var(t_msl *ms, char *token, int i)
 
 	while (token[i] && token[i] != '$')
 		i++;
+	ms->f_quote = i - 1;
 	before = get_before_delim(token, i);
 	var = get_value(ms, token + ++i);
 	if (!before || !var)
