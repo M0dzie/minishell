@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/08 15:42:57 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/14 11:30:23 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,19 @@ char	*parsing_env_var(t_msl *ms, char *token)
 	i = -1;
 	while (token[++i])
 	{
-		if (token[i] == '\'' && !check_opened_quotes(ms, token, i, '\''))
+		if (token[i] == '\'' && !check_opened_quotes(ms, token, i + 1, '\''))
 			i = ms->lst_quote;
 		if (token[i] == '$' || (token[i] == '\"' && check_sign(token, i + 1)))
 		{
+			while (token[i] == '\'')
+				i++;
 			token = switch_var(ms, token, i);
 			if (!token)
 				return (NULL);
+			// reassigner le i si token vide du coup la premiere boucle osef en 
+			// soit si je fais ca car je le fais dans switch var
 			printf("new token = %s\n", token);
 		}
-		// if (check_sign(token, 0))
-		// 	parsing_env_var(ms, token);
 	}
 	return (token);
 }

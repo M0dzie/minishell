@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:13:09 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/08 10:48:12 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/14 09:36:34 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,38 +28,38 @@ char	*word_to_change(char *input, char quote)
 	return (word);
 }
 
-char	*get_before_quote(char *input, int index)
+char	*get_before_delim(char *input, int index)
 {
 	int		i;
-	char	*before_quote;
+	char	*before;
 
 	i = -1;
-	before_quote = malloc(sizeof(char) * index + 1);
-	if (!before_quote)
+	before = malloc(sizeof(char) * index + 1);
+	if (!before)
 		return (NULL);
 	while (++i < index)
-		before_quote[i] = input[i];
-	before_quote[i] = '\0';
-	return (before_quote);
+		before[i] = input[i];
+	before[i] = '\0';
+	return (before);
 }
 
-char	*get_after_quote(char *input, int index)
+char	*get_after_delim(char *input, int index)
 {
 	int		i;
 	int		len;
-	char	*after_quote;
+	char	*after;
 
 	i = -1;
 	len = ft_strlen(input) - index;
-	after_quote = ft_calloc(len + 1, sizeof(char));
-	if (!after_quote)
+	after = ft_calloc(len + 1, sizeof(char));
+	if (!after)
 		return (NULL);
 	while (i++ < len)
-		after_quote[i] = input[index + i];
-	return (after_quote);
+		after[i] = input[index + i];
+	return (after);
 }
 
-char	*clear_line(char *before_quote, char *new_word, char *after_quote)
+char	*clear_line(char *before, char *new_word, char *after)
 {
 	int		i;
 	int		j;
@@ -68,35 +68,35 @@ char	*clear_line(char *before_quote, char *new_word, char *after_quote)
 
 	i = -1;
 	j = -1;
-	clear = ft_calloc(ft_strlen(before_quote) + ft_strlen(after_quote) + \
+	clear = ft_calloc(ft_strlen(before) + ft_strlen(after) + \
 	ft_strlen(new_word) + 1, sizeof(char));
 	if (!clear)
 		return (NULL);
-	while (before_quote[++i])
-		clear[i] = before_quote[i];
+	while (before[++i])
+		clear[i] = before[i];
 	while (++j < ft_strlen(new_word))
 		clear[i++] = new_word[j];
 	j = -1;
-	while (after_quote[++j])
-		clear[i++] = after_quote[j];
+	while (after[++j])
+		clear[i++] = after[j];
 	return (clear);
 }
 
 char	*del_quotes(char *input, int index, int lst_quote, char quote)
 {
 	char	*new_word;
-	char	*before_quote;
-	char	*after_quote;
+	char	*before;
+	char	*after;
 	char	*new_line;
 
-	before_quote = get_before_quote(input, index);
+	before = get_before_delim(input, index);
 	new_word = word_to_change(input + index + 1, quote);
-	after_quote = get_after_quote(input, lst_quote);
-	if (!before_quote || !new_word || !after_quote)
-		return (free(before_quote), free(new_word), free(after_quote), NULL);
-	new_line = clear_line(before_quote, new_word, after_quote);
+	after = get_after_delim(input, lst_quote);
+	if (!before || !new_word || !after)
+		return (free(before), free(new_word), free(after), NULL);
+	new_line = clear_line(before, new_word, after);
 	if (!new_line)
-		return (free(before_quote), free(new_word), free(after_quote), NULL);
-	return (free(before_quote), free(new_word), free(after_quote), \
+		return (free(before), free(new_word), free(after), NULL);
+	return (free(before), free(new_word), free(after), \
 	free(input), new_line);
 }
