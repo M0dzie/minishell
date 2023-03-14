@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/14 12:48:29 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/14 22:03:09 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@ int	check_opened_quotes(t_msl *ms, char *input, int i, char quote)
 char	*parsing_env_var(t_msl *ms, char *token)
 {
 	int	i;
+	int	in_dquote;
 
 	i = -1;
+	in_dquote = 0;
 	while (token[++i])
 	{
-		if (token[i] == '\'' && !check_opened_quotes(ms, token, i + 1, '\''))
+		if (token[i] == '\'' && !check_opened_quotes(ms, token, i + 1, '\'') \
+		&& !in_dquote)
 			i = ms->lst_quote;
 		if (token[i] == '$' || (token[i] == '\"' && check_sign(token, i + 1)))
 		{
@@ -38,6 +41,9 @@ char	*parsing_env_var(t_msl *ms, char *token)
 			if (!token)
 				return (NULL);
 			i = ms->f_quote;
+			in_dquote = 1;
+			if (token[i + 1] == '\"')
+				in_dquote = 0;
 			printf("new token = %s\n", token);
 		}
 	}
