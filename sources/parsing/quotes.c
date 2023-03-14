@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/14 09:47:02 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/14 10:18:05 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,14 @@ char	*parsing_env_var(t_msl *ms, char *token)
 	int	i;
 
 	i = -1;
-	printf("token = %s\n", token);
 	while (token[++i])
 	{
 		if (token[i] == '\'' && !check_opened_quotes(ms, token, i + 1, '\''))
-		{
 			i = ms->lst_quote;
-			printf("i after single quote = %d\n", i);
-		}
 		if (token[i] == '$' || (token[i] == '\"' && check_sign(token, i + 1)))
 		{
+			while (token[i] == '\'')
+				i++;
 			token = switch_var(ms, token, i);
 			if (!token)
 				return (NULL);
