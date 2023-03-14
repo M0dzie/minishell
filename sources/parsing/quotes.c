@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/14 12:34:57 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/14 12:48:29 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*parsing_env_var(t_msl *ms, char *token)
 			token = switch_var(ms, token, i);
 			if (!token)
 				return (NULL);
-				i = ms->f_quote;
+			i = ms->f_quote;
 			printf("new token = %s\n", token);
 		}
 	}
@@ -56,12 +56,14 @@ char	*parsing_quotes_split(t_msl *ms, char *token)
 	{
 		if (token[i] == '\'' || token[i] == '\"')
 		{
-			check_opened_quotes(ms, token, i + 1, token[i]);
-			token = del_quotes(token, i, ms->lst_quote + 1, \
-			token[i]);
-			if (!token)
-				return (NULL);
-			i = ms->lst_quote - 2;
+			if (!check_opened_quotes(ms, token, i + 1, token[i]))
+			{
+				token = del_quotes(token, i, ms->lst_quote + 1, \
+				token[i]);
+				if (!token)
+					return (NULL);
+				i = ms->lst_quote - 2;
+			}
 		}
 	}
 	return (token);
