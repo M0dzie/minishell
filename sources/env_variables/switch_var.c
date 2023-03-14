@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/08 15:14:37 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/14 09:36:58 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_value(t_msl *ms, char *token)
 	while (token[i] && token[i] != '\"' && token[i] && '\'' && \
 	token[i] != ' ' && token[i] != '$')
 		i++;
-	token = get_before_quote(token, i);
+	token = get_before_delim(token, i);
 	if (!token)
 		return (NULL);
 	tmp = getvar(ms, token);
@@ -54,14 +54,14 @@ char	*switch_var(t_msl *ms, char *token, int i)
 
 	while (token[i] != '$')
 		i++;
-	before = get_before_quote(token, i);
+	before = get_before_delim(token, i);
 	var = get_value(ms, token + ++i);
 	if (!before || !var)
 		return (free(before), NULL);
 	while (token[i] && token[i] != '\"' && token[i] != '\'' && token[i] != ' ' \
 	&& token[i] != '$')
 		i++;
-	next = get_after_quote(token, i);
+	next = get_after_delim(token, i);
 	if (!next)
 		return (free(before), free(var), NULL);
 	var = clear_line(before, var, next);
