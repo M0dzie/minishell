@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   switch_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/14 12:33:36 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/14 23:05:01 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ char	*get_value(t_msl *ms, char *token)
 		return (ft_itoa(ms->status));
 	if (token[0] == '$' || token[0] == ' ' || !token[0] || token[0] == '\'' \
 	|| token[0] == '\"')
-		return ("$");
+		return (ms->f_quote++, "$");
 	i = 0;
-	while (token[i] && token[i] != '\"' && token[i] && '\'' && \
+	while (token[i] && token[i] != '\"' && token[i] != '\'' && \
 	token[i] != ' ' && token[i] != '$')
 		i++;
 	token = get_before_delim(token, i);
