@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/15 12:37:19 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/15 13:30:22 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,14 @@ char	*get_value(t_msl *ms, char *token)
 	int		i;
 	t_var	*tmp;
 
+	printf("get_value = %s\n", token);
 	if (token[0] == '?')
 		return (ft_itoa(ms->status));
-	if (token[0] == '$' || token[0] == ' ' || !token[0] || token[0] == '\'' \
-	|| token[0] == '\"')
+	if (token[0] == '\"' || token[0] == '\'')
+		return ("");
+	if (ft_isdigit(token[0]))
+		return ("");
+	if (token[0] == '$' || token[0] == ' ' || !token[0] | !ft_isalpha(token[0]))
 		return (ms->f_quote++, "$");
 	i = 0;
 	while (token[i] && token[i] != '\"' && token[i] != '\'' && \
@@ -40,6 +44,7 @@ char	*get_value(t_msl *ms, char *token)
 	token = get_before_delim(token, i);
 	if (!token)
 		return (NULL);
+	printf("var to search = %s\n", token);
 	tmp = getvar(ms, token);
 	if (!tmp)
 		return (free(tmp), free(token), "");
@@ -59,9 +64,8 @@ char	*switch_var(t_msl *ms, char *token, int i)
 	var = get_value(ms, token + ++i);
 	if (!before || !var)
 		return (free(before), NULL);
-	printf("token = %s\n", token + i);
-	while (token[i] && token[i] != '\"' && token[i] != '\'' && token[i] != ' ' \
-	&& token[i] != '$')
+	while (token[i] && (ft_isalpha(token[i]) || token[i] == '?') && token[i] != '\"' \
+	&& token[i] != '\'' && token[i] != ' ' && token[i] != '$')
 		i++;
 	next = get_after_delim(token, i);
 	if (!next)
