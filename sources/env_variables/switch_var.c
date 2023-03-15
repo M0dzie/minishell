@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/15 13:30:22 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/15 13:32:17 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	*get_value(t_msl *ms, char *token)
 	token = get_before_delim(token, i);
 	if (!token)
 		return (NULL);
-	printf("var to search = %s\n", token);
 	tmp = getvar(ms, token);
 	if (!tmp)
 		return (free(tmp), free(token), "");
