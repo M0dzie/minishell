@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/15 12:08:19 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/15 12:33:52 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,15 @@ char	*parsing_env_var(t_msl *ms, char *token)
 			i = ms->lst_quote;
 		if (token[i] == '$' || (token[i] == '\"' && check_sign(token, i + 1)))
 		{
+			// printf("token[%d] = %c\n", i, token[i]);
 			if (token[i] == '\"')
-				in_dquote = 1;
+				in_dquote = !in_dquote;
 			token = switch_var(ms, token, i);
 			if (!token)
 				return (NULL);
 			i = ms->f_quote;
-			if (token[i + 1] == '\"') // need a fix pour regler le soucis ""'$?'""
-				in_dquote = 0;
-			printf("new token = %s\n", token);
+			// printf("new token = %s\n", token);
 		}
-		printf("in_dquote = %d\n", in_dquote);
 	}
 	return (token);
 }

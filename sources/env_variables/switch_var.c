@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/14 23:05:01 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/15 12:37:19 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char	*switch_var(t_msl *ms, char *token, int i)
 	var = get_value(ms, token + ++i);
 	if (!before || !var)
 		return (free(before), NULL);
+	printf("token = %s\n", token + i);
 	while (token[i] && token[i] != '\"' && token[i] != '\'' && token[i] != ' ' \
 	&& token[i] != '$')
 		i++;
