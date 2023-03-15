@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/15 13:34:14 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/15 17:40:34 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,17 @@ char	*parsing_env_var(t_msl *ms, char *token)
 		if (token[i] == '\'' && !check_opened_quotes(ms, token, i + 1, '\'') \
 		&& !in_dquote)
 			i = ms->lst_quote;
-		if (token[i] == '$' || (token[i] == '\"' && check_sign(token, i + 1)))
+		if (token[i] == '$' || token[i] == '\"')
 		{
 			if (token[i] == '\"')
 				in_dquote = !in_dquote;
-			token = switch_var(ms, token, i);
-			if (!token)
-				return (NULL);
-			i = ms->f_quote;
+			if (token[i] == '$' || (in_dquote && check_sign(token, i + 1)))
+			{
+				token = switch_var(ms, token, i);
+				if (!token)
+					return (NULL);
+				i = ms->f_quote;
+			}
 		}
 	}
 	return (token);
