@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/14 09:34:51 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/15 18:44:43 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ typedef struct s_msl
 	char	**split;
 	char	***cmds;
 	int		c_pipe;
-	int		lst_quote;
-	int		f_quote;
+	int		lst_delim;
+	int		fst_delim;
 	int		status;
 	int		c_cmd;
 	t_var	*env;
@@ -44,7 +44,7 @@ typedef struct s_msl
 }			t_msl;
 
 char	*clear_line(char *before_line, char *new_word, char *next_line);
-char	*del_quotes(char *input, int index, int lst_quote, char c);
+char	*del_quotes(char *input, int index, int lst_delim, char c);
 char	**ft_getenv(t_msl *ms, int mode);
 char	*get_after_delim(char *input, int index);
 char	*get_before_delim(char *input, int index);

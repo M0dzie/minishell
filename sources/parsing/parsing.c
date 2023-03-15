@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/08 10:33:33 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/15 18:04:38 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,12 @@ void	count_pipes(t_msl *ms)
 
 void	read_prompt(t_msl *ms, char **envp)
 {
-	int		i;
+	int	i;
 
 	i = -1;
 	ms->input = ft_strtrim(ms->input, " ");
+	if (!ms->input)
+		return ;
 	count_pipes(ms);
 	if (ms->input[0] == '\0' || parsing_errors(ms, ms->input, \
 	ms->c_pipe) == -1 || parsing_quotes(ms) == -1)

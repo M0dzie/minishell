@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/15 13:34:14 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/15 18:44:43 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_opened_quotes(t_msl *ms, char *input, int i, char quote)
 	while (input[i] && input[i] != quote)
 		i++;
 	if (input[i] == quote)
-		return (ms->lst_quote = i, 0);
+		return (ms->lst_delim = i, 0);
 	return (1);
 }
 
@@ -34,15 +34,18 @@ char	*parsing_env_var(t_msl *ms, char *token)
 	{
 		if (token[i] == '\'' && !check_opened_quotes(ms, token, i + 1, '\'') \
 		&& !in_dquote)
-			i = ms->lst_quote;
-		if (token[i] == '$' || (token[i] == '\"' && check_sign(token, i + 1)))
+			i = ms->lst_delim;
+		if (token[i] == '$' || token[i] == '\"')
 		{
 			if (token[i] == '\"')
 				in_dquote = !in_dquote;
-			token = switch_var(ms, token, i);
-			if (!token)
-				return (NULL);
-			i = ms->f_quote;
+			if (token[i] == '$' || (in_dquote && check_sign(token, i + 1)))
+			{
+				token = switch_var(ms, token, i);
+				if (!token)
+					return (NULL);
+				i = ms->fst_delim;
+			}
 		}
 	}
 	return (token);
@@ -62,11 +65,11 @@ char	*parsing_quotes_split(t_msl *ms, char *token)
 		{
 			if (!check_opened_quotes(ms, token, i + 1, token[i]))
 			{
-				token = del_quotes(token, i, ms->lst_quote + 1, \
+				token = del_quotes(token, i, ms->lst_delim + 1, \
 				token[i]);
 				if (!token)
 					return (NULL);
-				i = ms->lst_quote - 2;
+				i = ms->lst_delim - 2;
 			}
 		}
 	}
@@ -84,7 +87,7 @@ int	parsing_quotes(t_msl *ms)
 		{
 			if (check_opened_quotes(ms, ms->input, i + 1, ms->input[i]))
 				return (display_errors(ms, ms->input, ms->input[i]));
-			i = ms->lst_quote;
+			i = ms->lst_delim;
 		}
 	}
 	return (0);

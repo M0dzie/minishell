@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/08 10:36:17 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/15 18:44:11 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ char	**ms_split(t_msl *ms, char *input)
 		if ((input[i] == '\"' || input[i] == '\'') && (i == 0 \
 		|| ft_isascii(input[i - 1])))
 		{
-			if (in_quote && input[i] == ms->f_quote)
+			if (in_quote && input[i] == ms->fst_delim)
 				in_quote = 0;
 			else if (!in_quote)
 			{
 				in_quote = 1;
-				ms->f_quote = input[i];
+				ms->fst_delim = input[i];
 			}
 		}
 		if (!in_quote && is_space(input[i]))
