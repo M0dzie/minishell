@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/15 19:08:40 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/16 16:27:54 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,14 @@ char	*get_value(t_msl *ms, char *token)
 	int		i;
 	t_var	*tmp;
 
-	printf("get_value = %s\n", token);
 	if (token[0] == '?' )
-		return (ft_itoa(ms->status));
+		return (ms->lst_delim = 1, ft_itoa(ms->status));
+	if (token[0] == ' ' || !token[0])
+		return (ms->fst_delim++, ms->lst_delim = 0, "$");
 	if (token[0] == '\"' || token[0] == '\'')
-		return ("");
-	if (ft_isdigit(token[0]))
-		return ("");
-	if (token[0] == '$' || token[0] == ' ' || !token[0] | !ft_isalpha(token[0]))
-		return (ms->fst_delim++, "$");
+		return (ms->lst_delim = 0, "");
+	if (ft_isdigit(token[0]) || !ft_isalnum(token[0]))
+		return (ms->lst_delim = 1, "");
 	i = 0;
 	while (token[i] && ft_isalnum(token[i]))
 		i++;
@@ -45,8 +44,8 @@ char	*get_value(t_msl *ms, char *token)
 		return (NULL);
 	tmp = getvar(ms, token);
 	if (!tmp)
-		return (free(tmp), free(token), "");
-	return (free(token), tmp->value);
+		return (ms->lst_delim = ft_strlen(token), "");
+	return (ms->lst_delim = ft_strlen(token), tmp->value);
 }
 
 char	*switch_var(t_msl *ms, char *token, int i)
@@ -61,13 +60,11 @@ char	*switch_var(t_msl *ms, char *token, int i)
 	before = get_before_delim(token, i);
 	var = get_value(ms, token + ++i);
 	if (!before || !var)
-		return (free(before), NULL);
-	while (token[i] && ft_isalnum(token[i]))
-		i++;
+		return (free(before), free(token), NULL);
+	i += ms->lst_delim;
 	next = get_after_delim(token, i);
 	if (!next)
-		return (free(before), free(var), NULL);
-	printf("next = %s\n", next);
+		return (free(before), free(var), free(token), NULL);
 	var = clear_line(before, var, next);
 	if (!var)
 		return (free(before), free(next), NULL);
