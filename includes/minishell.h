@@ -104,5 +104,3 @@ void	var_add_back(t_msl *ms, t_var *var);
 void	print_args(char **args);
 
 #endif
-
-`
