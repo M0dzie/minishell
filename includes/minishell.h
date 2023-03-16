@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/16 11:24:32 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/16 11:51:52 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_msl
 {
 	char	*input;
 	char	**split;
-	char	**test;
+	char	**tokens;
 	char	***cmds;
 	int		c_pipe;
 	int		lst_delim;
@@ -105,3 +105,4 @@ void	print_args(char **args);
 
 #endif
 
+`
