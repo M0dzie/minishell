@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/18 11:55:41 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/18 20:21:32 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ typedef struct s_msl
 	int		status;
 	int		c_cmd;
 	t_var	*env;
-	t_var	*export;
+	char	**arrenv;
+	// t_var	*export;
 	int		**pipes;
 	pid_t	*pid;
 	t_block	**blocks;
@@ -74,6 +75,7 @@ typedef struct s_msl
 char	*clear_line(char *before_line, char *new_word, char *next_line);
 char	*del_quotes(char *input, int index, int lst_delim, char c);
 char	**ft_getenv(t_msl *ms, int mode);
+char	**getarr_cmd(t_elem *arg);
 char	*get_after_delim(char *input, int index);
 char	*get_before_delim(char *input, int index);
 char	*get_cmd_path(char *cmd, char **envp);
@@ -94,11 +96,12 @@ int		display_errors_redirect2(t_msl *ms, char *input, int type);
 int		display_errors_redirect3(t_msl *ms, char *input, int type);
 int		display_errors_redirect4(t_msl *ms, char *input, int type);
 int		envsize(t_msl *ms);
-int		exec_env(t_msl *ms, char **args_cmd, char **envp);
-int		exec_export(t_msl *ms, char **args_cmd, char **envp);
-int		exec_pwd(t_msl *ms, char **args_cmd, char **envp);
-int		exec_unset(t_msl *ms, char **args_cmd, char **envp);
+int		exec_env(t_msl *ms, char **args_cmd);
+int		exec_export(t_msl *ms, char **args_cmd);
+int		exec_pwd(t_msl *ms, char **args_cmd);
+int		exec_unset(t_msl *ms, char **args_cmd);
 int		invalid_first(char *name);
+int		is_builtins(char *cmd);
 int		is_space(char c);
 int		parsing_errors(t_msl *ms, char *input, int c_pipe);
 int		parsing_pipes_input(t_msl *ms);
@@ -108,14 +111,15 @@ int		strict_cmp(const char *builts, const char *cmd);
 t_var	*getvar(t_msl *ms, char *name);
 t_var	*new_var(char *name, char *value, int in_env);
 
+void	builtins_execution(t_msl *ms, t_elem *arg);
 void	count_pipes(t_msl *ms);
 void	create_pipe(char **args_cmd, t_msl *ms, char **envp);
 void	display_env(t_msl *ms, int mode);
 void	display_export(t_msl *ms);
 void	execute_cmd(t_msl *ms, char **cmd_args, char **envp);
 void	execution(t_msl *ms);
-void	exec_cd(t_msl *ms, char **args_cmd, char **envp);
-void	exec_echo(t_msl *ms, char **args_cmd, char **envp);
+int		exec_cd(t_msl *ms, char **args_cmd);
+int		exec_echo(t_msl *ms, char **args_cmd);
 void	exec_exit(t_msl *ms, char **args_cmd);
 void	handle_cmd(t_msl *ms, char **tmp_args, char **envp);
 void	init_env(t_msl *ms, char **envp);
@@ -124,6 +128,7 @@ void	parsing_errors_echo(t_msl *sl);
 void	pipe_one(char **args_cmd, t_msl *ms, char **envp);
 void	read_prompt(t_msl *ms, char **envp);
 void	signal_handler(int signal);
+void	standard_execution(t_msl *ms, t_elem *arg);
 void	var_add_back(t_msl *ms, t_var *var);
 
 
