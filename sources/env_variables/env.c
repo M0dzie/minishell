@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:07:13 by msapin            #+#    #+#             */
-/*   Updated: 2023/02/26 12:30:19 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/18 17:14:17 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,4 +294,5 @@ void	init_env(t_msl *ms, char **envp)
 		if (!strict_cmp(tmp_split[0], "_"))
 			var_add_back(ms, new_var(tmp_split[0], tmp_split[1], 1));
 	}
+	ms->arrenv = ft_getenv(ms, 0);
 }
