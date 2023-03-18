@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:43:24 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/25 20:05:33 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/18 21:02:19 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	var_handling(t_msl *ms, char *args_cmd)
 		}
 		else
 			var_add_back(ms, new_var(tmp_split[0], tmp_split[1], 1));
+		ms->arrenv = ft_getenv(ms, 0);
 	}
 	else
 	{
@@ -96,24 +97,20 @@ void	var_handling(t_msl *ms, char *args_cmd)
 	}
 }
 
-int	exec_export(t_msl *ms, char **args_cmd, char **envp)
+int	exec_export(t_msl *ms, char **args_cmd)
 {
 	int		i;
-	int		valid;
-	int		rtn;
+	int		exit_stat;
 
 	i = 0;
-	rtn = 0;
+	exit_stat = 0;
 	if (ft_arrlen(args_cmd) == 1)
-		// display_export(ms);
 		display_env(ms, 1);
 	while (args_cmd[++i])
 	{
-		valid = invalid_identifier(args_cmd[i]);
-		if (valid == 0 && ms->c_pipe == 0)
+		exit_stat = invalid_identifier(args_cmd[i]);
+		if (exit_stat == 0 && ms->c_pipe == 0)
 			var_handling(ms, args_cmd[i]);
-		else
-			rtn = valid;
 	}
-	return (rtn);
+	return (exit_stat);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pwd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 21:21:14 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/23 14:01:14 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/18 20:22:47 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int	invalid_pwd(char c)
 	return (2);
 }
 
-int	exec_pwd(t_msl *ms, char **args_cmd, char **envp)
+int	exec_pwd(t_msl *ms, char **args_cmd)
 {
 	char	*tmp_path;
 	char	**tmp_args;
 	int		i;
 	int		valid;
 
-	tmp_path = get_cmd_path(args_cmd[0], envp);
+	tmp_path = get_cmd_path(args_cmd[0], ms->arrenv);
 	tmp_args = ft_calloc(1, sizeof(char *));
 	tmp_args = ft_arradd_back(tmp_args, tmp_path);
 	valid = 0;
@@ -43,6 +43,8 @@ int	exec_pwd(t_msl *ms, char **args_cmd, char **envp)
 		}
 	}
 	if (valid == 0)
-		handle_cmd(ms, tmp_args, envp);
+		execute_cmd(ms, tmp_args, ms->arrenv);
+	// ms->status = valid;
+	// exit (valid);
 	return (valid);
 }

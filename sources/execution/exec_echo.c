@@ -3,17 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   exec_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:41:27 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/07 17:30:13 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/18 20:14:03 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "../../includes/minimehdi.h"
+// #include "../../includes/minimehdi.h"
 
-void	exec_echo(t_msl *ms, char **args_cmd, char **envp)
+int	exec_echo(t_msl *ms, char **args_cmd)
 {
-	handle_cmd(ms, args_cmd, envp);
+	int	exit_stat;
+
+	exit_stat = 0;
+	execute_cmd(ms, args_cmd, ms->arrenv);
+	return (exit_stat);
 }
