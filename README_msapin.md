@@ -1,6 +1,25 @@
 # **Minishell - Readme**
 
 
+#  _EXECUTION_
+_I will divide each command line into "block" of tokens.
+a block can be compose of multiples token :_
+- one command (optional)
+- arguments (optional)
+- one or multiple inputs (optional)
+- one or multiple outputs (optional)
+
+_A block is all characters between pipe_
+
+```
+minishell $> ls -la | wc < README -l | sleep 3 | env > fileout
+            cmd arg  cmd   input  arg   cmd arg  cmd    redir
+```
+
+_If one element in the block is invalid nothing is execute, but
+an error message is displayed corresponding of the first error
+encounter_
+
 #  _BUILTINS_
 
 
