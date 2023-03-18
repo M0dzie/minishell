@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 14:17:43 by msapin            #+#    #+#             */
-/*   Updated: 2023/02/08 16:25:53 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/09 12:47:42 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int		conv_base_len(size_t n, int len_base);
 
 char	**ft_split(char const *s, char c);
 char	*ft_strdup(const char *s1);
+char	*ft_strdup_null(const char *s1);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
