@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/18 11:44:31 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/18 21:04:38 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,28 +71,67 @@ void	execute_cmd(t_msl *ms, char **cmd_args, char **envp)
 	execve(cmd_path, cmd_args, envp);
 	display_error_exec("bash: ", cmd_args[0], 5);
 	free(cmd_path);
-
-	// error message
-
-	// ft_arrfree(cmd_args);
-	// exit(127);
+	ms->status = 127;
+	// free(cmd_path);
+	ft_arrfree(cmd_args);
+	exit (127);
 }
 
-void	pipe_one(char **args_cmd, t_msl *ms, char **envp)
+void	exec_one(t_msl *ms, int index)
 {
-	(void)args_cmd;
-	(void)ms;
-
 	pid_t	pid;
 	int		pipefd[2];
+	char	**args_cmd;
 
+	args_cmd = getarr_cmd(ms->blocks[index]->arg);
+	if (strict_cmp("exit", ms->blocks[index]->arg->name))		// DONE
+		exec_exit(ms, args_cmd);
 	pipe(pipefd);
 	pid = fork();
+	if (pid < 0)
+		display_error_exec("bash: ", "fork", 15);
 	if (pid == 0)
-		execute_cmd(ms, args_cmd, envp);
+	{
+		if (is_builtins(ms->blocks[index]->arg->name))
+		{
+			builtins_execution(ms, ms->blocks[index]->arg);
+			// printf("builtins\n");
+		}
+		else
+		{
+			// printf("standard\n");
+			standard_execution(ms, ms->blocks[index]->arg);
+		}
+	}
 	else
 		wait(NULL);
 }
+
+// void	exec_one(t_msl *ms, int index)
+// {
+// 	// char	**args_cmd;
+
+// 	printf("execution one\n");
+// 	// args_cmd = getarr_cmd(ms->blocks[index]->arg);
+// 	ms->pid[index] = fork();
+// 	if (ms->pid[index] < 0)
+// 		display_error_exec("bash: ", "fork", 15);
+// 	if (ms->pid == 0)
+// 	{
+// 		if (is_builtins(ms->blocks[index]->arg->name))
+// 		{
+// 			builtins_execution(ms, ms->blocks[index]->arg);
+// 			printf("builtins\n");
+// 		}
+// 		else
+// 		{
+// 			printf("standard\n");
+// 			standard_execution(ms, ms->blocks[index]->arg);
+// 		}
+// 	}
+// 	else
+// 		wait(NULL);
+// }
 
 void	create_pipe(char **args_cmd, t_msl *ms, char **envp)
 {
@@ -203,40 +242,43 @@ void	builtins_execution(t_msl *ms, t_elem *arg)
 	envp = ft_getenv(ms, 0);
 	args_cmd = getarr_cmd(arg);
 	if (strict_cmp("echo", arg->name))
-		exec_echo(ms, args_cmd, envp);
+		ms->status = exec_echo(ms, args_cmd);
 	else if (strict_cmp("pwd", args_cmd[0]))		// DONE
-		ms->status = exec_pwd(ms, args_cmd, envp);
+		ms->status = exec_pwd(ms, args_cmd);
 	else if (strict_cmp("env", args_cmd[0]))
-		ms->status = exec_env(ms, args_cmd, envp);
+		ms->status = exec_env(ms, args_cmd);
 	else if (strict_cmp("cd", args_cmd[0]))		// WIP
-		exec_cd(ms, args_cmd, envp);
+		ms->status = exec_cd(ms, args_cmd);
 	else if (strict_cmp("export", args_cmd[0]))
-		ms->status = exec_export(ms, args_cmd, envp);
+		ms->status = exec_export(ms, args_cmd);
 	else if (strict_cmp("unset", args_cmd[0]))
-		ms->status = exec_unset(ms, args_cmd, envp);
+		ms->status = exec_unset(ms, args_cmd);
 	else if (strict_cmp("exit", args_cmd[0]))		// DONE
 		exec_exit(ms, args_cmd);
+	// need to found a way of passing ms->status info to other process, le number is lost when exiting
+	printf("status : %d\n", ms->status);
+	exit(ms->status);
 }
 
-void	handle_cmd(t_msl *ms, char **args_cmd, char **envp)
-{
-	if (ms->c_pipe == 0)
-	{
-		// printf("Just one command\n\n");
-		pipe_one(args_cmd, ms, envp);
-	}
-	else if (ms->c_cmd == 1)
-	{
-		// printf("\nLast command\n");
-		// execute_cmd(args_cmd, envp);
-		pipe_one(args_cmd, ms, envp);
-	}
-	else
-	{
-		// printf("Command intermediaire\n");
-		create_pipe(args_cmd, ms, envp);
-	}
-}
+// void	handle_cmd(t_msl *ms, char **args_cmd, char **envp)
+// {
+// 	if (ms->c_pipe == 0)
+// 	{
+// 		// printf("Just one command\n\n");
+// 		exec_one(args_cmd, ms, envp);
+// 	}
+// 	else if (ms->c_cmd == 1)
+// 	{
+// 		// printf("\nLast command\n");
+// 		// execute_cmd(args_cmd, envp);
+// 		exec_one(args_cmd, ms, envp);
+// 	}
+// 	else
+// 	{
+// 		// printf("Command intermediaire\n");
+// 		create_pipe(args_cmd, ms, envp);
+// 	}
+// }
 
 void	standard_execution(t_msl *ms, t_elem *arg)
 {
@@ -245,61 +287,11 @@ void	standard_execution(t_msl *ms, t_elem *arg)
 
 	envp = ft_getenv(ms, 0);
 	args_cmd = getarr_cmd(arg);
+
 	// execute_cmd(ms, args_cmd, envp);
 	// handle_cmd(ms, args_cmd, envp);
-	// pipe_one(args_cmd, ms, envp);
+	// exec_one(args_cmd, ms, envp);
 	execute_cmd(ms, args_cmd, envp);
-}
-
-int	is_file(t_msl *ms, int index)
-{
-	if (index > 0 && ms->tokens[index - 1])
-	{
-		if (strict_cmp(ms->tokens[index - 1], "<"))
-		{
-			if (access(ms->tokens[index], F_OK))
-				printf("invalid file %s\n", ms->tokens[index]);
-			return (1);
-		}
-		else if (strict_cmp(ms->tokens[index - 1], ">") || strict_cmp(ms->tokens[index - 1], ">>"))
-			return (1);
-	}
-	return (0);
-}
-
-int	is_redir(t_msl *ms, int index)
-{
-	if (strict_cmp(ms->tokens[index], "<") || strict_cmp(ms->tokens[index], "<<")
-	|| strict_cmp(ms->tokens[index], ">") || strict_cmp(ms->tokens[index], ">>"))
-		return (1);
-	return (0);
-}
-
-void	pipe_malloc(t_msl *ms)
-{
-	int	i;
-
-	i = 0;
-	ms->pipes = ft_calloc(ms->c_pipe + 1, sizeof(int *));
-	if (!ms->pipes)
-		display_error_exec("bash: ", "pipes", 15);
-	while (i < ms->c_pipe)
-	{
-		ms->pipes[i] = ft_calloc(2, sizeof(int));
-		if (!ms->pipes[i])
-			display_error_exec("bash: ", "pipex[i]", 15);
-		pipe(ms->pipes[i]);
-		i++;
-	}
-}
-
-void	parsing_pipex(t_msl *ms)
-{
-	ms->pid = ft_calloc(ms->c_cmd + 1, sizeof(pid_t));
-	if (!ms->pid)
-		display_error_exec("bash: ", "pid", 15);
-	if (ms->c_pipe > 0)
-		pipe_malloc(ms);
 }
 
 void	elem_addback(t_elem **stack, t_elem *new_elem)
@@ -477,24 +469,16 @@ void	write_output(t_block *block)
 
 void	exec_last_cmd(t_msl *ms, int index)
 {
-	printf("last block - cmd : %s\n", ms->blocks[index]->arg->name);
+	// printf("last block index = %d c_pipe = %d - cmd : %s\n", index, ms->c_pipe, ms->blocks[index]->arg->name);
 
-	ms->pid[ms->c_pipe - 1] = fork();
-	if (ms->pid[ms->c_pipe - 1] < 0)
+	ms->pid[index] = fork();
+	if (ms->pid[index] < 0)
 		display_error_exec("bash: ", "fork", 15);
-	else if (ms->pid[ms->c_pipe - 1] == 0)
+	else if (ms->pid[index] == 0)
 	{
-		close(ms->pipes[ms->c_pipe - 1][1]);
-		dup2(ms->pipes[ms->c_pipe - 1][0], STDIN_FILENO);
-		close(ms->pipes[ms->c_pipe - 1][0]);
-		// if (pipex->outfile < 0)
-		// {
-		// 	free_pipex(pipex);
-		// 	exit (1);
-		// }
-		// dup2(pipex->outfile, STDOUT_FILENO);
-		// close(pipex->outfile);
-		// execute_cmd(pipex, args[pipex->nb_args - 2], envp);
+		close(ms->pipes[index - 1][1]);
+		dup2(ms->pipes[index - 1][0], STDIN_FILENO);
+		close(ms->pipes[index - 1][0]);
 		if (ms->blocks[index]->arg)
 		{
 			if (is_builtins(ms->blocks[index]->arg->name))
@@ -505,52 +489,51 @@ void	exec_last_cmd(t_msl *ms, int index)
 	}
 	else
 	{
-		// if (pipex->outfile > 0)
-		// 	close(pipex->outfile);
-		close(ms->pipes[ms->c_pipe - 1][0]);
+		close(ms->pipes[index - 1][0]);
 	}
 }
 
 void	exec_middle_cmd(t_msl *ms, int index)
 {
-	printf("middle block - cmd : %s\n", ms->blocks[index]->arg->name);
-	// pipex->pid[i] = fork();
-	// if (pipex->pid[i] < 0)
-	// 	display_error("bash: ", "fork", 5);
-	// else if (pipex->pid[i] == 0)
-	// {
-	// 	close(pipex->pipes[i][0]);
-	// 	dup2(pipex->pipes[i - 1][0], STDIN_FILENO);
-	// 	close(pipex->pipes[i - 1][0]);
-	// 	dup2(pipex->pipes[i][1], STDOUT_FILENO);
-	// 	close(pipex->pipes[i][1]);
-	// 	execute_cmd(pipex, args[0], envp);
-	// }
-	// else
-	// {
-	// 	close(pipex->pipes[i - 1][0]);
-	// 	close(pipex->pipes[i][1]);
-	// }
+	// printf("middle block %d - cmd : %s\n", index, ms->blocks[index]->arg->name);
+
+	ms->pid[index] = fork();
+	if (ms->pid[index] < 0)
+		display_error_exec("bash: ", "fork", 15);
+	else if (ms->pid[index] == 0)
+	{
+		close(ms->pipes[index][0]);
+		dup2(ms->pipes[index - 1][0], STDIN_FILENO);
+		close(ms->pipes[index - 1][0]);
+		dup2(ms->pipes[index][1], STDOUT_FILENO);
+		close(ms->pipes[index][1]);
+		if (ms->blocks[index]->arg)
+		{
+			if (is_builtins(ms->blocks[index]->arg->name))
+				builtins_execution(ms, ms->blocks[index]->arg);
+			else
+				standard_execution(ms, ms->blocks[index]->arg);
+		}
+	}
+	else
+	{
+		close(ms->pipes[index - 1][0]);
+		close(ms->pipes[index][1]);
+	}
 }
 
 void	exec_first_cmd(t_msl *ms, int index)
 {
-	printf("first block - cmd : %s\n", ms->blocks[index]->arg->name);
-	ms->pid[0] = fork();
-	if (ms->pid[0] < 0)
+	// printf("first block %d - cmd : %s\n", index, ms->blocks[index]->arg->name);
+	ms->pid[index] = fork();
+	if (ms->pid[index] < 0)
 		display_error_exec("bash: ", "fork", 15);
-	else if (ms->pid[0] == 0)
+	else if (ms->pid[index] == 0)
 	{
-		close(ms->pipes[0][0]);
-		dup2(ms->pipes[0][1], STDOUT_FILENO);
-		close(ms->pipes[0][1]);
-		// if (pipex->infile < 0)
-		// {
-		// 	free_pipex(pipex);
-		// 	exit (1);
-		// }
+		close(ms->pipes[index][0]);
+		dup2(ms->pipes[index][1], STDOUT_FILENO);
+		close(ms->pipes[index][1]);
 		// handle_input(pipex, 0);
-		// execute_cmd(pipex, args[index], envp);
 		if (ms->blocks[index]->arg)
 		{
 			if (is_builtins(ms->blocks[index]->arg->name))
@@ -562,7 +545,7 @@ void	exec_first_cmd(t_msl *ms, int index)
 	else
 	{
 		// handle_input(pipex, 1);
-		close(ms->pipes[0][1]);
+		close(ms->pipes[index][1]);
 	}
 }
 
@@ -590,12 +573,10 @@ void	write_input(t_block *block)
 void	exec_cmd(t_msl *ms, int i)
 {
 	if (ms->c_cmd == 1)
-		// printf("only one block - cmd : %s\n", ms->blocks[i]->arg->name);
-		exec_first_cmd(ms, i);
+		exec_one(ms, i);
 	else if (i == 0)
 		exec_first_cmd(ms, i);
 	else if (i == ms->c_cmd - 1)
-		// printf("last block - cmd : %s\n", ms->blocks[i]->arg->name);
 		exec_last_cmd(ms, i);
 	else
 		exec_middle_cmd(ms, i);
