@@ -1,3 +1,6 @@
 ### NEED CHANGE
 
 ls | ""  and "" | ls    ->    rajouter une condition de sortie pour un argument vide (cmd not found)
+
+when trying to use a command that need input open the prompt but ctrl + c bug and print
+two minishell like processus still pending, need to stop pending process when using ctrl c
