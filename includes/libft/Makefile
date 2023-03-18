@@ -6,7 +6,7 @@
 #    By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/10 13:23:25 by msapin            #+#    #+#              #
-#    Updated: 2023/02/08 16:49:29 by mehdisapin       ###   ########.fr        #
+#    Updated: 2023/03/09 12:42:33 by mehdisapin       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,7 +102,8 @@ SRC_PRINTF_FILES	=	ft_printf.c	ft_printf_format.c	\
 
 SRC_STRING_FILES	=	ft_split.c		ft_strdup.c		ft_striteri.c	\
 						ft_strjoin.c	ft_strlcat.c	ft_strlcpy.c	\
-						ft_strmapi.c	ft_strtrim.c	ft_substr.c
+						ft_strmapi.c	ft_strtrim.c	ft_substr.c		\
+						ft_strdup_null.c
 
 SRCS_ARRAY		=	$(addprefix $(SRC_ARRAY_PATH), $(SRC_ARRAY_FILES))
 SRCS_CHECK		=	$(addprefix $(SRC_CHECK_PATH), $(SRC_CHECK_FILES))
