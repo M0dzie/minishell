@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/16 11:51:52 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/18 11:55:41 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
+# define CMD 0
+# define ARG 1
+# define INPUT 2
+# define HEREDOC 3
+# define APPEND 4
+# define TRUNC 5
+
 typedef struct s_var
 {
 	char			*name;
@@ -27,6 +34,24 @@ typedef struct s_var
 	int				in_env;
 	struct s_var	*next;
 }					t_var;
+
+typedef struct s_elem
+{
+	char			*name;
+	int				type;
+	struct s_elem	*next;
+}					t_elem;
+
+typedef struct s_block
+{
+	t_elem	*arg;
+	t_elem	*in;
+	t_elem	*out;
+	char	*input;
+	int		valid;
+	int		index;
+	int		cmd_found;
+}			t_block;
 
 typedef struct s_msl
 {
@@ -41,7 +66,9 @@ typedef struct s_msl
 	int		c_cmd;
 	t_var	*env;
 	t_var	*export;
-	pid_t	pid;
+	int		**pipes;
+	pid_t	*pid;
+	t_block	**blocks;
 }			t_msl;
 
 char	*clear_line(char *before_line, char *new_word, char *next_line);
@@ -85,8 +112,8 @@ void	count_pipes(t_msl *ms);
 void	create_pipe(char **args_cmd, t_msl *ms, char **envp);
 void	display_env(t_msl *ms, int mode);
 void	display_export(t_msl *ms);
-void	execute_cmd(char **cmd_args, char **envp);
-void	execution(t_msl *ms, char *input, char **envp);
+void	execute_cmd(t_msl *ms, char **cmd_args, char **envp);
+void	execution(t_msl *ms);
 void	exec_cd(t_msl *ms, char **args_cmd, char **envp);
 void	exec_echo(t_msl *ms, char **args_cmd, char **envp);
 void	exec_exit(t_msl *ms, char **args_cmd);
