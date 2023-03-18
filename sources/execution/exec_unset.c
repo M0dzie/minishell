@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:44:39 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/25 20:15:05 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/18 20:38:13 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	unset_handling(t_msl *ms, char *var_name)
 	t_var	*tmp_var;
 	t_var	*tmp_prev;
 	t_var	*tmp_next;
-	char	**tmp_split;
 
 	tmp_var = getvar(ms, var_name);
 	if (tmp_var)
@@ -86,7 +85,7 @@ void	unset_handling(t_msl *ms, char *var_name)
 		tmp_next = tmp_var->next;
 		if (tmp_next == NULL && tmp_prev)
 		{
-			// printf("unset last var\n");
+			printf("unset last var\n");
 			free(tmp_var);
 			tmp_prev->next = NULL;
 		}
@@ -110,10 +109,11 @@ void	unset_handling(t_msl *ms, char *var_name)
 			tmp_prev->next = tmp_next;
 			// printf("previous is %s, next is %s\n", tmp_prev->name, tmp_next->name);
 		}
+		ms->arrenv = ft_getenv(ms, 0);
 	}
 }
 
-int	exec_unset(t_msl *ms, char **args_cmd, char **envp)
+int	exec_unset(t_msl *ms, char **args_cmd)
 {
 	int		i;
 	int		valid;

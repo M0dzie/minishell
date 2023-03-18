@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 09:46:41 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/02/20 21:12:00 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/18 20:15:02 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,25 +90,32 @@ int	check_arg_cd(char **args_cmd)
 	return (valid);
 }
 
-void	exec_cd(t_msl *ms, char **args_cmd, char **envp)
+int	exec_cd(t_msl *ms, char **args_cmd)
 {
 	int	args_len;
+	int	exit_stat;
 
 	args_len = ft_arrlen(args_cmd);
+	exit_stat = 0;
 	if (args_len > 2)
+	{
 		display_error_exec("bash: cd: ", NULL, 10);
+		exit_stat = 1;
+	}
 	else if (args_len == 2)
 	{
-		if (check_arg_cd(args_cmd) == 0)
+		exit_stat = check_arg_cd(args_cmd);
+		if (exit_stat == 0)
 		{
 			if (args_cmd[1][0] == '-')
-				change_dir(ms, get_trim_path(getenv("OLDPWD")), envp);
+				change_dir(ms, get_trim_path(getenv("OLDPWD")), ms->arrenv);
 			else if (args_cmd[1][0] == '~')
-				change_dir(ms, get_trim_path(args_cmd[1]), envp);
+				change_dir(ms, get_trim_path(args_cmd[1]), ms->arrenv);
 			else
-				change_dir(ms, args_cmd[1], envp);
+				change_dir(ms, args_cmd[1], ms->arrenv);
 		}
 	}
 	else
-		change_dir(ms, getenv("HOME"), envp);
+		change_dir(ms, getenv("HOME"), ms->arrenv);
+	return (exit_stat);
 }
