@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:44:39 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/18 20:38:13 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/20 15:54:19 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_var	*get_previous_var(t_msl *ms, char *var_name)
 	prev = ms->env;
 	while (prev->next != NULL)
 	{
-		if (strict_cmp(prev->next->name, var_name))
+		if (ft_strmatch(prev->next->name, var_name))
 			return (prev);
 			// printf("%s is the previous var\n", prev->name);
 		prev = prev->next;

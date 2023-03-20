@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:07:13 by msapin            #+#    #+#             */
-/*   Updated: 2023/03/18 17:14:17 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/20 15:53:45 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_var	*getvar(t_msl *ms, char *name)
 		tmp_stack = ms->env;
 		while (tmp_stack != NULL)
 		{
-			if (strict_cmp(tmp_stack->name, name))
+			if (ft_strmatch(tmp_stack->name, name))
 				return (tmp_stack);
 			tmp_stack = tmp_stack->next;
 		}
@@ -291,7 +291,7 @@ void	init_env(t_msl *ms, char **envp)
 	{
 		// printf("%s\n", envp[i]);
 		tmp_split = split_equal(envp[i]);
-		if (!strict_cmp(tmp_split[0], "_"))
+		if (!ft_strmatch(tmp_split[0], "_"))
 			var_add_back(ms, new_var(tmp_split[0], tmp_split[1], 1));
 	}
 	ms->arrenv = ft_getenv(ms, 0);
