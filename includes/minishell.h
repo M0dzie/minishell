@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/18 20:21:32 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/20 21:00:46 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_block
 typedef struct s_msl
 {
 	char	*input;
+	char	**arrenv;
 	char	**split;
 	char	**tokens;
 	char	***cmds;
@@ -64,12 +65,11 @@ typedef struct s_msl
 	int		fst_delim;
 	int		status;
 	int		c_cmd;
-	t_var	*env;
-	char	**arrenv;
-	// t_var	*export;
 	int		**pipes;
 	pid_t	*pid;
 	t_block	**blocks;
+	t_var	*env;
+	// t_var	*export;
 }			t_msl;
 
 char	*clear_line(char *before_line, char *new_word, char *next_line);
@@ -79,6 +79,7 @@ char	**getarr_cmd(t_elem *arg);
 char	*get_after_delim(char *input, int index);
 char	*get_before_delim(char *input, int index);
 char	*get_cmd_path(char *cmd, char **envp);
+char	*get_token(t_msl *ms, char *input, int i, int k);
 char	**ms_split(t_msl *ms, char *input);
 char	*parsing_env_var(t_msl *ms, char *token);
 char	*parsing_quotes_split(t_msl *ms, char *token);
@@ -96,6 +97,8 @@ int		display_errors_redirect2(t_msl *ms, char *input, int type);
 int		display_errors_redirect3(t_msl *ms, char *input, int type);
 int		display_errors_redirect4(t_msl *ms, char *input, int type);
 int		envsize(t_msl *ms);
+int		exec_cd(t_msl *ms, char **args_cmd);
+int		exec_echo(t_msl *ms, char **args_cmd);
 int		exec_env(t_msl *ms, char **args_cmd);
 int		exec_export(t_msl *ms, char **args_cmd);
 int		exec_pwd(t_msl *ms, char **args_cmd);
@@ -118,8 +121,6 @@ void	display_env(t_msl *ms, int mode);
 void	display_export(t_msl *ms);
 void	execute_cmd(t_msl *ms, char **cmd_args, char **envp);
 void	execution(t_msl *ms);
-int		exec_cd(t_msl *ms, char **args_cmd);
-int		exec_echo(t_msl *ms, char **args_cmd);
 void	exec_exit(t_msl *ms, char **args_cmd);
 void	handle_cmd(t_msl *ms, char **tmp_args, char **envp);
 void	init_env(t_msl *ms, char **envp);
@@ -132,7 +133,6 @@ void	standard_execution(t_msl *ms, t_elem *arg);
 void	var_add_back(t_msl *ms, t_var *var);
 
 
-// void	print_args(char ***args);
 void	print_args(char **args);
 
 #endif

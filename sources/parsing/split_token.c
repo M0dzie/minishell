@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/15 18:44:11 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/20 20:51:31 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,28 @@ int	count_tokens(char *input)
 	n_tok = 0;
 	while (input[++i])
 	{
-		if ((input[i] != '\'' && input[i] != '\"' && input[i] != ' ') \
-		&& (input[i + 1] == '\0' || input[i + 1] == '\'' || \
-		input[i + 1] == '\"' || input[i + 1] == ' '))
+		if (is_space(input[i]) || input[i] == '|' || !input[i + 1])
+		{
+			if (input[i] == '|' && (!is_space(input[i - 1]) || !is_space(input[i + 1])))
+				n_tok++;
 			n_tok++;
+		}
 	}
 	return (n_tok);
+}
+
+char	*get_token(t_msl *ms, char *input, int i, int k)
+{
+	char	*token;
+
+	token = ft_calloc((k + 1), sizeof(char));
+	if (!token)
+		return (NULL);
+	ft_strlcpy(token, input + (i - k), k + 1);
+	token = parsing_quotes_split(ms, token);
+	if (!token)
+		return (NULL);
+	return (token);
 }
 
 char	**ms_split(t_msl *ms, char *input)
@@ -64,18 +80,21 @@ char	**ms_split(t_msl *ms, char *input)
 				ms->fst_delim = input[i];
 			}
 		}
-		if (!in_quote && is_space(input[i]))
+		if (!in_quote && (is_space(input[i]) || input[i] == '|'))
 		{
 			if (k > 0)
 			{
-				token[++j] = ft_calloc((k + 1), sizeof(char));
-				if (!token[j])
-					return (NULL);
-				ft_strlcpy(token[j], input + (i - k), k + 1);
-				token[j] = parsing_quotes_split(ms, token[j]);
+				token[++j] = get_token(ms, input, i, k);
 				if (!token[j])
 					return (NULL);
 				k = 0;
+			}
+			if (input[i] == '|')
+			{
+				token[++j] = ft_calloc(2, sizeof(char));
+				if (!token[j])
+					return (NULL);
+				token[j][0] = '|';
 			}
 		}
 		else
@@ -83,13 +102,11 @@ char	**ms_split(t_msl *ms, char *input)
 	}
 	if (k > 0)
 	{
-		token[++j] = ft_calloc((k + 1), sizeof(char));
-		if (!token[j])
-			return (NULL);
-		ft_strlcpy(token[j], input + (i - k), k + 1);
-		token[j] = parsing_quotes_split(ms, token[j]);
+		token[++j] = get_token(ms, input, i, k);
 		if (!token[j])
 			return (NULL);
 	}
 	return (token);
 }
+
+// le if k > 0 c'est les meme choses donc -> func
