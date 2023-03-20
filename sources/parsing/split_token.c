@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/20 20:41:36 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/20 20:51:31 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,20 @@ int	count_tokens(char *input)
 		}
 	}
 	return (n_tok);
+}
+
+char	*get_token(t_msl *ms, char *input, int i, int k)
+{
+	char	*token;
+
+	token = ft_calloc((k + 1), sizeof(char));
+	if (!token)
+		return (NULL);
+	ft_strlcpy(token, input + (i - k), k + 1);
+	token = parsing_quotes_split(ms, token);
+	if (!token)
+		return (NULL);
+	return (token);
 }
 
 char	**ms_split(t_msl *ms, char *input)
@@ -70,11 +84,7 @@ char	**ms_split(t_msl *ms, char *input)
 		{
 			if (k > 0)
 			{
-				token[++j] = ft_calloc((k + 1), sizeof(char));
-				if (!token[j])
-					return (NULL);
-				ft_strlcpy(token[j], input + (i - k), k + 1);
-				token[j] = parsing_quotes_split(ms, token[j]);
+				token[++j] = get_token(ms, input, i, k);
 				if (!token[j])
 					return (NULL);
 				k = 0;
@@ -92,11 +102,7 @@ char	**ms_split(t_msl *ms, char *input)
 	}
 	if (k > 0)
 	{
-		token[++j] = ft_calloc((k + 1), sizeof(char));
-		if (!token[j])
-			return (NULL);
-		ft_strlcpy(token[j], input + (i - k), k + 1);
-		token[j] = parsing_quotes_split(ms, token[j]);
+		token[++j] = get_token(ms, input, i, k);
 		if (!token[j])
 			return (NULL);
 	}

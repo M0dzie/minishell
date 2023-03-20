@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/20 20:44:54 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/20 21:00:46 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ char	**getarr_cmd(t_elem *arg);
 char	*get_after_delim(char *input, int index);
 char	*get_before_delim(char *input, int index);
 char	*get_cmd_path(char *cmd, char **envp);
+char	*get_token(t_msl *ms, char *input, int i, int k);
 char	**ms_split(t_msl *ms, char *input);
 char	*parsing_env_var(t_msl *ms, char *token);
 char	*parsing_quotes_split(t_msl *ms, char *token);
