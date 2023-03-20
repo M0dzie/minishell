@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/20 15:53:03 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/20 20:41:36 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**ms_split(t_msl *ms, char *input)
 				ms->fst_delim = input[i];
 			}
 		}
-		if (!in_quote && is_space(input[i]))
+		if (!in_quote && (is_space(input[i]) || input[i] == '|'))
 		{
 			if (k > 0)
 			{
@@ -78,6 +78,13 @@ char	**ms_split(t_msl *ms, char *input)
 				if (!token[j])
 					return (NULL);
 				k = 0;
+			}
+			if (input[i] == '|')
+			{
+				token[++j] = ft_calloc(2, sizeof(char));
+				if (!token[j])
+					return (NULL);
+				token[j][0] = '|';
 			}
 		}
 		else

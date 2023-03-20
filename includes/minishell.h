@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/20 14:22:18 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/20 20:44:54 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_block
 typedef struct s_msl
 {
 	char	*input;
+	char	**arrenv;
 	char	**split;
 	char	**tokens;
 	char	***cmds;
@@ -64,12 +65,11 @@ typedef struct s_msl
 	int		fst_delim;
 	int		status;
 	int		c_cmd;
-	t_var	*env;
-	char	**arrenv;
-	// t_var	*export;
 	int		**pipes;
 	pid_t	*pid;
 	t_block	**blocks;
+	t_var	*env;
+	// t_var	*export;
 }			t_msl;
 
 char	*clear_line(char *before_line, char *new_word, char *next_line);
