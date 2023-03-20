@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/18 20:21:32 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/20 14:22:18 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int		display_errors_redirect2(t_msl *ms, char *input, int type);
 int		display_errors_redirect3(t_msl *ms, char *input, int type);
 int		display_errors_redirect4(t_msl *ms, char *input, int type);
 int		envsize(t_msl *ms);
+int		exec_cd(t_msl *ms, char **args_cmd);
+int		exec_echo(t_msl *ms, char **args_cmd);
 int		exec_env(t_msl *ms, char **args_cmd);
 int		exec_export(t_msl *ms, char **args_cmd);
 int		exec_pwd(t_msl *ms, char **args_cmd);
@@ -118,8 +120,6 @@ void	display_env(t_msl *ms, int mode);
 void	display_export(t_msl *ms);
 void	execute_cmd(t_msl *ms, char **cmd_args, char **envp);
 void	execution(t_msl *ms);
-int		exec_cd(t_msl *ms, char **args_cmd);
-int		exec_echo(t_msl *ms, char **args_cmd);
 void	exec_exit(t_msl *ms, char **args_cmd);
 void	handle_cmd(t_msl *ms, char **tmp_args, char **envp);
 void	init_env(t_msl *ms, char **envp);
@@ -132,7 +132,6 @@ void	standard_execution(t_msl *ms, t_elem *arg);
 void	var_add_back(t_msl *ms, t_var *var);
 
 
-// void	print_args(char ***args);
 void	print_args(char **args);
 
 #endif
