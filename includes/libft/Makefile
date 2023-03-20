@@ -6,7 +6,7 @@
 #    By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/10 13:23:25 by msapin            #+#    #+#              #
-#    Updated: 2023/03/09 12:42:33 by mehdisapin       ###   ########.fr        #
+#    Updated: 2023/03/20 15:48:55 by mehdisapin       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ SRC_CHECK_FILES		=	ft_isalnum.c	ft_isalpha.c	ft_isascii.c	\
 						ft_isdigit.c	ft_isprint.c	ft_memcmp.c		\
 						ft_strchr.c		ft_strlen.c		ft_strncmp.c	\
 						ft_strnstr.c	ft_strrchr.c	ft_intlen.c		\
-						ft_strlen_null.c
+						ft_strlen_null.c	ft_strmatch.c
 
 SRC_CONVERT_FILES	=	ft_atoi.c		ft_itoa.c		ft_tolower.c	\
 						ft_toupper.c

@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:38:38 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/18 20:20:41 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/20 22:22:35 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	cmd_valid(t_msl *ms, char **arg)
 	return (ft_arrfree(tmp_paths), 0);
 }
 
-int	exec_env(t_msl *ms, char **args_cmd)
+int	exec_env(t_msl *ms, char **args_cmd, int index)
 {	
 	int	nb_args;
 	int	i;
@@ -66,8 +66,8 @@ int	exec_env(t_msl *ms, char **args_cmd)
 			if (!is_env(args_cmd[i]))
 			{
 				if (cmd_valid(ms, args_cmd + i) && args_cmd[i][0] != '.')
-					// return (pipe_one(ft_arrdup(args_cmd + i), ms, envp), 0);
 					return (execute_cmd(ms, ft_arrdup(args_cmd + i), ms->arrenv), 0);
+					// return (exec_one(ms, ms->blocks[index]->arg + 1, index), 0);
 				else if (access(args_cmd[i], F_OK))
 					return (display_error_exec("env: ", args_cmd[i], 2), 127);
 				else if (is_denied(args_cmd[i]))

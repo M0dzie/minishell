@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 21:21:14 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/18 20:22:47 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/20 17:59:55 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	exec_pwd(t_msl *ms, char **args_cmd)
 		}
 	}
 	if (valid == 0)
-		execute_cmd(ms, tmp_args, ms->arrenv);
+		printf("pwd = \n");
+		// execute_cmd(ms, tmp_args, ms->arrenv);
 	// ms->status = valid;
 	// exit (valid);
 	return (valid);

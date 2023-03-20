@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 09:46:41 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/18 20:15:02 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/20 16:32:42 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,7 @@ int	exec_cd(t_msl *ms, char **args_cmd)
 	}
 	else
 		change_dir(ms, getenv("HOME"), ms->arrenv);
+	// printf("exit nb %d\n", exit_stat);
+	// exit (exit_stat);
 	return (exit_stat);
 }
