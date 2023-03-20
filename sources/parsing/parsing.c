@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/20 14:21:43 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/20 19:49:30 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ void	count_pipes(t_msl *ms)
 	ms->c_pipe = 0;
 	while (ms->input[i])
 	{
+		if (ms->input[i] == '\'' || ms->input[i] == '\"')
+		{
+			check_opened_quotes(ms, ms->input, i + 1, ms->input[i]);
+			i = ms->lst_delim;
+		}
 		if (ms->input[i] == '|')
 			ms->c_pipe++;
 		i++;

@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/20 15:23:40 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/20 15:53:03 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	count_tokens(char *input)
 			n_tok++;
 		}
 	}
-	printf("n_tok = %d\n", n_tok);
 	return (n_tok);
 }
 
@@ -96,3 +95,5 @@ char	**ms_split(t_msl *ms, char *input)
 	}
 	return (token);
 }
+
+// le if k > 0 c'est les meme choses donc -> func
