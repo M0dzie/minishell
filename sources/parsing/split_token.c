@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/20 14:36:45 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/20 15:23:40 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,14 @@ int	count_tokens(char *input)
 	n_tok = 0;
 	while (input[++i])
 	{
-		if ((input[i] != '\'' && input[i] != '\"' && input[i] != ' ') \
-		&& (input[i + 1] == '\0' || input[i + 1] == '\'' || \
-		input[i + 1] == '\"' || input[i + 1] == ' '))
+		if (is_space(input[i]) || input[i] == '|' || !input[i + 1])
+		{
+			if (input[i] == '|' && (!is_space(input[i - 1]) || !is_space(input[i + 1])))
+				n_tok++;
 			n_tok++;
+		}
 	}
+	printf("n_tok = %d\n", n_tok);
 	return (n_tok);
 }
 
