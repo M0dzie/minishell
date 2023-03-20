@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/20 21:00:46 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/20 22:57:29 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_block
 typedef struct s_msl
 {
 	char	*input;
+	char	*pwd;
 	char	**arrenv;
 	char	**split;
 	char	**tokens;
@@ -63,13 +64,12 @@ typedef struct s_msl
 	int		c_pipe;
 	int		lst_delim;
 	int		fst_delim;
-	int		status;
 	int		c_cmd;
+	int		status;
 	int		**pipes;
 	pid_t	*pid;
 	t_block	**blocks;
 	t_var	*env;
-	// t_var	*export;
 }			t_msl;
 
 char	*clear_line(char *before_line, char *new_word, char *next_line);
@@ -99,7 +99,7 @@ int		display_errors_redirect4(t_msl *ms, char *input, int type);
 int		envsize(t_msl *ms);
 int		exec_cd(t_msl *ms, char **args_cmd);
 int		exec_echo(t_msl *ms, char **args_cmd);
-int		exec_env(t_msl *ms, char **args_cmd);
+int		exec_env(t_msl *ms, char **args_cmd, int use_pipe);
 int		exec_export(t_msl *ms, char **args_cmd);
 int		exec_pwd(t_msl *ms, char **args_cmd);
 int		exec_unset(t_msl *ms, char **args_cmd);
@@ -114,18 +114,21 @@ int		strict_cmp(const char *builts, const char *cmd);
 t_var	*getvar(t_msl *ms, char *name);
 t_var	*new_var(char *name, char *value, int in_env);
 
-void	builtins_execution(t_msl *ms, t_elem *arg);
+void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe);
 void	count_pipes(t_msl *ms);
 void	create_pipe(char **args_cmd, t_msl *ms, char **envp);
 void	display_env(t_msl *ms, int mode);
 void	display_export(t_msl *ms);
 void	execute_cmd(t_msl *ms, char **cmd_args, char **envp);
 void	execution(t_msl *ms);
+void	exec_cmd(t_msl *ms, int i);
+void	exec_one(t_msl *ms, t_elem *arg, int index);
 void	exec_exit(t_msl *ms, char **args_cmd);
 void	handle_cmd(t_msl *ms, char **tmp_args, char **envp);
 void	init_env(t_msl *ms, char **envp);
 void	parsing_echo(t_msl *ms, char *input, char **envp);
 void	parsing_errors_echo(t_msl *sl);
+void	parsing_exec(t_msl *ms);
 void	pipe_one(char **args_cmd, t_msl *ms, char **envp);
 void	read_prompt(t_msl *ms, char **envp);
 void	signal_handler(int signal);

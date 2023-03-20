@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/20 22:26:57 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/20 23:00:51 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ void	exec_one(t_msl *ms, t_elem *arg, int index)
 {
 	char	**args_cmd;
 
-	// printf("arg %s\n", arg->name);
-
 	args_cmd = getarr_cmd(arg);
 	if (is_builtins(arg->name))
 		builtins_execution(ms, arg, 0);
@@ -92,7 +90,7 @@ void	exec_one(t_msl *ms, t_elem *arg, int index)
 	if (ms->pid[index] == 0)
 	{
 		if (ft_strmatch("env", args_cmd[0]))
-			ms->status = exec_env(ms, args_cmd, index);
+			ms->status = exec_env(ms, args_cmd, 0);
 		else if (!is_builtins(arg->name))
 			standard_execution(ms, arg);
 		exit(ms->status);
@@ -164,9 +162,9 @@ void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe)
 	args_cmd = getarr_cmd(arg);
 	if (ft_strmatch("echo", arg->name))
 		ms->status = exec_echo(ms, args_cmd);
-	else if (ft_strmatch("pwd", args_cmd[0]))		// DONE
+	else if (ft_strmatch("pwd", args_cmd[0]))		// WIP
 		ms->status = exec_pwd(ms, args_cmd);
-	else if (ft_strmatch("env", args_cmd[0]) && use_pipe)
+	else if (ft_strmatch("env", args_cmd[0]) && use_pipe)	// DONE
 		ms->status = exec_env(ms, args_cmd, use_pipe);
 	else if (ft_strmatch("cd", args_cmd[0]))		// WIP
 		ms->status = exec_cd(ms, args_cmd);
@@ -176,9 +174,6 @@ void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe)
 		ms->status = exec_unset(ms, args_cmd);
 	else if (ft_strmatch("exit", args_cmd[0]))		// DONE
 		exec_exit(ms, args_cmd);
-	// need to found a way of passing ms->status info to other process, le number is lost when exiting
-
-	// exit(ms->status);
 }
 
 void	standard_execution(t_msl *ms, t_elem *arg)
