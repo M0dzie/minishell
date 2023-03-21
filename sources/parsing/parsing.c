@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/21 16:55:50 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/21 17:53:38 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	read_prompt(t_msl *ms, char **envp)
 	if (ms->input[0] == '\0' || parsing_errors(ms, ms->input, \
 	ms->c_pipe) == -1 || parsing_quotes(ms) == -1)
 		return (free(ms->input));
-	ms->tokens = ms_split(ms, ms->input);
+	ms->tokens = ms_strtok(ms, ms->input);
 	if (!ms->tokens)
 		return (free(ms->input));
 	print_args(ms->tokens);
