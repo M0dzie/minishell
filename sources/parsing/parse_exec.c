@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:02:51 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/20 17:04:50 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/21 07:22:09 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_elem	*new_elem(char *name, int type)
 	return (new_elem);
 }
 
-void	malloc_blocks(t_msl *ms)
+void	fill_blocks(t_msl *ms)
 {
 	int	i;
 	int	j;
@@ -116,5 +116,5 @@ void	parsing_exec(t_msl *ms)
 	if (!ms->pid)
 		display_error_exec("bash: ", "pid", 15);
 	malloc_pipe(ms);
-	malloc_blocks(ms);
+	fill_blocks(ms);
 }

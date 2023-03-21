@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:43:24 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/18 21:02:19 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/21 13:53:07 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	var_handling(t_msl *ms, char *args_cmd)
 		}
 		else
 			var_add_back(ms, new_var(tmp_split[0], tmp_split[1], 1));
+		ft_arrfree(ms->arrenv);
 		ms->arrenv = ft_getenv(ms, 0);
 	}
 	else

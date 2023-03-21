@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:28 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/20 22:15:47 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/21 13:28:30 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	exec_last_cmd(t_msl *ms, int index)
 		if (ms->blocks[index]->arg)
 		{
 			if (is_builtins(ms->blocks[index]->arg->name))
-				builtins_execution(ms, ms->blocks[index]->arg, index);
+				builtins_execution(ms, ms->blocks[index]->arg, 1);
 			else
 				standard_execution(ms, ms->blocks[index]->arg);
 		}
@@ -50,7 +50,7 @@ void	exec_middle_cmd(t_msl *ms, int index)
 		if (ms->blocks[index]->arg)
 		{
 			if (is_builtins(ms->blocks[index]->arg->name))
-				builtins_execution(ms, ms->blocks[index]->arg, index);
+				builtins_execution(ms, ms->blocks[index]->arg, 1);
 			else
 				standard_execution(ms, ms->blocks[index]->arg);
 		}
@@ -76,7 +76,7 @@ void	exec_first_cmd(t_msl *ms, int index)
 		if (ms->blocks[index]->arg)
 		{
 			if (is_builtins(ms->blocks[index]->arg->name))
-				builtins_execution(ms, ms->blocks[index]->arg, index);
+				builtins_execution(ms, ms->blocks[index]->arg, 1);
 			else
 				standard_execution(ms, ms->blocks[index]->arg);
 		}

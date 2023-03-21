@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:44:39 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/20 15:54:19 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/21 08:57:50 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ void	unset_handling(t_msl *ms, char *var_name)
 		}
 		else if (tmp_next == NULL && tmp_prev == NULL)
 		{
-			// printf("%s is the only var in env\n", tmp_var->name);
-			// free(tmp_var);
 			tmp_var->name = NULL;
 			tmp_var->value = NULL;
+			printf("%s is the only var in env\n", tmp_var->name);
+			// free(tmp_var);
 		}
 		else
 		{
@@ -109,7 +109,7 @@ void	unset_handling(t_msl *ms, char *var_name)
 			tmp_prev->next = tmp_next;
 			// printf("previous is %s, next is %s\n", tmp_prev->name, tmp_next->name);
 		}
-		ms->arrenv = ft_getenv(ms, 0);
+		// ms->arrenv = ft_getenv(ms, 0);
 	}
 }
 
