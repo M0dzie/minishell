@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/20 22:57:29 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/21 17:53:38 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_msl
 	char	**arrenv;
 	char	**split;
 	char	**tokens;
-	char	***cmds;
+	// char	***cmds;
 	int		c_pipe;
 	int		lst_delim;
 	int		fst_delim;
@@ -80,7 +80,7 @@ char	*get_after_delim(char *input, int index);
 char	*get_before_delim(char *input, int index);
 char	*get_cmd_path(char *cmd, char **envp);
 char	*get_token(t_msl *ms, char *input, int i, int k);
-char	**ms_split(t_msl *ms, char *input);
+char	**ms_strtok(t_msl *ms, char *input);
 char	*parsing_env_var(t_msl *ms, char *token);
 char	*parsing_quotes_split(t_msl *ms, char *token);
 char	**split_equal(char *env_var);
@@ -137,5 +137,6 @@ void	var_add_back(t_msl *ms, t_var *var);
 
 
 void	print_args(char **args);
+// void	print_tkn(t_tok *tkn);
 
 #endif
