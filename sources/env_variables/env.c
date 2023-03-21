@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:07:13 by msapin            #+#    #+#             */
-/*   Updated: 2023/03/21 13:50:43 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/21 20:43:02 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ t_var	*getvar(t_msl *ms, char *name)
 	return (NULL);
 }
 
-int	envsize(t_msl *ms)
+//		mode == 0 for env		and mode == 1 for export
+int	envsize(t_msl *ms, int mode)
 {
 	int		envsize;
 	t_var	*tmp_env;
@@ -39,7 +40,10 @@ int	envsize(t_msl *ms)
 	tmp_env = ms->env;
 	while (tmp_env != NULL)
 	{
-		envsize++;
+		if (mode == 0 && tmp_env->in_env)
+			envsize++;
+		else if (mode == 1)
+			envsize++;
 		tmp_env = tmp_env->next;
 	}
 	return (envsize);
@@ -105,31 +109,70 @@ char	**ft_getenv(t_msl *ms, int mode)
 	int		nb_var;
 	int		i;
 
-	// if (!ms->env->name)
-	// 	return (printf("no env\n"), NULL);
-	nb_var = envsize(ms);
+	nb_var = envsize(ms, 0);
+	// printf("number env var %d\n", nb_var);
 	getenv = ft_calloc(nb_var + 1, sizeof(char *));
-	// printf("env size%d\n", nb_var);
 	if (!getenv)
 		return (display_error_exec("bash: ", "ms->env: ", 6), NULL);
 	if (nb_var == 0)
 		return (display_error_exec("bash: ", "getenv: ", 8), NULL);
 	tmp_env = ms->env;
-	i = 0;
+	i = -1;
 	while (tmp_env != NULL)
 	{
-		if (mode == 0)
-			// printf("%s\n", tmp_env->name);
-			getenv[i] = getenv_var(tmp_env->name, tmp_env->value);
-	// 	else if (mode == 1)
-	// 		getenv[i] = getexport_var(tmp_env->name, tmp_env->value);
-	// 	// if (!getenv[i])
-	// 	// 	return (printf("error getenv\n"), NULL);
+		if (mode == 0 && tmp_env->in_env)
+			getenv[++i] = getenv_var(tmp_env->name, tmp_env->value);
+		else if (mode == 1)
+			getenv[++i] = getexport_var(tmp_env->name, tmp_env->value);
 		tmp_env = tmp_env->next;
-	// 	i++;
 	}
 	return (getenv);
 }
+
+// char	**ft_getenv(t_msl *ms, int mode)
+// {
+// 	t_var	*tmp_env;
+// 	char 	**getenv;
+// 	int		nb_var;
+// 	int		i;
+
+// 	nb_var = envsize(ms);
+// 	getenv = ft_calloc(nb_var + 1, sizeof(char *));
+// 	if (!getenv)
+// 		return (display_error_exec("bash: ", "ms->env: ", 6), NULL);
+// 	if (nb_var == 0)
+// 		return (display_error_exec("bash: ", "getenv: ", 8), NULL);
+// 	tmp_env = ms->env;
+// 	if (mode == 0)
+// 	{
+// 		i = -1;
+// 		while (tmp_env != NULL)
+// 		{
+// 			if (mode == 0 && tmp_env->in_env)
+// 				getenv[++i] = getenv_var(tmp_env->name, tmp_env->value);
+// 			tmp_env = tmp_env->next;
+// 		}
+// 	}
+// 	else if (mode == 1)
+// 		getenv = getexport_var(tmp_env->name, tmp_env->value);
+
+// 	i = -1;
+// 	while (tmp_env != NULL)
+// 	{
+// 		if (mode == 0 && tmp_env->in_env)
+// 		{
+// 			getenv[++i] = getenv_var(tmp_env->name, tmp_env->value);
+// 			// printf("-%s- %d\n", getenv[i], i);
+// 		}
+// 		else if (mode == 1)
+// 		{
+// 			getenv[++i] = getexport_var(tmp_env->name, tmp_env->value);
+// 			// printf("%s %s\n", tmp_env->name, tmp_env->value);
+// 		}
+// 		tmp_env = tmp_env->next;
+// 	}
+// 	return (getenv);
+// }
 
 int	len_until_eq(char *s1, char *s2)
 {
@@ -174,57 +217,108 @@ int	ft_strcmp(char *s1, char *s2)
 	return (0);
 }
 
-void	*display_sorted(t_msl *ms)
+char	**ft_getexport(t_msl *ms)
 {
 	int		i;
 	int		j;
 	int		index;
 	int		order;
 	char	**arr_export;
+	char	**getexport;
 
 	i = -1;
-	// arr_export = ft_getenv(ms, 1);
+	int	nb_var = envsize(ms, 1);
+	// printf("number export var %d\n", nb_var);
+	getexport = ft_calloc(nb_var + 1, sizeof(char *));
+	arr_export = ft_getenv(ms, 1);
 	order = 0;
-	while (ms->arrenv[++i])
+	while (arr_export[++i])
 	{
 		index = 0;
 		j = -1;
-		while (ms->arrenv[++j])
+		while (arr_export[++j])
 		{
-			if (ft_strcmp(ms->arrenv[i], ms->arrenv[j]) > 0)
+			if (ft_strcmp(arr_export[i], arr_export[j]) > 0)
 				index++;
 		}
-		if (index == order)
-		{
-			printf("declare -x %s\n", ms->arrenv[i]);
-			order++;
-			i = -1;
-		}
+		// printf("%s - index %d\n", arr_export[i], index);
+		getexport[index] = ft_strdup_null(arr_export[i]);
+		// if (index == order)
+		// {
+		// 	printf("declare -x %s\n", arr_export[i]);
+		// 	order++;
+		// 	i = -1;
+		// }
 	}
-	// ft_arrfree(ms->arrenv);
+	ft_arrfree(arr_export);
+	return (getexport);
 }
+
+// void	*display_sorted(t_msl *ms)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		index;
+// 	int		order;
+// 	char	**arr_export;
+
+// 	i = -1;
+// 	arr_export = ft_getenv(ms, 1);
+// 	order = 0;
+// 	while (arr_export[++i])
+// 	{
+// 		index = 0;
+// 		j = -1;
+// 		while (arr_export[++j])
+// 		{
+// 			if (ft_strcmp(arr_export[i], arr_export[j]) > 0)
+// 				index++;
+// 		}
+// 		if (index == order)
+// 		{
+// 			printf("declare -x %s\n", arr_export[i]);
+// 			order++;
+// 			i = -1;
+// 		}
+// 	}
+// 	ft_arrfree(arr_export);
+// }
 
 // mode 0 == display env, mode 1 == display_export
 void	display_env(t_msl *ms, int mode)
 {
 	t_var	*vars;
+	int	i;
 
-	if (ms->env->name)
+	i = -1;
+	if (mode == 0)
 	{
-		if (mode == 0)
-		{
-			vars = ms->env;
-			while (vars != NULL)
-			{
-				if (vars->in_env)
-					printf("%s=%s\n", vars->name, vars->value);
-				vars = vars->next;
-			}
-			printf("_=/usr/bin/env\n");
-		}
-		else if (mode == 1)
-			display_sorted(ms);
+		while (ms->arrenv[++i])
+			printf("%s\n", ms->arrenv[i]);
+		printf("_=/usr/bin/env\n");
 	}
+	else if (mode == 1)
+	{
+		while (ms->arrexport[++i])
+			printf("%s\n", ms->arrexport[i]);
+	}
+
+	// if (ms->env->name)
+	// {
+	// 	if (mode == 0)
+	// 	{
+	// 		vars = ms->env;
+	// 		while (vars != NULL)
+	// 		{
+	// 			if (vars->in_env)
+	// 				printf("%s=%s\n", vars->name, vars->value);
+	// 			vars = vars->next;
+	// 		}
+	// 		printf("_=/usr/bin/env\n");
+	// 	}
+	// 	else if (mode == 1)
+	// 		display_sorted(ms);
+	// }
 }
 
 void	var_add_back(t_msl *ms, t_var *var)
@@ -307,7 +401,6 @@ void	init_env(t_msl *ms, char **envp)
 	ms->env = ft_calloc(ft_arrlen(envp) + 1, sizeof(t_var *));
 	if (!envp[0])
 	{
-		// display_error_exec("bash: ", "ms->env: ", 6);
 		// printf("add only variables needed like PWD %s\n", ms->pwd);
 		var_add_back(ms, new_var("PWD", ms->pwd, 1));
 		var_add_back(ms, new_var("LS_COLORS", "", 1));
@@ -315,7 +408,6 @@ void	init_env(t_msl *ms, char **envp)
 		var_add_back(ms, new_var("LESSOPEN", "| /usr/bin/lesspipe %s", 1));
 		var_add_back(ms, new_var("SHLVL", "1", 1));
 		var_add_back(ms, new_var("OLDPWD", NULL, 0));
-		// return ;
 	}
 	while (envp[++i])
 	{
@@ -324,5 +416,7 @@ void	init_env(t_msl *ms, char **envp)
 			var_add_back(ms, new_var(tmp_split[0], tmp_split[1], 1));
 	}
 	ms->arrenv = ft_getenv(ms, 0);
+	ms->arrexport = ft_getexport(ms);
 	// ft_putarr_fd(ms->arrenv, 1);
+	// display_env(ms, 1);
 }
