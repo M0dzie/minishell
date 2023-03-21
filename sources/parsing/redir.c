@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:04:40 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/16 11:47:39 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/21 14:32:14 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,12 @@ int	display_errors_redirect3(t_msl *ms, char *input, int type)
 			2), ms->status = 2, -1);
 		if (input[i] == '>' && input[i + 1] == '>')
 			return (ft_putendl_fd("minishell: syntax error near unexpected token '>>'", \
+			2), ms->status = 2, -1);
+		if (input[i] == '<')
+			return (ft_putendl_fd("minishell: syntax error near unexpected token '<'", \
+			2), ms->status = 2, -1);
+		if (input[i] == '>')
+			return (ft_putendl_fd("minishell: syntax error near unexpected token '>'", \
 			2), ms->status = 2, -1);
 	}
 	return (display_errors_redirect4(ms, input, type));
