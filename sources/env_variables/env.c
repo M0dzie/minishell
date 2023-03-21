@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:07:13 by msapin            #+#    #+#             */
-/*   Updated: 2023/03/20 15:53:45 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/21 13:50:43 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,22 @@ char	*getenv_var(char *name, char *value)
 	int		i;
 	int		j;
 
-	varlen = ft_strlen(name) + ft_strlen(value) + 1;
+	varlen = ft_strlen_null(name) + ft_strlen_null(value) + 1;
 	str_var = ft_calloc(varlen + 1, sizeof(char));
 	if (!str_var)
 		return (display_error_exec("bash: ", "getenv_var: ", 6), NULL);
 	i = -1;
 	while (name[++i])
 		str_var[i] = name[i];
+	// printf("%s len %d\n", name, varlen);
+	if (!value)
+		return (str_var);
 	str_var[i] = '=';
 	i += 1;
 	j = -1;
 	while (value[++j])
 		str_var[i + j] = value[j];
+	// printf("set var %s\n", str_var);
 	return (str_var);
 }
 
@@ -101,8 +105,11 @@ char	**ft_getenv(t_msl *ms, int mode)
 	int		nb_var;
 	int		i;
 
+	// if (!ms->env->name)
+	// 	return (printf("no env\n"), NULL);
 	nb_var = envsize(ms);
 	getenv = ft_calloc(nb_var + 1, sizeof(char *));
+	// printf("env size%d\n", nb_var);
 	if (!getenv)
 		return (display_error_exec("bash: ", "ms->env: ", 6), NULL);
 	if (nb_var == 0)
@@ -112,11 +119,14 @@ char	**ft_getenv(t_msl *ms, int mode)
 	while (tmp_env != NULL)
 	{
 		if (mode == 0)
+			// printf("%s\n", tmp_env->name);
 			getenv[i] = getenv_var(tmp_env->name, tmp_env->value);
-		else if (mode == 1)
-			getenv[i] = getexport_var(tmp_env->name, tmp_env->value);
+	// 	else if (mode == 1)
+	// 		getenv[i] = getexport_var(tmp_env->name, tmp_env->value);
+	// 	// if (!getenv[i])
+	// 	// 	return (printf("error getenv\n"), NULL);
 		tmp_env = tmp_env->next;
-		i++;
+	// 	i++;
 	}
 	return (getenv);
 }
@@ -173,25 +183,25 @@ void	*display_sorted(t_msl *ms)
 	char	**arr_export;
 
 	i = -1;
-	arr_export = ft_getenv(ms, 1);
+	// arr_export = ft_getenv(ms, 1);
 	order = 0;
-	while (arr_export[++i])
+	while (ms->arrenv[++i])
 	{
 		index = 0;
 		j = -1;
-		while (arr_export[++j])
+		while (ms->arrenv[++j])
 		{
-			if (ft_strcmp(arr_export[i], arr_export[j]) > 0)
+			if (ft_strcmp(ms->arrenv[i], ms->arrenv[j]) > 0)
 				index++;
 		}
 		if (index == order)
 		{
-			printf("declare -x %s\n", arr_export[i]);
+			printf("declare -x %s\n", ms->arrenv[i]);
 			order++;
 			i = -1;
 		}
 	}
-	ft_arrfree(arr_export);
+	// ft_arrfree(ms->arrenv);
 }
 
 // mode 0 == display env, mode 1 == display_export
@@ -272,27 +282,47 @@ char	**split_equal(char *env_var)
 	return (split_equal);
 }
 
+void	ft_putarr_fd(char **arr, int fd)
+{
+	int	i;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+	{
+		ft_printf("%s\n", arr[i]);
+		i++;
+	}
+}
+
 void	init_env(t_msl *ms, char **envp)
 {
 	char	**tmp_split;
 	int		i;
+	char	bufpwd[BUFSIZ];
 
 	i = -1;
+	ms->pwd = getcwd(bufpwd, BUFSIZ);
 	ms->env = ft_calloc(ft_arrlen(envp) + 1, sizeof(t_var *));
 	if (!envp[0])
 	{
 		// display_error_exec("bash: ", "ms->env: ", 6);
-		printf("add only variables needed\n");
-		return ;
+		// printf("add only variables needed like PWD %s\n", ms->pwd);
+		var_add_back(ms, new_var("PWD", ms->pwd, 1));
+		var_add_back(ms, new_var("LS_COLORS", "", 1));
+		var_add_back(ms, new_var("LESSCLOSE", "/usr/bin/lesspipe %s %s", 1));
+		var_add_back(ms, new_var("LESSOPEN", "| /usr/bin/lesspipe %s", 1));
+		var_add_back(ms, new_var("SHLVL", "1", 1));
+		var_add_back(ms, new_var("OLDPWD", NULL, 0));
+		// return ;
 	}
-	// printf("Test %d\n", ft_arrlen(envp));
 	while (envp[++i])
-	// while (i++ < 0)
 	{
-		// printf("%s\n", envp[i]);
 		tmp_split = split_equal(envp[i]);
 		if (!ft_strmatch(tmp_split[0], "_"))
 			var_add_back(ms, new_var(tmp_split[0], tmp_split[1], 1));
 	}
 	ms->arrenv = ft_getenv(ms, 0);
+	// ft_putarr_fd(ms->arrenv, 1);
 }

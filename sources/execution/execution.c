@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/20 23:00:51 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/21 13:54:35 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	execute_cmd(t_msl *ms, char **cmd_args, char **envp)
 	if (ft_strchr(cmd_args[0], '/'))
 		cmd_path = ft_strdup(cmd_args[0]);
 	else
-		cmd_path = get_cmd_path(cmd_args[0], envp);
-	execve(cmd_path, cmd_args, envp);
+		cmd_path = get_cmd_path(cmd_args[0], envp);		// fix with my own env
+	execve(cmd_path, cmd_args, envp);		// fix with my own env
 	display_error_exec("bash: ", cmd_args[0], 5);
 	free(cmd_path);
 	ms->status = 127;
@@ -155,10 +155,8 @@ char	**getarr_cmd(t_elem *arg)
 
 void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe)
 {
-	char	**envp;
 	char	**args_cmd;
 
-	envp = ft_getenv(ms, 0);
 	args_cmd = getarr_cmd(arg);
 	if (ft_strmatch("echo", arg->name))
 		ms->status = exec_echo(ms, args_cmd);
@@ -181,7 +179,8 @@ void	standard_execution(t_msl *ms, t_elem *arg)
 	char	**envp;
 	char	**args_cmd;
 
-	envp = ft_getenv(ms, 0);
+	// envp = ft_getenv(ms, 0);
+	envp = NULL;
 	args_cmd = getarr_cmd(arg);
 
 	// execute_cmd(ms, args_cmd, envp);
@@ -305,4 +304,6 @@ void	execution(t_msl *ms)
 		ms->status = WEXITSTATUS(status);
 		// printf("status exit : %d\n", ms->status);
 	// }
+
+	// clean all parsing
 }
