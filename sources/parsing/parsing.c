@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/21 15:10:28 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/21 16:55:50 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,6 @@ void	print_args(char **args)
 	for (int i = 0; args[i]; i++)
 		printf("token[%d] = %s\n", i, args[i]);
 }
-
-// void	print_tkn(t_tok *tkn)
-// {
-// 	int i = 1;
-
-// 	while (tkn->next)
-// 	{
-// 		printf("token[%i] = %s\n", i++, tkn->content);
-// 		tkn = tkn->next;
-// 	}
-// }
 
 void	count_pipes(t_msl *ms)
 {
@@ -55,17 +44,12 @@ void	read_prompt(t_msl *ms, char **envp)
 
 	i = -1;
 	ms->input = ft_strtrim(ms->input, " ");
-	// ms->tkn = ft_calloc(1, sizeof(t_tok));
 	if (!ms->input)
 		return (free(ms->input));
 	count_pipes(ms);
 	if (ms->input[0] == '\0' || parsing_errors(ms, ms->input, \
 	ms->c_pipe) == -1 || parsing_quotes(ms) == -1)
 		return (free(ms->input));
-	// ms->tkn = ms_strtok(ms, ms->input);
-	// if (!ms->tkn)
-	// 	return (free(ms->input));
-	// print_tkn(ms->tkn);
 	ms->tokens = ms_split(ms, ms->input);
 	if (!ms->tokens)
 		return (free(ms->input));

@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/21 15:11:23 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/21 16:55:31 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,3 @@ char	**ms_split(t_msl *ms, char *input)
 	}
 	return (token);
 }
-
-// char	*ms_strtok(t_msl *ms, char *input)
-// {
-// }
