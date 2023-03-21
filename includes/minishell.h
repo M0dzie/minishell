@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/21 17:53:38 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/21 20:48:51 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_msl
 	char	*input;
 	char	*pwd;
 	char	**arrenv;
+	char	**arrexport;
 	char	**split;
 	char	**tokens;
 	// char	***cmds;
@@ -96,7 +97,7 @@ int		display_errors_redirect(t_msl *ms, char *input, int type);
 int		display_errors_redirect2(t_msl *ms, char *input, int type);
 int		display_errors_redirect3(t_msl *ms, char *input, int type);
 int		display_errors_redirect4(t_msl *ms, char *input, int type);
-int		envsize(t_msl *ms);
+int		envsize(t_msl *ms, int mode);
 int		exec_cd(t_msl *ms, char **args_cmd);
 int		exec_echo(t_msl *ms, char **args_cmd);
 int		exec_env(t_msl *ms, char **args_cmd, int use_pipe);
