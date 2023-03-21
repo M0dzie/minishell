@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:04:40 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/21 14:32:14 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/21 15:35:09 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	display_errors_redirect(t_msl *ms, char *input, int type)
 	int	i;
 
 	i = 1;
-	if (input[i] == type)
+	if (input[i] == input[0])
 		i++;
 	while (input[i] == ' ' || input[i] == '\t')
 		i++;

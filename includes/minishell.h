@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/20 22:57:29 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/21 15:10:46 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ typedef struct s_block
 	int		cmd_found;
 }			t_block;
 
+// typedef struct s_tok
+// {
+// 	char			*content;
+// 	struct s_tok	*next;
+// }					t_tok;
+
 typedef struct s_msl
 {
 	char	*input;
@@ -60,7 +66,7 @@ typedef struct s_msl
 	char	**arrenv;
 	char	**split;
 	char	**tokens;
-	char	***cmds;
+	// char	***cmds;
 	int		c_pipe;
 	int		lst_delim;
 	int		fst_delim;
@@ -68,6 +74,7 @@ typedef struct s_msl
 	int		status;
 	int		**pipes;
 	pid_t	*pid;
+	// t_tok	*tkn;
 	t_block	**blocks;
 	t_var	*env;
 }			t_msl;
@@ -84,6 +91,7 @@ char	**ms_split(t_msl *ms, char *input);
 char	*parsing_env_var(t_msl *ms, char *token);
 char	*parsing_quotes_split(t_msl *ms, char *token);
 char	**split_equal(char *env_var);
+// char	*ms_strtok(t_msl *ms, char *input);
 char	*switch_var(t_msl *ms, char *token, int i);
 
 int		check_opened_quotes(t_msl *ms, char *input, int i, char c);
@@ -137,5 +145,6 @@ void	var_add_back(t_msl *ms, t_var *var);
 
 
 void	print_args(char **args);
+// void	print_tkn(t_tok *tkn);
 
 #endif

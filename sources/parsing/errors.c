@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/15 18:35:53 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/21 15:34:01 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,21 @@ int	pos_pipes(char *input)
 
 int	parsing_errors(t_msl *ms, char *input, int c_pipe)
 {
+	int	i;
+
+	i = -1;
+	while (input[++i])
+	{
+		if (input[i] == '>' || input[i] == '<')
+			if (display_errors_redirect(ms, input + i, input[i]) == -1)
+				return (-1);
+	}
 	if (input[0] == '/' && (input[1] == '.' || \
 	input[1] == '/') || input[0] == ' ')
 		return (display_errors_pipe(ms, input, input[0]));
 	if (input[0] == '|' || input[0] == '&' || input[0] == ';' \
 	|| input[0] == '(' || input[0] == ')')
 		return (display_errors(ms, input, input[0]));
-	if (input[0] == '>' || input[0] == '<')
-		return (display_errors_redirect(ms, input, input[0]));
 	if (input[0] == '\t' || input[0] == '#')
 		return (-1);
 	if (c_pipe > 0 && input[ft_strlen(input) - 1] == '|')

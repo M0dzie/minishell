@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/21 14:27:41 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/21 15:11:23 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,25 @@ int	is_space(char c)
 	return (0);
 }
 
-// int	count_tokens(char *input)
-// {
-// 	int		i;
-// 	int		n_tok;
+int	count_tokens(char *input)
+{
+	int		i;
+	int		n_tok;
 
-// 	i = -1;
-// 	n_tok = 0;
-// 	while (input[++i])
-// 	{
-// 		if (is_space(input[i]) || input[i] == '|' || !input[i + 1])
-// 		{
-// 			if (input[i] == '|' && (!is_space(input[i - 1]) || \
-// 			!is_space(input[i + 1])))
-// 				n_tok++;
-// 			n_tok++;
-// 		}
-// 	}
-// 	return (n_tok);
-// }
+	i = -1;
+	n_tok = 0;
+	while (input[++i])
+	{
+		if (is_space(input[i]) || input[i] == '|' || !input[i + 1])
+		{
+			if (input[i] == '|' && (!is_space(input[i - 1]) || \
+			!is_space(input[i + 1])))
+				n_tok++;
+			n_tok++;
+		}
+	}
+	return (n_tok);
+}
 
 char	*get_token(t_msl *ms, char *input, int i, int k)
 {
@@ -121,3 +121,7 @@ char	**ms_split(t_msl *ms, char *input)
 	}
 	return (token);
 }
+
+// char	*ms_strtok(t_msl *ms, char *input)
+// {
+// }
