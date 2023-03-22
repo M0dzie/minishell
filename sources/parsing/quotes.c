@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/15 18:44:43 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/22 11:02:25 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_opened_quotes(t_msl *ms, char *input, int i, char quote)
 {
-	if (input[i] == '\0')
+	if (!input)
 		return (1);
 	while (input[i] && input[i] != quote)
 		i++;
