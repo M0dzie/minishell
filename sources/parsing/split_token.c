@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/22 13:43:23 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/22 14:27:08 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ int	count_tokens(char *input)
 			n_tok++;
 		}
 		if (input[i] == '<' || input[i] == '>')
-		{
 			n_tok++;
-		}
 	}
 	if (ft_isalnum(input[i - 1]))
 		n_tok++;
