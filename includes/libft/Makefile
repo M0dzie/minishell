@@ -6,7 +6,7 @@
 #    By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/10 13:23:25 by msapin            #+#    #+#              #
-#    Updated: 2023/03/20 15:48:55 by mehdisapin       ###   ########.fr        #
+#    Updated: 2023/03/22 12:00:53 by mehdisapin       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,7 @@ SRC_CONVERT_FILES	=	ft_atoi.c		ft_itoa.c		ft_tolower.c	\
 						ft_toupper.c
 
 SRC_DISPLAY_FILES	=	ft_putchar_fd.c	ft_putendl_fd.c	ft_putnbr_fd.c	\
-						ft_putstr_fd.c
+						ft_putstr_fd.c	ft_putarr_fd.c
 
 SRC_FILE_FILES	=	get_next_line.c		get_file.c
 
