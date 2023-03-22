@@ -6,12 +6,11 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:38:38 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/21 13:52:39 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/22 21:12:22 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "../../includes/minimehdi.h"
 
 int	is_env(char *arg)
 {
@@ -52,7 +51,7 @@ int	cmd_valid(t_msl *ms, char **arg)
 	return (ft_arrfree(tmp_paths), 0);
 }
 
-int	exec_env(t_msl *ms, char **args_cmd, int index)
+int	exec_env(t_msl *ms, char **args_cmd)
 {	
 	int	nb_args;
 	int	i;
@@ -66,8 +65,7 @@ int	exec_env(t_msl *ms, char **args_cmd, int index)
 			if (!is_env(args_cmd[i]))
 			{
 				if (cmd_valid(ms, args_cmd + i) && args_cmd[i][0] != '.')
-					return (execute_cmd(ms, ft_arrdup(args_cmd + i), ms->arrenv), 0);
-					// return (exec_one(ms, ms->blocks[index]->arg + 1, index), 0);
+					return (execute_cmd(ms, ft_arrdup(args_cmd + i)), 0);
 				else if (access(args_cmd[i], F_OK))
 					return (display_error_exec("env: ", args_cmd[i], 2), 127);
 				else if (is_denied(args_cmd[i]))
@@ -75,6 +73,6 @@ int	exec_env(t_msl *ms, char **args_cmd, int index)
 			}
 		}
 	}
-	display_env(ms, 0);
+	display_env(ms, ENV);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 18:51:59 by thmeyer           #+#    #+#              #
-#    Updated: 2023/03/20 22:48:39 by mehdisapin       ###   ########.fr        #
+#    Updated: 2023/03/22 15:47:18 by mehdisapin       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,8 @@ SRC_BUILTINS_FILES	=	built_in.c
 
 SRC_CHECK_ERR_FILES	=	
 
-SRC_ENV_VAR_FILES	=	env.c switch_var.c 
+SRC_ENV_VAR_FILES	=	switch_var.c	init_env.c	get_env.c	get_export.c	\
+						env_utils.c
 
 SRC_PARSING_FILES	=	parsing.c quotes.c errors.c redir.c del_quotes.c \
 						split_token.c	parse_exec.c
