@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/22 12:59:28 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/22 21:28:40 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # define HEREDOC 3
 # define APPEND 4
 # define TRUNC 5
+
+# define ENV 0
+# define EXPORT 1
 
 typedef struct s_var
 {
@@ -75,11 +78,13 @@ typedef struct s_msl
 
 char	*clear_line(char *before_line, char *new_word, char *next_line);
 char	*del_quotes(char *input, int index, int lst_delim, char c);
-char	**ft_getenv(t_msl *ms, int mode);
+char	**ft_getenv(t_msl *ms);
+char	**ft_getexport(t_msl *ms);
 char	**getarr_cmd(t_elem *arg);
+char	*getexport_var(char *name, char *value);
 char	*get_after_delim(char *input, int index);
 char	*get_before_delim(char *input, int index);
-char	*get_cmd_path(char *cmd, char **envp);
+char	*get_cmd_path(t_msl *ms, char *cmd);
 char	*get_token(t_msl *ms, char *input, int i, int k);
 char	**ms_strtok(t_msl *ms, char *input);
 char	*parsing_env_var(t_msl *ms, char *token);
@@ -100,7 +105,7 @@ int		display_errors_redirect4(t_msl *ms, char *input, int type);
 int		envsize(t_msl *ms, int mode);
 int		exec_cd(t_msl *ms, char **args_cmd);
 int		exec_echo(t_msl *ms, char **args_cmd);
-int		exec_env(t_msl *ms, char **args_cmd, int use_pipe);
+int		exec_env(t_msl *ms, char **args_cmd);
 int		exec_export(t_msl *ms, char **args_cmd);
 int		exec_pwd(t_msl *ms, char **args_cmd);
 int		exec_unset(t_msl *ms, char **args_cmd);
@@ -117,13 +122,11 @@ t_var	*new_var(char *name, char *value, int in_env);
 
 void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe);
 void	count_pipes(t_msl *ms);
-void	create_pipe(char **args_cmd, t_msl *ms, char **envp);
 void	display_env(t_msl *ms, int mode);
-void	display_export(t_msl *ms);
-void	execute_cmd(t_msl *ms, char **cmd_args, char **envp);
+void	execute_cmd(t_msl *ms, char **cmd_args);
 void	execution(t_msl *ms);
 void	exec_cmd(t_msl *ms, int i);
-void	exec_one(t_msl *ms, t_elem *arg, int index);
+void	exec_one(t_msl *ms, t_elem *arg);
 void	exec_exit(t_msl *ms, char **args_cmd);
 void	handle_cmd(t_msl *ms, char **tmp_args, char **envp);
 void	init_env(t_msl *ms, char **envp);
