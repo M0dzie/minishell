@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/21 13:54:35 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/22 21:10:09 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,19 @@ int	display_error_exec(char *first, char *second, int num_error)
 	return (-1);
 }
 
-char	*get_cmd_path(char *cmd, char **envp)
+char	*get_cmd_path(t_msl *ms, char *cmd)
 {
 	char	**tmp_paths;
 	char	*join_one;
 	char	*join_two;
 	int		i;
+	t_var 	*tmp;
 
 	i = -1;
-	tmp_paths = ft_split(getenv("PATH"), ':');
+	tmp = getvar(ms,"PATH");
+	if (!tmp)
+		return (ft_strdup(cmd));
+	tmp_paths = ft_split(tmp->value, ':');
 	while (tmp_paths[++i])
 	{
 		join_one = ft_strjoin(tmp_paths[i], "/");
@@ -60,15 +64,16 @@ char	*get_cmd_path(char *cmd, char **envp)
 	return (ft_arrfree(tmp_paths), ft_strdup(cmd));
 }
 
-void	execute_cmd(t_msl *ms, char **cmd_args, char **envp)
+void	execute_cmd(t_msl *ms, char **cmd_args)
 {
 	char	*cmd_path;
 
+	// ft_putendl_fd(cmd_args[0], 2);
 	if (ft_strchr(cmd_args[0], '/'))
 		cmd_path = ft_strdup(cmd_args[0]);
 	else
-		cmd_path = get_cmd_path(cmd_args[0], envp);		// fix with my own env
-	execve(cmd_path, cmd_args, envp);		// fix with my own env
+		cmd_path = get_cmd_path(ms, cmd_args[0]);
+	execve(cmd_path, cmd_args, ms->arrenv);
 	display_error_exec("bash: ", cmd_args[0], 5);
 	free(cmd_path);
 	ms->status = 127;
@@ -77,20 +82,23 @@ void	execute_cmd(t_msl *ms, char **cmd_args, char **envp)
 	exit (127);
 }
 
-void	exec_one(t_msl *ms, t_elem *arg, int index)
+void	exec_one(t_msl *ms, t_elem *arg)
 {
 	char	**args_cmd;
 
 	args_cmd = getarr_cmd(arg);
 	if (is_builtins(arg->name))
 		builtins_execution(ms, arg, 0);
-	ms->pid[index] = fork();
-	if (ms->pid[index] < 0)
+	ms->pid[0] = fork();
+	if (ms->pid[0] < 0)
 		display_error_exec("bash: ", "fork", 15);
-	if (ms->pid[index] == 0)
+	if (ms->pid[0] == 0)
 	{
 		if (ft_strmatch("env", args_cmd[0]))
-			ms->status = exec_env(ms, args_cmd, 0);
+		{
+			// printf("exec_one\n");
+			ms->status = exec_env(ms, args_cmd);
+		}
 		else if (!is_builtins(arg->name))
 			standard_execution(ms, arg);
 		exit(ms->status);
@@ -160,15 +168,15 @@ void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe)
 	args_cmd = getarr_cmd(arg);
 	if (ft_strmatch("echo", arg->name))
 		ms->status = exec_echo(ms, args_cmd);
-	else if (ft_strmatch("pwd", args_cmd[0]))		// WIP
+	else if (ft_strmatch("pwd", args_cmd[0]))		// WIP		will print ms->pwd
 		ms->status = exec_pwd(ms, args_cmd);
 	else if (ft_strmatch("env", args_cmd[0]) && use_pipe)	// DONE
-		ms->status = exec_env(ms, args_cmd, use_pipe);
-	else if (ft_strmatch("cd", args_cmd[0]))		// WIP
+		ms->status = exec_env(ms, args_cmd);
+	else if (ft_strmatch("cd", args_cmd[0]))		// WIP		need update of ms->pwd and env variables PWD, OLDPWD
 		ms->status = exec_cd(ms, args_cmd);
-	else if (ft_strmatch("export", args_cmd[0]))
+	else if (ft_strmatch("export", args_cmd[0]))	//			if successful need to update ms->arrexport and ms->arrenv
 		ms->status = exec_export(ms, args_cmd);
-	else if (ft_strmatch("unset", args_cmd[0]))
+	else if (ft_strmatch("unset", args_cmd[0]))		//			if successful need to update ms->arrexport and ms->arrenv
 		ms->status = exec_unset(ms, args_cmd);
 	else if (ft_strmatch("exit", args_cmd[0]))		// DONE
 		exec_exit(ms, args_cmd);
@@ -176,17 +184,12 @@ void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe)
 
 void	standard_execution(t_msl *ms, t_elem *arg)
 {
-	char	**envp;
 	char	**args_cmd;
 
-	// envp = ft_getenv(ms, 0);
-	envp = NULL;
-	args_cmd = getarr_cmd(arg);
+	args_cmd = getarr_cmd(arg);		// fix by using tmp_cmd in the structure
 
-	// execute_cmd(ms, args_cmd, envp);
-	// handle_cmd(ms, args_cmd, envp);
 	// exec_one(args_cmd, ms, envp);
-	execute_cmd(ms, args_cmd, envp);
+	execute_cmd(ms, args_cmd);
 }
 
 void	display_block(t_block *block)

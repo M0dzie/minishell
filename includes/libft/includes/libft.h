@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 14:17:43 by msapin            #+#    #+#             */
-/*   Updated: 2023/03/20 15:47:14 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/22 21:15:40 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*ft_itoa(int n);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 
+void	ft_putarr_fd(char **arr, int fd);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);

@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:43:24 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/21 20:22:10 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/22 10:18:18 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	exec_export(t_msl *ms, char **args_cmd)
 	i = 0;
 	exit_stat = 0;
 	if (ft_arrlen(args_cmd) == 1)
-		display_env(ms, 1);
+		display_env(ms, EXPORT);
 	while (args_cmd[++i])
 	{
 		exit_stat = invalid_identifier(args_cmd[i]);

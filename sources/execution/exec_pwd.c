@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 21:21:14 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/21 13:52:19 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/22 20:23:21 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ int	exec_pwd(t_msl *ms, char **args_cmd)
 	int		i;
 	int		valid;
 
-	// tmp_path = get_cmd_path(args_cmd[0], ms->arrenv);
-	// tmp_args = ft_calloc(1, sizeof(char *));
-	// tmp_args = ft_arradd_back(tmp_args, tmp_path);
 	valid = 0;
 	if (args_cmd[1])
 	{
@@ -43,6 +40,6 @@ int	exec_pwd(t_msl *ms, char **args_cmd)
 		}
 	}
 	if (valid == 0)
-		printf("pwd = \n");
+		printf("%s\n", ms->pwd);
 	return (valid);
 }

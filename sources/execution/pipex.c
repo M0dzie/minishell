@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:28 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/21 13:28:30 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/22 16:56:24 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	exec_first_cmd(t_msl *ms, int index)
 void	exec_cmd(t_msl *ms, int i)
 {
 	if (ms->c_cmd == 1)
-		exec_one(ms, ms->blocks[i]->arg, i);
+		exec_one(ms, ms->blocks[i]->arg);
 	else if (i == 0)
 		exec_first_cmd(ms, i);
 	else if (i == ms->c_cmd - 1)
