@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/21 18:51:37 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/22 13:43:23 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,11 @@ int	count_tokens(char *input)
 		}
 		if (input[i] == '<' || input[i] == '>')
 		{
-			if (input[i + 1] == '<' || input[i + 1] == '>')
-				i++;
 			n_tok++;
 		}
 	}
-	printf("n_tok = %d\n", n_tok);
+	if (ft_isalnum(input[i - 1]))
+		n_tok++;
 	return (n_tok);
 }
 	
