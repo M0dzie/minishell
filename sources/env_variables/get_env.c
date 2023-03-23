@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 15:01:19 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/22 21:07:57 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/23 09:57:33 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,16 @@ t_var	*getvar(t_msl *ms, char *name)
 {
 	t_var	*tmp_stack;
 
-	// ft_putstr_fd("error getvar\n", 2);
 	if (ms->env->name)
 	{
 		tmp_stack = ms->env;
 		while (tmp_stack != NULL)
 		{
-			// ft_putstr_fd("return null\n", 2);
 			if (ft_strmatch(tmp_stack->name, name))
-			// {
 				return (tmp_stack);
-			// }
 			tmp_stack = tmp_stack->next;
 		}
 	}
-	// ft_putstr_fd("return null end\n", 2);
 	return (NULL);
 }
 
@@ -62,15 +57,13 @@ char	**ft_getenv(t_msl *ms)
 {
 	t_var	*tmp_env;
 	char	**getenv;
-	int		nb_var;
 	int		i;
 
-	nb_var = envsize(ms, ENV);
-	getenv = ft_calloc(nb_var + 1, sizeof(char *));
-	if (!getenv)
-		return (display_error_exec("bash: ", "ms->env: ", 6), NULL);
 	if (!ms->env->name)
 		return (NULL);
+	getenv = ft_calloc(envsize(ms, ENV) + 1, sizeof(char *));
+	if (!getenv)
+		return (display_error_exec("bash: ", "getenv: ", 6), NULL);
 	tmp_env = ms->env;
 	i = -1;
 	while (tmp_env != NULL)
@@ -81,33 +74,3 @@ char	**ft_getenv(t_msl *ms)
 	}
 	return (getenv);
 }
-
-// char	**ft_getenv(t_msl *ms, int mode)
-// {
-// 	t_var	*tmp_env;
-// 	char	**getenv;
-// 	int		nb_var;
-// 	int		i;
-
-// 	nb_var = envsize(ms, mode);
-// 	getenv = ft_calloc(nb_var + 1, sizeof(char *));
-// 	if (!getenv)
-// 		return (display_error_exec("bash: ", "ms->env: ", 6), NULL);
-// 	// if (nb_var == 0)
-// 	// 	return (display_error_exec("bash: ", "getenv: ", 8), NULL);
-// 	// printf("envsize %d\n", nb_var);
-// 	tmp_env = ms->env;
-// 	if (!ms->env->name)
-// 		return (NULL);
-// 	i = -1;
-// 	while (tmp_env != NULL)
-// 	{
-// 		// printf("declenchement %s\n", tmp_env->name);
-// 		if (mode == 0 && tmp_env->in_env)
-// 			getenv[++i] = getenv_var(tmp_env->name, tmp_env->value);
-// 		else if (mode == 1)
-// 			getenv[++i] = getexport_var(tmp_env->name, tmp_env->value);
-// 		tmp_env = tmp_env->next;
-// 	}
-// 	return (getenv);
-// }

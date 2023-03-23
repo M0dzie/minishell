@@ -6,17 +6,22 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 09:46:41 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/20 16:32:42 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/23 10:02:42 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <stdlib.h>
 
-void	change_dir(t_msl *ms, char *path, char **envp)
+int	change_dir(t_msl *ms, char *path, char **envp)
 {
+	char	bufpwd[BUFSIZ];
+
 	if (ms->c_pipe == 0)
 		chdir(path);
+	if (!path)
+		return (1);
+	ms->pwd = getcwd(bufpwd, BUFSIZ);
+	return (0);
 }
 
 int	rtn_error_cd(char c)
@@ -90,6 +95,17 @@ int	check_arg_cd(char **args_cmd)
 	return (valid);
 }
 
+char	*get_homepath(t_msl *ms)
+{
+	t_var	*tmp_var;
+
+	tmp_var = getvar(ms, "HOME");
+	ms->status = 1;
+	if (!tmp_var)
+		return (display_error_exec("bash: cd: ", NULL, 16), NULL);
+	return (tmp_var->value);
+}
+
 int	exec_cd(t_msl *ms, char **args_cmd)
 {
 	int	args_len;
@@ -116,7 +132,7 @@ int	exec_cd(t_msl *ms, char **args_cmd)
 		}
 	}
 	else
-		change_dir(ms, getenv("HOME"), ms->arrenv);
+		exit_stat = change_dir(ms, get_homepath(ms), ms->arrenv);
 	// printf("exit nb %d\n", exit_stat);
 	// exit (exit_stat);
 	return (exit_stat);
