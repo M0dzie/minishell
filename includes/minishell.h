@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/22 21:28:40 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/23 18:22:41 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int		exec_env(t_msl *ms, char **args_cmd);
 int		exec_export(t_msl *ms, char **args_cmd);
 int		exec_pwd(t_msl *ms, char **args_cmd);
 int		exec_unset(t_msl *ms, char **args_cmd);
+int		g_signal;
 int		invalid_first(char *name);
 int		is_builtins(char *cmd);
 int		is_space(char c);
@@ -126,10 +127,12 @@ void	display_env(t_msl *ms, int mode);
 void	execute_cmd(t_msl *ms, char **cmd_args);
 void	execution(t_msl *ms);
 void	exec_cmd(t_msl *ms, int i);
-void	exec_one(t_msl *ms, t_elem *arg);
 void	exec_exit(t_msl *ms, char **args_cmd);
+void	exec_one(t_msl *ms, t_elem *arg);
+void	exec_signal(void);
 void	handle_cmd(t_msl *ms, char **tmp_args, char **envp);
 void	init_env(t_msl *ms, char **envp);
+void	input_signal(void);
 void	parsing_echo(t_msl *ms, char *input, char **envp);
 void	parsing_errors_echo(t_msl *sl);
 void	parsing_exec(t_msl *ms);
