@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/23 18:22:41 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/23 20:08:29 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ typedef struct s_msl
 	char	**arrexport;
 	char	**split;
 	char	**tokens;
-	// char	***cmds;
 	int		c_pipe;
 	int		lst_delim;
 	int		fst_delim;
@@ -144,6 +143,5 @@ void	var_add_back(t_msl *ms, t_var *var);
 
 
 void	print_args(char **args);
-// void	print_tkn(t_tok *tkn);
 
 #endif
