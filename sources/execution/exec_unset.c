@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:44:39 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/22 21:10:50 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/23 10:03:48 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ t_var	*get_previous_var(t_msl *ms, char *var_name)
 	{
 		if (ft_strmatch(prev->next->name, var_name))
 			return (prev);
-			// printf("%s is the previous var\n", prev->name);
 		prev = prev->next;
 	}
 	prev = NULL;
@@ -107,13 +106,11 @@ void	unset_handling(t_msl *ms, char *var_name)
 			// printf("var in middle\n");
 			free(tmp_var);
 			tmp_prev->next = tmp_next;
-			// printf("previous is %s, next is %s\n", tmp_prev->name, tmp_next->name);
 		}
 		// ft_arrfree(ms->arrenv);
 		// ft_arrfree(ms->arrexport);
 		ms->arrenv = ft_getenv(ms);
-		// ms->arrexport = ft_getexport(ms);
-		ms->arrexport = NULL;
+		ms->arrexport = ft_getexport(ms);
 	}
 }
 

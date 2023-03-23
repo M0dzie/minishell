@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/22 21:10:09 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/23 09:35:09 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	display_error_exec(char *first, char *second, int num_error)
 {	
-	char	*err[16];		// to correct
+	char	*err[17];		// to correct
 
 	err[1] = ": invalid option";
 	err[2] = ": No such file or directory";
@@ -33,6 +33,7 @@ int	display_error_exec(char *first, char *second, int num_error)
 	err[13] = "': Permission denied";
 	err[14] = "': not a valid identifier";
 	err[15] = ": Cannot allocate memory";
+	err[16] = ": HOME not set";
 	ft_putstr_fd(first, 2);
 	ft_putstr_fd(second, 2);
 	ft_putendl_fd(err[num_error], 2);

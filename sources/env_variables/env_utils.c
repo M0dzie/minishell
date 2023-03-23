@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:52:42 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/22 21:12:41 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/23 09:58:00 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,20 @@ void	display_env(t_msl *ms, int mode)
 	t_var	*vars;
 	int		i;
 
-
 	i = -1;
 	if (mode == 0)
 	{
 		if (ms->arrenv)
 		{
 			while (ms->arrenv[++i])
-				printf("%s\n", ms->arrenv[i]);	
+				printf("%s\n", ms->arrenv[i]);
 		}
 		printf("_=/usr/bin/env\n");
 	}
 	else if (mode == 1 && ms->arrexport)
 	{
 		while (ms->arrexport[++i])
-			printf("%s\n", ms->arrexport[i]);
+			printf("declare -x %s\n", ms->arrexport[i]);
 	}
 }
 

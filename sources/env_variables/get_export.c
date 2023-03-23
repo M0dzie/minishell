@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 15:01:57 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/22 19:50:44 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/23 09:57:06 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char	*getexport_var(char *name, char *value)
 			str_var[i + j] = value[j];
 		str_var[i + j] = '"';
 	}
-	printf("-----%s\n", str_var);
 	return (str_var);
 }
 
@@ -83,33 +82,52 @@ int	varcmp(char *s1, char *s2)
 	return (0);
 }
 
+char	**get_tmpenv(t_msl *ms)
+{
+	t_var	*tmp_env;
+	char	**arrenv;
+	int		i;
+
+	if (!ms->env->name)
+		return (NULL);
+	arrenv = ft_calloc(envsize(ms, EXPORT) + 1, sizeof(char *));
+	if (!arrenv)
+		return (display_error_exec("bash: ", "arrenv: ", 6), NULL);
+	tmp_env = ms->env;
+	i = -1;
+	while (tmp_env != NULL)
+	{
+		arrenv[++i] = getexport_var(tmp_env->name, tmp_env->value);
+		tmp_env = tmp_env->next;
+	}
+	return (arrenv);
+}
+
 char	**ft_getexport(t_msl *ms)
 {
 	int		i;
 	int		j;
 	int		index;
-	char	**arr_export;
+	char	**arrenv;
 	char	**getexport;
 
-	i = -1;
+	arrenv = get_tmpenv(ms);
+	if (!arrenv)
+		return (NULL);
 	getexport = ft_calloc(envsize(ms, EXPORT) + 1, sizeof(char *));
-	arr_export = ft_getenv(ms);
-	// printf("ft_getexport %d %s\n",envsize(ms, EXPORT), arr_export[0]);
-	// if (!arr_export)
-	// 	return (NULL);
-	ft_putarr_fd(ms->arrenv, 1);
-	// while (arr_export[++i])
-	// {
-	// 	index = 0;
-	// 	j = -1;
-	// 	printf("%s\n", arr_export[i]);
-	// 	while (arr_export[++j])
-	// 	{
-	// 		if (varcmp(arr_export[i], arr_export[j]) > 0)
-	// 			index++;
-	// 	}
-	// 	getexport[index] = ft_strdup_null(arr_export[i]);
-	// }
-	// ft_arrfree(arr_export);
-	return (getexport);
+	if (!getexport)
+		return (display_error_exec("bash: ", "getexport: ", 6), NULL);
+	i = -1;
+	while (arrenv[++i])
+	{
+		index = 0;
+		j = -1;
+		while (arrenv[++j])
+		{
+			if (varcmp(arrenv[i], arrenv[j]) > 0)
+				index++;
+		}
+		getexport[index] = ft_strdup_null(arrenv[i]);
+	}
+	return (ft_arrfree(arrenv), getexport);
 }
