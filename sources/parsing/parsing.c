@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/21 17:53:38 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/22 15:34:30 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,5 @@ void	read_prompt(t_msl *ms, char **envp)
 	if (!ms->tokens)
 		return (free(ms->input));
 	print_args(ms->tokens);
-	free(ms->input);
 	execution(ms);
 }

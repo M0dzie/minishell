@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/21 17:02:09 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/23 18:19:50 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ char	*get_value(t_msl *ms, char *token)
 	t_var	*tmp;
 
 	if (token[0] == '?' )
+	{
+		if (g_signal > 0)
+			return (ms->fst_delim = 1, ft_itoa(g_signal));
 		return (ms->lst_delim = 1, ft_itoa(ms->status));
+	}
 	if (token[0] == ' ' || !token[0] || token[0] == '\'' || \
 	token[0] == '\"')
 		return (ms->fst_delim++, ms->lst_delim = 0, "$");

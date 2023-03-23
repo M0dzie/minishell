@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+         #
+#    By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 18:51:59 by thmeyer           #+#    #+#              #
-#    Updated: 2023/03/22 15:47:18 by mehdisapin       ###   ########.fr        #
+#    Updated: 2023/03/23 18:07:34 by thmeyer          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,7 @@ SRC_EXECUTION_FILES	=	execution.c	pipex.c	exec_exit.c	exec_pwd.c exec_cd.c	\
 
 SRC_REDIR_FILES		=	
 
-SRC_SHELL_FILES		=	main.c
+SRC_SHELL_FILES		=	main.c signal.c
 
 
 SRCS_BUILTINS	=	$(addprefix $(SRC_BUILTINS_PATH), $(SRC_BUILTINS_FILES))
