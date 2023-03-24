@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 11:40:43 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/23 08:35:10 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/24 18:33:06 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ t_var	*new_var(char *name, char *value, int in_env)
 void	init_nullenv(t_msl *ms)
 {
 	var_add_back(ms, new_var("PWD", ms->pwd, 1));
-	var_add_back(ms, new_var("LS_COLORS", "", 1));
-	var_add_back(ms, new_var("LESSCLOSE", "/usr/bin/lesspipe %s %s", 1));
-	var_add_back(ms, new_var("LESSOPEN", "| /usr/bin/lesspipe %s", 1));
+	// var_add_back(ms, new_var("LS_COLORS", "", 1));
+	// var_add_back(ms, new_var("LESSCLOSE", "/usr/bin/lesspipe %s %s", 1));
+	// var_add_back(ms, new_var("LESSOPEN", "| /usr/bin/lesspipe %s", 1));
 	var_add_back(ms, new_var("SHLVL", "1", 1));
 	var_add_back(ms, new_var("OLDPWD", NULL, 0));
 }
