@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/24 10:59:26 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/24 14:53:38 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	count_pipes(t_msl *ms)
 	{
 		if (ms->input[i] == '\'' || ms->input[i] == '\"')
 		{
-			check_opened_quotes(ms, ms->input, i + 1, ms->input[i]);
+			if (check_opened_quotes(ms, ms->input, i + 1, ms->input[i]))
+				break ;
 			i = ms->lst_delim;
 		}
 		if (ms->input[i] == '|')
@@ -50,10 +51,11 @@ void	read_prompt(t_msl *ms, char **envp)
 	if (ms->input[0] == '\0' || parsing_errors(ms, ms->input, \
 	ms->c_pipe) == -1 || parsing_quotes(ms) == -1)
 		return (free(ms->input));
-	// ms_strtok(ms, ms->input);
-	ms->tokens = ms_strtok(ms, ms->input);
+	// ms->tokens = ms_strtok(ms, ms->input);
+	ms_strtok(ms, ms->input);
 	if (!ms->tokens)
 		return (free(ms->input));
 	print_args(ms->tokens);
 	execution(ms);
+	ft_arrfree(ms->tokens);
 }

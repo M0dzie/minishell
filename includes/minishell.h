@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/24 10:23:07 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/24 13:33:10 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct s_msl
 	char	*pwd;
 	char	**arrenv;
 	char	**arrexport;
-	char	**split;
 	char	**tokens;
 	int		c_pipe;
 	int		lst_delim;
@@ -117,6 +116,7 @@ int		parsing_errors(t_msl *ms, char *input, int c_pipe);
 int		parsing_pipes_input(t_msl *ms);
 int		parsing_quotes(t_msl *ms);
 int		parsing_redir(t_msl *ms, char *input);
+int		pos_pipes(t_msl *ms, char *input);
 int		strict_cmp(const char *builts, const char *cmd);
 
 t_var	*getvar(t_msl *ms, char *name);

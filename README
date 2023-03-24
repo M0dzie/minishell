@@ -4,3 +4,9 @@ ls | ""  and "" | ls    ->    rajouter une condition de sortie pour un argument 
 
 when trying to use a command that need input open the prompt but ctrl + c bug and print
 two minishell like processus still pending, need to stop pending process when using ctrl c
+
+### For leaks
+use this
+```sh
+valgrind --suppressions=valgrind_ignore_leaks.txt --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --show-mismatched-frees=yes --read-var-info=yes ./minishell
+```

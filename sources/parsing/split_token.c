@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/24 10:59:19 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/24 15:44:19 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,6 @@
 int	is_space(char c)
 {
 	if (c == ' ' || c == '\t')
-		return (1);
-	return (0);
-}
-
-int	is_token_delimiter(char input)
-{
-	if (is_space(input) || input == '|' || input == '>' || input == '<')
 		return (1);
 	return (0);
 }
@@ -64,32 +57,64 @@ char	*get_token(t_msl *ms, char *input, int i, int k)
 	return (token);
 }
 
-// char	**ms_strtok(t_msl *ms, char *input)
-// {
-// 	int	i;
-// 	int	k;
+int	is_token_delimiter(char input)
+{
+	if (is_space(input) || input == '|' || input == '>' || input == '<')
+		return (1);
+	return (0);
+}
 
-// 	ms->tokens = ft_calloc(count_tokens(input) + 1, sizeof(char *));
-// 	if (!ms->tokens)
-// 		return (NULL);
-// 	i = -1;
-// 	k = 0;
-// 	while (input[++i])
-// 	{
-// 		if ((input[i] == '\'' || input[i] == '\"') && \
-// 		!check_opened_quotes(ms, input, i + 1, input[i]))
-// 		{
-// 			i = ms->lst_delim;
-// 			k += ms->lst_delim;
-// 		}
-// 		if (is_token_delimiter(input[i]))
-// 			handle_token();
-// 		else
-// 			k++;
-// 	}
-// 	if (k > 0)
-// 		handle_last_token();
-// }
+int	is_in_quote(t_msl *ms, char *input, int in_quote)
+{
+	if (input[0] == '\"' || input[0] == '\'')
+	{
+		if (in_quote && input[0] == ms->fst_delim)
+			in_quote = 0;
+		else if (!in_quote)
+		{
+			in_quote = 1;
+			ms->fst_delim = input[0];
+		}
+	}
+	return (in_quote);
+}
+
+void	handle_special_token(t_msl *ms, char *input, int *j, int *k)
+{
+	ms->fst_delim = 0;
+	if ((input[0] == '>' && input[1] == '>') || \
+		(input[0] == '<' && input[1] == '<'))
+	{
+		ms->tokens[++(*j)] = ft_calloc(3, sizeof(char));
+		if (!ms->tokens[*j])
+			return ;
+		ms->tokens[*j][0] = input[0];
+		ms->tokens[*j][1] = input[1];
+		ms->fst_delim = 1;
+	}
+	else if (input[0] == '|' || input[0] == '<' || \
+	input[0] == '>')
+	{
+		ms->tokens[++(*j)] = ft_calloc(2, sizeof(char));
+		if (!ms->tokens[*j])
+			return ;
+		ms->tokens[*j][0] = input[0];
+	}
+}
+
+void	handle_token(t_msl *ms, char *input, int *j, int *k)
+{
+	if (*k > 0)
+	{
+		ms->tokens[++(*j)] = get_token(ms, input, 0, (*k));
+		if (!ms->tokens[*j])
+			return ;
+		*k = 0;
+	}
+	handle_special_token(ms, input, j, k);
+	if (!ms->tokens[*j])
+		return ;
+}
 
 char	**ms_strtok(t_msl *ms, char *input)
 {
@@ -97,10 +122,9 @@ char	**ms_strtok(t_msl *ms, char *input)
 	int		j;
 	int		k;
 	int		in_quote;
-	char	**token;
 
-	token = ft_calloc((count_tokens(input) + 1), sizeof(char *));
-	if (!token)
+	ms->tokens = ft_calloc((count_tokens(input) + 1), sizeof(char *));
+	if (!ms->tokens)
 		return (NULL);
 	i = -1;
 	j = -1;
@@ -108,150 +132,86 @@ char	**ms_strtok(t_msl *ms, char *input)
 	in_quote = 0;
 	while (input[++i])
 	{
-		if ((input[i] == '\"' || input[i] == '\'') && (i == 0 \
-		|| ft_isascii(input[i - 1])))
+		in_quote = is_in_quote(ms, input + i, in_quote);
+		if (!in_quote && is_token_delimiter(input[i]))
 		{
-			if (in_quote && input[i] == ms->fst_delim)
-				in_quote = 0;
-			else if (!in_quote)
-			{
-				in_quote = 1;
-				ms->fst_delim = input[i];
-			}
-		}
-		if (!in_quote && (is_space(input[i]) || input[i] == '|' || \
-		input[i] == '>' || input[i] == '<'))
-		{
-			if (k > 0)
-			{
-				token[++j] = get_token(ms, input, i, k);
-				if (!token[j])
-					return (NULL);
-				k = 0;
-			}
-			if ((input[i] == '>' && input[i + 1] == '>') || \
-			(input[i] == '<' && input[i + 1] == '<'))
-			{
-				token[++j] = ft_calloc(3, sizeof(char));
-				if (!token[j])
-					return (NULL);
-				token[j][0] = input[i];
-				token[j][1] = input[i + 1];
-				i++;
-			}
-			else if (input[i] == '|' || input[i] == '<' || \
-			input[i] == '>')
-			{
-				token[++j] = ft_calloc(2, sizeof(char));
-				if (!token[j])
-					return (NULL);
-				token[j][0] = input[i];
-			}
+			handle_token(ms, input + i, &j, &k);
+			if (!ms->tokens[j])
+				return (NULL);
+			i += ms->fst_delim;
 		}
 		else
 			k++;
 	}
-	if (k > 0)
-	{
-		token[++j] = get_token(ms, input, i, k);
-		if (!token[j])
-			return (NULL);
-	}
-	return (token);
+	handle_token(ms, input + i, &j, &k);
+	if (!ms->tokens[j])
+		return (NULL);
 }
 
 // char	**ms_strtok(t_msl *ms, char *input)
-// {
-// 	char	**token;
-
-// 	token = ft_calloc((count_tokens(input) + 1), sizeof(char *));
-// 	if (!token)
-// 		return (NULL);
-// 	parse_tokens(ms, input, token);
-// 	return (token);
-// }
-
-// void	parse_tokens(t_msl *ms, char *input, char **token)
 // {
 // 	int		i;
 // 	int		j;
 // 	int		k;
 // 	int		in_quote;
+// 	char	**token;
 
+// 	token = ft_calloc((count_tokens(input) + 1), sizeof(char *));
+// 	if (!token)
+// 		return (NULL);
 // 	i = -1;
 // 	j = -1;
 // 	k = 0;
 // 	in_quote = 0;
 // 	while (input[++i])
 // 	{
-// 		in_quote = handle_quotes(ms, input, &in_quote, i);
-// 		if (!in_quote)
-// 			handle_token(ms, input, &j, &k, token, i);
+// 		if ((input[i] == '\"' || input[i] == '\'') && (i == 0 \
+// 		|| ft_isascii(input[i - 1])))
+// 		{
+// 			if (in_quote && input[i] == ms->fst_delim)
+// 				in_quote = 0;
+// 			else if (!in_quote)
+// 			{
+// 				in_quote = 1;
+// 				ms->fst_delim = input[i];
+// 			}
+// 		}
+// 		if (!in_quote && is_token_delimiter(input[i]))
+// 		{
+// 			if (k > 0)
+// 			{
+// 				token[++j] = get_token(ms, input, i, k);
+// 				if (!token[j])
+// 					return (NULL);
+// 				k = 0;
+// 			}
+// 			if ((input[i] == '>' && input[i + 1] == '>') || \
+// 			(input[i] == '<' && input[i + 1] == '<'))
+// 			{
+// 				token[++j] = ft_calloc(3, sizeof(char));
+// 				if (!token[j])
+// 					return (NULL);
+// 				token[j][0] = input[i];
+// 				token[j][1] = input[i + 1];
+// 				i++;
+// 			}
+// 			else if (input[i] == '|' || input[i] == '<' || \
+// 			input[i] == '>')
+// 			{
+// 				token[++j] = ft_calloc(2, sizeof(char));
+// 				if (!token[j])
+// 					return (NULL);
+// 				token[j][0] = input[i];
+// 			}
+// 		}
 // 		else
 // 			k++;
 // 	}
 // 	if (k > 0)
-// 		handle_last_token(ms, input, &j, &k, token, i);
-// }
-
-// int		handle_quotes(t_msl *ms, char *input, int *in_quote, int i)
-// {
-// 	if ((input[i] == '\"' || input[i] == '\'') && (i == 0 \
-// 	|| ft_isascii(input[i - 1])))
 // 	{
-// 		if (*in_quote && input[i] == ms->fst_delim)
-// 			*in_quote = 0;
-// 		else if (!*in_quote)
-// 		{
-// 			*in_quote = 1;
-// 			ms->fst_delim = input[i];
-// 		}
+// 		token[++j] = get_token(ms, input, i, k);
+// 		if (!token[j])
+// 			return (NULL);
 // 	}
-// 	return (*in_quote);
-// }
-
-// void	handle_token(t_msl *ms, char *input, int *j, int *k, char **token, int i)
-// {
-// 	if (is_token_delimiter(input[i]))
-// 	{
-// 		if (*k > 0)
-// 		{
-// 			token[++(*j)] = get_token(ms, input, i, *k);
-// 			if (!token[*j])
-// 				return ;
-// 			*k = 0;
-// 		}
-// 		handle_special_token(input, j, token, i);
-// 	}
-// 	else
-// 		(*k)++;
-// }
-
-// void	handle_special_token(char *input, int *j, char **token, int i)
-// {
-// 	if ((input[i] == '>' && input[i + 1] == '>') || \
-// 		(input[i] == '<' && input[i + 1] == '<'))
-// 	{
-// 		token[++(*j)] = ft_calloc(3, sizeof(char));
-// 		if (!token[*j])
-// 			return ;
-// 		token[*j][0] = input[i];
-// 		token[*j][1] = input[i + 1];
-// 		i++;
-// 	}
-// 	else if (input[i] == '|' || input[i] == '<' || \
-// 		input[i] == '>')
-// 	{
-// 		token[++(*j)] = ft_calloc(2, sizeof(char));
-// 		if (!token[*j])
-// 			return ;
-// 		token[*j][0] = input[i];
-// 	}
-// }
-
-// void	handle_last_token(t_msl *ms, char *input, int *j, int *k, char **token, int i)
-// {
-// 	token[++(*j)] = get_token(ms, input, i, *k);
-// 	if (!token[*j])
-// 		return ;
+// 	return (token);
 // }
