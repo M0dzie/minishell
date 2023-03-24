@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/24 09:08:11 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/24 10:22:49 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@ int	check_sign(char *token, int i)
 		i++;
 	}
 	return (0);
+}
+
+int	ms_isalnum(int c)
+{
+	if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z')
+			|| (c >= 'a' && c <= 'z') || c == '_'))
+		return (0);
+	return (1);
 }
 
 char	*get_value(t_msl *ms, char *token)
@@ -38,10 +46,10 @@ char	*get_value(t_msl *ms, char *token)
 	if (token[0] == ' ' || !token[0] || token[0] == '\'' || \
 	token[0] == '\"')
 		return (ms->fst_delim++, ms->lst_delim = 0, "$");
-	if (ft_isdigit(token[0]) || !ft_isalnum(token[0]))
+	if (ft_isdigit(token[0]) || !ms_isalnum(token[0]))
 		return (ms->lst_delim = 1, "");
 	i = 0;
-	while (token[i] && ft_isalnum(token[i]))
+	while (token[i] && ms_isalnum(token[i]))
 		i++;
 	token = get_before_delim(token, i);
 	if (!token)

@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/24 10:00:27 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/24 10:23:07 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int		g_signal;
 int		invalid_first(char *name);
 int		is_builtins(char *cmd);
 int		is_space(char c);
+int		ms_isalnum(int c);
 int		parsing_errors(t_msl *ms, char *input, int c_pipe);
 int		parsing_pipes_input(t_msl *ms);
 int		parsing_quotes(t_msl *ms);
