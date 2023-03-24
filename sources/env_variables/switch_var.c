@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   switch_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/23 18:19:50 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/24 09:08:11 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ char	*get_value(t_msl *ms, char *token)
 	if (token[0] == '?' )
 	{
 		if (g_signal > 0)
-			return (ms->fst_delim = 1, ft_itoa(g_signal));
+			return (ms->status = g_signal, ms->fst_delim = 1, \
+			g_signal = 0, ft_itoa(ms->status));
 		return (ms->lst_delim = 1, ft_itoa(ms->status));
 	}
 	if (token[0] == ' ' || !token[0] || token[0] == '\'' || \
