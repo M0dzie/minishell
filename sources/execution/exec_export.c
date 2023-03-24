@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:43:24 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/23 10:02:23 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/24 18:40:24 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	invalid_identifier(char *name)
 		return (display_error_exec("bash: export: '", name, 14), 1);
 	else if (invalid_option(name))
 		return (2);
-	invalid_char = "`~!@#$%^&*-+.,/\\?:{}[]";
+	invalid_char = "`~!@#$%^&*-+.,\\?:{}[]";
 	i = -1;
 	while (name[++i])
 	{

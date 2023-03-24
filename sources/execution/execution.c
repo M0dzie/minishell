@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/24 11:20:43 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/24 18:45:32 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,12 @@ void	exec_one(t_msl *ms, t_elem *arg)
 		display_error_exec("bash: ", "fork", 15);
 	if (ms->pid[0] == 0)
 	{
-		if (ft_strmatch("env", args_cmd[0]))
-		{
-			// printf("exec_one\n");
+		ms->status = is_valid_builtins(ms, arg, args_cmd);
+		if (match_multi("/usr/bin/env", "/bin/env", "env", args_cmd[0]) && !ms->status)
+		// {
+		// 	printf("exec_one\n");
 			ms->status = exec_env(ms, args_cmd);
-		}
+		// }
 		else if (!is_builtins(arg->name))
 			standard_execution(ms, arg);
 		exit(ms->status);
@@ -120,9 +121,9 @@ int	is_builtins(char *cmd)
 	}
 	else
 		tmp_cmd = ft_strdup(cmd);
-	if (ft_strmatch("echo", tmp_cmd) | ft_strmatch("cd", tmp_cmd) | 
-		ft_strmatch("pwd", tmp_cmd) | ft_strmatch("export", tmp_cmd) |
-		ft_strmatch("unset", tmp_cmd) | ft_strmatch("env", tmp_cmd) |
+	if (ft_strmatch("echo", tmp_cmd) | ft_strmatch("pwd", tmp_cmd) |
+		ft_strmatch("env", tmp_cmd) | ft_strmatch("cd", tmp_cmd) | 
+		ft_strmatch("unset", tmp_cmd) | ft_strmatch("export", tmp_cmd) | 
 		ft_strmatch("exit", tmp_cmd))
 		return (1);
 	return (0);
@@ -162,25 +163,78 @@ char	**getarr_cmd(t_elem *arg)
 	return (arr_cmd);
 }
 
+int	is_valid_builtins(t_msl *ms, t_elem *arg, char **cmd_args)
+{
+	char	*cmd_path;
+	int		path;
+
+	if (match_multi("/usr/bin/echo", "/bin/echo", "echo", arg->name) |
+		match_multi("/usr/bin/pwd", "/bin/pwd", "pwd", arg->name) |
+		ft_strmatch("cd", arg->name) | ft_strmatch("unset", arg->name) |
+		ft_strmatch("export", arg->name) | ft_strmatch("exit", arg->name))
+		return (0);
+	if (ft_strchr(cmd_args[0], '/'))
+	{
+		cmd_path = ft_strdup(cmd_args[0]);
+		path = 1;
+	}
+	else
+		cmd_path = get_cmd_path(ms, cmd_args[0]);
+	// printf("|%s|\n", cmd_path);
+	if (access(cmd_path, F_OK) == 0 && cmd_path)
+		return (free(cmd_path), 0);
+	if (path)
+		display_error_exec("bash: ", arg->name, 2);
+	else
+		display_error_exec("bash: ", arg->name, 5);
+	return (free(cmd_path), 1);
+}
+
+int	match_multi(char *s1, char *s2, char *s3, char *cmd)
+{
+	if (s1)
+	{
+		if (ft_strmatch(s1, cmd))
+			return (1);
+	}
+	if (s2)
+	{
+		if (ft_strmatch(s2, cmd))
+			return (1);
+	}
+	if (s3)
+	{
+		if (ft_strmatch(s3, cmd))
+			return (1);
+	}
+	return (0);
+}
+
 void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe)
 {
 	char	**args_cmd;
 
 	args_cmd = getarr_cmd(arg);
-	if (ft_strmatch("echo", arg->name))
-		ms->status = exec_echo(ms, args_cmd);
-	else if (ft_strmatch("pwd", args_cmd[0]))		// WIP		will print ms->pwd
-		ms->status = exec_pwd(ms, args_cmd);
-	else if (ft_strmatch("env", args_cmd[0]) && use_pipe)	// DONE
-		ms->status = exec_env(ms, args_cmd);
-	else if (ft_strmatch("cd", args_cmd[0]))		// WIP		need update of ms->pwd and env variables PWD, OLDPWD
-		ms->status = exec_cd(ms, args_cmd);
-	else if (ft_strmatch("export", args_cmd[0]))	//			if successful need to update ms->arrexport and ms->arrenv
-		ms->status = exec_export(ms, args_cmd);
-	else if (ft_strmatch("unset", args_cmd[0]))		//			if successful need to update ms->arrexport and ms->arrenv
-		ms->status = exec_unset(ms, args_cmd);
-	else if (ft_strmatch("exit", args_cmd[0]))		// DONE
-		exec_exit(ms, args_cmd);
+	ms->status = is_valid_builtins(ms, arg, args_cmd);
+	if (!ms->status)
+	{
+		// printf("builtins %s\n", arg->name);
+		if (match_multi("/usr/bin/echo", "/bin/echo", "echo", arg->name))
+			ms->status = exec_echo(ms, args_cmd);
+		else if (match_multi("/usr/bin/pwd", "/bin/pwd", "pwd", arg->name))		// WIP		will print ms->pwd
+			ms->status = exec_pwd(ms, args_cmd);
+		else if (match_multi("/usr/bin/env", "/bin/env", "env", arg->name) && use_pipe)	// DONE
+			ms->status = exec_env(ms, args_cmd);
+		else if (ft_strmatch("cd", arg->name))		// WIP		need update of ms->pwd and env variables PWD, OLDPWD
+			ms->status = exec_cd(ms, args_cmd);
+		else if (ft_strmatch("export", arg->name))	//			if successful need to update ms->arrexport and ms->arrenv
+			ms->status = exec_export(ms, args_cmd);
+		else if (ft_strmatch("unset", arg->name))		//			if successful need to update ms->arrexport and ms->arrenv
+			ms->status = exec_unset(ms, args_cmd);
+		else if (ft_strmatch("exit", arg->name))		// DONE
+			exec_exit(ms, args_cmd);
+	}
+	ft_arrfree(args_cmd);
 }
 
 void	standard_execution(t_msl *ms, t_elem *arg)
@@ -191,6 +245,7 @@ void	standard_execution(t_msl *ms, t_elem *arg)
 
 	// exec_one(args_cmd, ms, envp);
 	execute_cmd(ms, args_cmd);
+	ft_arrfree(args_cmd);
 }
 
 void	display_block(t_block *block)
