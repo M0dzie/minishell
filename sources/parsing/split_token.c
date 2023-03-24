@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/22 14:27:08 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/24 10:59:19 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 int	is_space(char c)
 {
 	if (c == ' ' || c == '\t')
+		return (1);
+	return (0);
+}
+
+int	is_token_delimiter(char input)
+{
+	if (is_space(input) || input == '|' || input == '>' || input == '<')
 		return (1);
 	return (0);
 }
@@ -30,7 +37,8 @@ int	count_tokens(char *input)
 	{
 		if (is_space(input[i]) || input[i] == '|' || !input[i + 1])
 		{
-			if (input[i] == '|' && (!is_space(input[i - 1]) || !is_space(input[i + 1])))
+			if (input[i] == '|' && (!is_space(input[i - 1]) || \
+			!is_space(input[i + 1])))
 				n_tok++;
 			n_tok++;
 		}
@@ -41,7 +49,7 @@ int	count_tokens(char *input)
 		n_tok++;
 	return (n_tok);
 }
-	
+
 char	*get_token(t_msl *ms, char *input, int i, int k)
 {
 	char	*token;
@@ -55,6 +63,33 @@ char	*get_token(t_msl *ms, char *input, int i, int k)
 		return (NULL);
 	return (token);
 }
+
+// char	**ms_strtok(t_msl *ms, char *input)
+// {
+// 	int	i;
+// 	int	k;
+
+// 	ms->tokens = ft_calloc(count_tokens(input) + 1, sizeof(char *));
+// 	if (!ms->tokens)
+// 		return (NULL);
+// 	i = -1;
+// 	k = 0;
+// 	while (input[++i])
+// 	{
+// 		if ((input[i] == '\'' || input[i] == '\"') && \
+// 		!check_opened_quotes(ms, input, i + 1, input[i]))
+// 		{
+// 			i = ms->lst_delim;
+// 			k += ms->lst_delim;
+// 		}
+// 		if (is_token_delimiter(input[i]))
+// 			handle_token();
+// 		else
+// 			k++;
+// 	}
+// 	if (k > 0)
+// 		handle_last_token();
+// }
 
 char	**ms_strtok(t_msl *ms, char *input)
 {

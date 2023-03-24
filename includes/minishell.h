@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/23 20:08:29 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/24 10:23:07 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,11 @@ int		g_signal;
 int		invalid_first(char *name);
 int		is_builtins(char *cmd);
 int		is_space(char c);
+int		ms_isalnum(int c);
 int		parsing_errors(t_msl *ms, char *input, int c_pipe);
 int		parsing_pipes_input(t_msl *ms);
 int		parsing_quotes(t_msl *ms);
+int		parsing_redir(t_msl *ms, char *input);
 int		strict_cmp(const char *builts, const char *cmd);
 
 t_var	*getvar(t_msl *ms, char *name);
@@ -140,7 +142,6 @@ void	read_prompt(t_msl *ms, char **envp);
 void	signal_handler(int signal);
 void	standard_execution(t_msl *ms, t_elem *arg);
 void	var_add_back(t_msl *ms, t_var *var);
-
 
 void	print_args(char **args);
 
