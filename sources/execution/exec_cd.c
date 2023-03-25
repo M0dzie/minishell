@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 09:46:41 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/23 19:51:31 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/25 12:23:06 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,25 @@ char	*get_homepath(t_msl *ms)
 	return (tmp_var->value);
 }
 
-int	change_dir(t_msl *ms, char *path, char **envp)
+int	change_dir(t_msl *ms, char *path_dir, char **envp)
 {
 	t_var	*tmp_var;
 	char	buf_pwd[BUFSIZ];
 	char	buf_oldpwd[BUFSIZ];
 	int		valid_dir;
-	char	*tmp_old;
+	t_var	*tmp_old;
 
-	// printf("%s\n", path);
 	if (ms->c_pipe == 0)
 	{
-		tmp_old = getcwd(buf_oldpwd, BUFSIZ);
-		valid_dir = chdir(path);
+		printf("change dir to %s\n", path_dir);
+		// tmp_old = getcwd(buf_oldpwd, BUFSIZ);
+		tmp_old = getvar(ms, "PWD");;
+		valid_dir = chdir(path_dir);
 		if (valid_dir == 0)
 		{
 			tmp_var = getvar(ms, "OLDPWD");
 			if (tmp_var)
-				tmp_var->value = tmp_old;
+				tmp_var->value = tmp_old->value;
 			tmp_var = getvar(ms, "PWD");
 			if (tmp_var)
 				tmp_var->value = getcwd(buf_pwd, BUFSIZ);
@@ -51,7 +52,7 @@ int	change_dir(t_msl *ms, char *path, char **envp)
 		}
 		
 	}
-	if (!path)
+	if (!path_dir)
 		return (1);
 	return (0);
 }
@@ -132,10 +133,25 @@ int	check_arg_cd(t_msl *ms, char **args_cmd)
 	return (valid);
 }
 
+char	*getvar_oldpwd(t_msl *ms, char *name)
+{
+	t_var	*tmp_var;
+
+	tmp_var = getvar(ms, name);
+	if (!tmp_var->value)
+		// printf("No var\n");
+		return (display_error_exec("bash: cd: ", name, 17), NULL);
+	printf("OLDPWD : %s\n", tmp_var->value);
+	return (tmp_var->value);
+}
+
 int	exec_cd(t_msl *ms, char **args_cmd)
 {
 	int	args_len;
 	int	exit_stat;
+	char	*tmp_path;
+
+	printf("exec cd\n");
 
 	args_len = ft_arrlen(args_cmd);
 	exit_stat = 0;
@@ -150,11 +166,20 @@ int	exec_cd(t_msl *ms, char **args_cmd)
 		if (exit_stat == 0)
 		{
 			if (args_cmd[1][0] == '-')
-				change_dir(ms, get_trim_path(ms, getvar(ms, "OLDPWD")->value), ms->arrenv);		// fix getenv
+			{
+				// change_dir(ms, get_trim_path(ms, getvar(ms, "OLDPWD")->value), ms->arrenv);		// fix getenv
+				tmp_path = getvar_oldpwd(ms, "OLDPWD");
+				printf("OLD_PWD : %s\n", tmp_path);
+				change_dir(ms, tmp_path, ms->arrenv);		// fix getenv
+			}
 			else if (args_cmd[1][0] == '~')
 				change_dir(ms, get_trim_path(ms, args_cmd[1]), ms->arrenv);
 			else
-				change_dir(ms, args_cmd[1], ms->arrenv);
+			{
+				tmp_path = ft_strjoin(ft_strjoin(getvar_oldpwd(ms, "PWD"), "/"), args_cmd[1]);
+				change_dir(ms, tmp_path, ms->arrenv);
+				// change_dir(ms, args_cmd[1], ms->arrenv);
+			}
 		}
 	}
 	else
