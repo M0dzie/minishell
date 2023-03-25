@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/24 15:44:19 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/25 19:28:46 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,13 @@ void	handle_special_token(t_msl *ms, char *input, int *j, int *k)
 
 void	handle_token(t_msl *ms, char *input, int *j, int *k)
 {
+	char	*tmp;
+
 	if (*k > 0)
 	{
-		ms->tokens[++(*j)] = get_token(ms, input, 0, (*k));
-		if (!ms->tokens[*j])
-			return ;
+		tmp = get_token(ms, input, 0, (*k));
+		if (tmp)
+			ms->tokens[++(*j)] = tmp;
 		*k = 0;
 	}
 	handle_special_token(ms, input, j, k);
