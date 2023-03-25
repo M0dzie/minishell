@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 10:22:36 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/25 18:48:14 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_msl
 	t_var	*env;
 }			t_msl;
 
+char	*check_value(t_msl *ms, char *token);
 char	*clear_line(char *before_line, char *new_word, char *next_line);
 char	*del_quotes(char *input, int index, int lst_delim, char c);
 char	**ft_getenv(t_msl *ms);
@@ -85,6 +86,7 @@ char	*getexport_var(char *name, char *value);
 char	*get_after_delim(char *input, int index);
 char	*get_before_delim(char *input, int index);
 char	*get_cmd_path(t_msl *ms, char *cmd);
+char	*get_value(t_msl *ms, char *token);
 char	*get_token(t_msl *ms, char *input, int i, int k);
 char	**ms_strtok(t_msl *ms, char *input);
 char	*parsing_env_var(t_msl *ms, char *token);
@@ -113,7 +115,6 @@ int		invalid_first(char *name);
 int		is_builtins(char *cmd);
 int		is_space(char c);
 int		is_valid_builtins(t_msl *ms, t_elem *arg, char **cmd_args);
-int		ms_isalnum(int c);
 int		match_multi(char *s1, char *s2, char *s3, char *cmd);
 int		parsing_errors(t_msl *ms, char *input, int c_pipe);
 int		parsing_pipes_input(t_msl *ms);
