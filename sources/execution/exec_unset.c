@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:44:39 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/23 10:03:48 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/25 19:58:08 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ int	invalid_identifier_unset(char *name)
 	int		i;
 	int		j;
 
-	if (invalid_first(name))
-		return (display_error_exec("bash: unset: '", name, 14), 1);
-	else if (invalid_option_unset(name))
+	// if (invalid_first(name))
+	// 	return (display_error_exec("bash: unset: '", name, 14), 1);
+	/*else */if (invalid_option_unset(name))
 		return (2);
-	invalid_char = "`~!@#$%^&*-+.,/\\?:{}[]";
+	invalid_char = "`&*/\\{}[]";
 	i = -1;
 	while (name[++i])
 	{
