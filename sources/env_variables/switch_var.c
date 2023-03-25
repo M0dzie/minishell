@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 18:47:58 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/25 19:00:41 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ char	*get_value(t_msl *ms, char *token)
 
 char	*check_value(t_msl *ms, char *token)
 {
-
+	if (token[0] == '=')
+		return (ms->fst_delim++, ms->lst_delim = 0, "$");
 	if (token[0] == '?' )
 	{
 		if (g_signal > 0)
