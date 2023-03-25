@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:43:24 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/24 18:40:24 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/25 20:36:15 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,18 @@ int	invalid_identifier(char *name)
 	int		j;
 
 	if (invalid_first(name))
-		return (display_error_exec("bash: export: '", name, 14), 1);
+		return (display_error_exec("1bash: export: '", name, 14), 1);
 	else if (invalid_option(name))
 		return (2);
 	invalid_char = "`~!@#$%^&*-+.,\\?:{}[]";
 	i = -1;
-	while (name[++i])
+	while (name[++i] != '=')
 	{
 		j = -1;
 		while (invalid_char[++j])
 		{
 			if (name[i] == invalid_char[j])
-				return (display_error_exec("bash: export: '", name, 14), 1);
+				return (display_error_exec("2bash: export: '", name, 14), 1);
 		}
 	}
 	return (0);
@@ -102,16 +102,20 @@ int	exec_export(t_msl *ms, char **args_cmd)
 {
 	int		i;
 	int		exit_stat;
+	int		tmp_exit;
 
 	i = 0;
 	exit_stat = 0;
+	tmp_exit = 0;
 	if (ft_arrlen(args_cmd) == 1)
 		display_env(ms, EXPORT);
 	while (args_cmd[++i])
 	{
-		exit_stat = invalid_identifier(args_cmd[i]);
-		if (exit_stat == 0 && ms->c_pipe == 0)
+		tmp_exit = invalid_identifier(args_cmd[i]);
+		if (tmp_exit == 0 && ms->c_pipe == 0)
 			var_handling(ms, args_cmd[i]);
+		else
+			exit_stat = tmp_exit;
 	}
 	return (exit_stat);
 }
