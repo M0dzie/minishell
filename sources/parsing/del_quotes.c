@@ -6,13 +6,13 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:13:09 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/15 18:44:43 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/25 22:12:19 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*word_to_change(char *input, char quote)
+static char	*word_to_change(char *input, char quote)
 {
 	int		len;
 	char	*word;
