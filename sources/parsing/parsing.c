@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 21:22:45 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/25 22:14:23 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print_args(char **args)
 		printf("token[%d] = %s\n", i, args[i]);
 }
 
-void	count_pipes(t_msl *ms)
+static void	count_pipes(t_msl *ms)
 {
 	int	i;
 

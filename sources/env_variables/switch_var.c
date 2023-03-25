@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 19:49:38 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/25 22:13:14 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	ms_isalnum(int c)
 	return (1);
 }
 
-char	*get_value(t_msl *ms, char *token)
+static char	*get_value(t_msl *ms, char *token)
 {
 	int		i;
 	t_var	*tmp;
@@ -48,7 +48,7 @@ char	*get_value(t_msl *ms, char *token)
 	return (ms->lst_delim = ft_strlen(token), tmp->value);
 }
 
-char	*check_value(t_msl *ms, char *token)
+static char	*check_value(t_msl *ms, char *token)
 {
 	if (token[0] == '=')
 		return (ms->fst_delim++, ms->lst_delim = 0, "$");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/24 12:41:46 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/25 22:13:49 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	display_errors_pipe(t_msl *ms, char *input, int type)
 	return (-1);
 }
 
-int	pos_pipes(t_msl *ms, char *input)
+static int	pos_pipes(t_msl *ms, char *input)
 {
 	int	i;
 

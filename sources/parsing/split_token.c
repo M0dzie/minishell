@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 21:38:26 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/25 22:21:05 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,19 +76,12 @@ static int	handle_token(t_msl *ms, char *input, int *j, int *k)
 	return (ret);
 }
 
-void	ms_strtok(t_msl *ms, char *input)
+static void	parse_input(t_msl *ms, char *input, int j, int k)
 {
-	int		i;
-	int		j;
-	int		k;
-	int		in_quote;
-
-	ms->tokens = ft_calloc((count_tokens(input) + 1), sizeof(char *));
-	if (!ms->tokens)
-		return ;
+	int	i;
+	int	in_quote;
+	
 	i = -1;
-	j = -1;
-	k = 0;
 	in_quote = 0;
 	while (input[++i])
 	{
@@ -96,18 +89,29 @@ void	ms_strtok(t_msl *ms, char *input)
 		if (!in_quote && is_token_delimiter(input[i]))
 		{
 			if (handle_token(ms, input + i, &j, &k))
-			{
 				if (!ms->tokens[j])
 					return ;
-			}
 			i += ms->fst_delim;
 		}
 		else
 			k++;
 	}
 	if (handle_token(ms, input + i, &j, &k))
-	{
 		if (!ms->tokens[j])
 			return ;
-	}
+}
+
+void	ms_strtok(t_msl *ms, char *input)
+{
+	int		j;
+	int		k;
+
+	ms->tokens = ft_calloc((count_tokens(input) + 1), sizeof(char *));
+	if (!ms->tokens)
+		return ;
+	j = -1;
+	k = 0;
+	parse_input(ms, input, j, k);
+	if (!ms->tokens)
+		return ;
 }
