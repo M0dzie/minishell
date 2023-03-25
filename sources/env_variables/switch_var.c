@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 19:32:10 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/25 19:49:38 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,11 @@ char	*check_value(t_msl *ms, char *token)
 			g_signal = 0, ft_itoa(ms->status));
 		return (ms->lst_delim = 1, ft_itoa(ms->status));
 	}
-	if (token[0] == ' ' || !token[0] || token[0] == '\'' || \
+	if (token[0] == ' ' || !token[0]|| token[0] == '\'' || \
 	token[0] == '\"')
 	{
-		if (!check_opened_quotes(ms, token, 1, token[0]))
+		if ((token[0] == '\'' || token[0] == '\"') && \
+		!check_opened_quotes(ms, token, 1, token[0]))
 			return (ms->lst_delim = 0, "");
 		return (ms->fst_delim++, ms->lst_delim = 0, "$");
 	}
@@ -90,7 +91,7 @@ char	*switch_var(t_msl *ms, char *token, int i)
 		return (free(before), free(var), free(token), NULL);
 	var = clear_line(before, var, next);
 	if (!var)
-		return (free(before), free(next), NULL);
+		return (free(before), free(next), free(token), NULL);
 	if (!var[0])
 		return (free(before), free(next), free(token), free(var), NULL);
 	return (free(before), free(next), free(token), var);
