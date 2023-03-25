@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 18:48:14 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/25 21:17:47 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ char	*get_after_delim(char *input, int index);
 char	*get_before_delim(char *input, int index);
 char	*get_cmd_path(t_msl *ms, char *cmd);
 char	*get_value(t_msl *ms, char *token);
-char	*get_token(t_msl *ms, char *input, int i, int k);
-char	**ms_strtok(t_msl *ms, char *input);
 char	*parsing_env_var(t_msl *ms, char *token);
 char	*parsing_quotes_split(t_msl *ms, char *token);
 char	**split_equal(char *env_var);
@@ -113,7 +111,9 @@ int		exec_pwd(t_msl *ms, char **args_cmd);
 int		exec_unset(t_msl *ms, char **args_cmd);
 int		invalid_first(char *name);
 int		is_builtins(char *cmd);
+int		is_in_quote(t_msl *ms, char *input, int in_quote);
 int		is_space(char c);
+int		is_token_delimiter(char input);
 int		is_valid_builtins(t_msl *ms, t_elem *arg, char **cmd_args);
 int		match_multi(char *s1, char *s2, char *s3, char *cmd);
 int		parsing_errors(t_msl *ms, char *input, int c_pipe);
@@ -138,6 +138,7 @@ void	exec_signal(void);
 void	handle_cmd(t_msl *ms, char **tmp_args, char **envp);
 void	init_env(t_msl *ms, char **envp);
 void	input_signal(void);
+void	ms_strtok(t_msl *ms, char *input);
 void	parsing_echo(t_msl *ms, char *input, char **envp);
 void	parsing_errors_echo(t_msl *sl);
 void	parsing_exec(t_msl *ms);
