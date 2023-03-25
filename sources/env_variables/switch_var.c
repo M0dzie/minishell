@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 19:00:41 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/25 19:32:10 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,7 @@ char	*switch_var(t_msl *ms, char *token, int i)
 	var = clear_line(before, var, next);
 	if (!var)
 		return (free(before), free(next), NULL);
+	if (!var[0])
+		return (free(before), free(next), free(token), free(var), NULL);
 	return (free(before), free(next), free(token), var);
 }
