@@ -6,11 +6,19 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:28 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/22 16:56:24 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/25 18:08:45 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	distribute_cmd(t_msl *ms, int index)
+{
+	if (is_builtins(ms->blocks[index]->arg->name))
+		builtins_execution(ms, ms->blocks[index]->arg, 1);
+	else
+		standard_execution(ms, ms->blocks[index]->arg);
+}
 
 void	exec_last_cmd(t_msl *ms, int index)
 {
@@ -23,12 +31,7 @@ void	exec_last_cmd(t_msl *ms, int index)
 		dup2(ms->pipes[index - 1][0], STDIN_FILENO);
 		close(ms->pipes[index - 1][0]);
 		if (ms->blocks[index]->arg)
-		{
-			if (is_builtins(ms->blocks[index]->arg->name))
-				builtins_execution(ms, ms->blocks[index]->arg, 1);
-			else
-				standard_execution(ms, ms->blocks[index]->arg);
-		}
+			distribute_cmd(ms, index);
 		exit(ms->status);
 	}
 	else
@@ -48,12 +51,7 @@ void	exec_middle_cmd(t_msl *ms, int index)
 		dup2(ms->pipes[index][1], STDOUT_FILENO);
 		close(ms->pipes[index][1]);
 		if (ms->blocks[index]->arg)
-		{
-			if (is_builtins(ms->blocks[index]->arg->name))
-				builtins_execution(ms, ms->blocks[index]->arg, 1);
-			else
-				standard_execution(ms, ms->blocks[index]->arg);
-		}
+			distribute_cmd(ms, index);
 		exit(ms->status);
 	}
 	else
@@ -74,12 +72,7 @@ void	exec_first_cmd(t_msl *ms, int index)
 		dup2(ms->pipes[index][1], STDOUT_FILENO);
 		close(ms->pipes[index][1]);
 		if (ms->blocks[index]->arg)
-		{
-			if (is_builtins(ms->blocks[index]->arg->name))
-				builtins_execution(ms, ms->blocks[index]->arg, 1);
-			else
-				standard_execution(ms, ms->blocks[index]->arg);
-		}
+			distribute_cmd(ms, index);
 		exit(ms->status);
 	}
 	else
