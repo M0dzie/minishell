@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/24 18:51:28 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/25 10:22:36 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+
+extern int		g_signal;
 
 # define CMD 0
 # define ARG 1
@@ -107,7 +109,6 @@ int		exec_env(t_msl *ms, char **args_cmd);
 int		exec_export(t_msl *ms, char **args_cmd);
 int		exec_pwd(t_msl *ms, char **args_cmd);
 int		exec_unset(t_msl *ms, char **args_cmd);
-int		g_signal;
 int		invalid_first(char *name);
 int		is_builtins(char *cmd);
 int		is_space(char c);
