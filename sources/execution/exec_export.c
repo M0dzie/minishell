@@ -6,18 +6,19 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:43:24 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/25 20:36:15 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/26 11:30:27 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "../../includes/minimehdi.h"
 
 int	invalid_first(char *name)
 {
 	char	*invalid_char;
 	int		i;
 
+	if (!name[0])
+		return (1);
 	invalid_char = "1234567890=";
 	i = -1;
 	while (invalid_char[++i])
@@ -54,19 +55,20 @@ int	invalid_identifier(char *name)
 	int		j;
 
 	if (invalid_first(name))
-		return (display_error_exec("1bash: export: '", name, 14), 1);
+		return (display_error_exec("bash: export: '", name, 14), 1);
 	else if (invalid_option(name))
 		return (2);
 	invalid_char = "`~!@#$%^&*-+.,\\?:{}[]";
-	i = -1;
-	while (name[++i] != '=')
+	i = 0;
+	while (name[i] && name[i] != '=')
 	{
 		j = -1;
 		while (invalid_char[++j])
 		{
 			if (name[i] == invalid_char[j])
-				return (display_error_exec("2bash: export: '", name, 14), 1);
+				return (display_error_exec("bash: export: '", name, 14), 1);
 		}
+		i++;
 	}
 	return (0);
 }
@@ -113,7 +115,9 @@ int	exec_export(t_msl *ms, char **args_cmd)
 	{
 		tmp_exit = invalid_identifier(args_cmd[i]);
 		if (tmp_exit == 0 && ms->c_pipe == 0)
+		{
 			var_handling(ms, args_cmd[i]);
+		}
 		else
 			exit_stat = tmp_exit;
 	}

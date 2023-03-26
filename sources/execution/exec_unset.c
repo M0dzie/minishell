@@ -6,12 +6,11 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:44:39 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/25 19:58:08 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/26 11:53:18 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "../../includes/minimehdi.h"
 
 int	invalid_option_unset(char *name)
 {
@@ -38,9 +37,9 @@ int	invalid_identifier_unset(char *name)
 	int		i;
 	int		j;
 
-	// if (invalid_first(name))
-	// 	return (display_error_exec("bash: unset: '", name, 14), 1);
-	/*else */if (invalid_option_unset(name))
+	if (!name[0])
+		return (display_error_exec("bash: unset: '", name, 14), 1);
+	if (invalid_option_unset(name))
 		return (2);
 	invalid_char = "`&*/\\{}[]";
 	i = -1;
