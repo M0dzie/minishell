@@ -6,7 +6,7 @@
 /*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 22:13:49 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/26 13:06:47 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	display_errors_pipe(t_msl *ms, char *input, int type)
 		ft_putendl_fd(": Is a directory", 2);
 		ms->status = 126;
 		if (input[i] == '|')
-			return (input += i + 1, ms->input += i + 1, 0);
+			return (ms->c_cmd--, input += i + 1, ms->input += i + 1, 0);
 	}
 	return (-1);
 }
