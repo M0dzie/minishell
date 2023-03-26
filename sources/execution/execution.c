@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/25 18:07:57 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/26 11:39:44 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ void	execute_cmd(t_msl *ms, char **cmd_args)
 		cmd_path = get_cmd_path(ms, cmd_args[0]);
 	execve(cmd_path, cmd_args, ms->arrenv);
 	free(cmd_path);
-	if (path)
+	if (!getvar(ms, "PATH"))
+		display_error_exec("bash: ", cmd_args[0], 2);
+	else if (path)
 	{
 		if (isdir)
 			display_error_exec("bash: ", cmd_args[0], 18);
