@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/27 09:47:45 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/27 20:32:58 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ extern int		g_signal;
 # define ENV 0
 # define EXPORT 1
 
+# define CHILD 0
+# define PARENT 1
+
+# define FIRST 0
+# define MID -1
+# define LAST -1
+
 typedef struct s_var
 {
 	char			*name;
@@ -53,7 +60,10 @@ typedef struct s_block
 	t_elem	*in;
 	t_elem	*out;
 	char	*input;
-	int		valid;
+	int		fd_in;
+	int		fd_out;
+	int		is_input;
+	int		is_output;
 	int		index;
 	int		cmd_found;
 }			t_block;
