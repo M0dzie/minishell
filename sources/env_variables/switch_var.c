@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   switch_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 22:13:14 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/27 09:37:46 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*check_value(t_msl *ms, char *token)
 			g_signal = 0, ft_itoa(ms->status));
 		return (ms->lst_delim = 1, ft_itoa(ms->status));
 	}
-	if (token[0] == ' ' || !token[0]|| token[0] == '\'' || \
+	if (token[0] == ' ' || !token[0] || token[0] == '\'' || \
 	token[0] == '\"')
 	{
 		if ((token[0] == '\'' || token[0] == '\"') && \

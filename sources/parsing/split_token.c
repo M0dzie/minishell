@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 22:21:05 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/27 09:38:18 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	parse_input(t_msl *ms, char *input, int j, int k)
 {
 	int	i;
 	int	in_quote;
-	
+
 	i = -1;
 	in_quote = 0;
 	while (input[++i])
