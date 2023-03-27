@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 10:19:12 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/27 09:38:56 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		g_signal;
+int	g_signal;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -30,8 +30,6 @@ int	main(int argc, char **argv, char **envp)
 		input_signal();
 		ms.input = readline("\033[1;36mminishell \033[1;34m$> \033[0m");
 		add_history(ms.input);
-		// if (ms.input == 0)
-		// 	exit(0);
 		if (ms.input == 0)
 			return (printf("exit\n"), free(ms.input), rl_clear_history(), 0);
 		read_prompt(&ms, envp);
