@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/27 09:37:46 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/27 11:30:42 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*get_value(t_msl *ms, char *token)
 
 static char	*check_value(t_msl *ms, char *token)
 {
-	if (token[0] == '=')
+	if (token[0] == '=' || token[0] == ':')
 		return (ms->fst_delim++, ms->lst_delim = 0, "$");
 	if (token[0] == '?' )
 	{
