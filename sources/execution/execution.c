@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/26 11:39:44 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/27 23:18:19 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,16 @@ void	execute_cmd(t_msl *ms, char **cmd_args)
 	execve(cmd_path, cmd_args, ms->arrenv);
 	free(cmd_path);
 	if (!getvar(ms, "PATH"))
-		display_error_exec("bash: ", cmd_args[0], 2);
+		display_error_exec("minishell: ", cmd_args[0], 2);
 	else if (path)
 	{
 		if (isdir)
-			display_error_exec("bash: ", cmd_args[0], 18);
+			display_error_exec("minishell: ", cmd_args[0], 18);
 		else
-			display_error_exec("bash: ", cmd_args[0], 2);
+			display_error_exec("minishell: ", cmd_args[0], 2);
 	}
 	else
-		display_error_exec("bash: ", cmd_args[0], 5);
+		display_error_exec("minishell: ", cmd_args[0], 5);
 	ft_arrfree(cmd_args);
 	if (isdir)
 		exit (126);
@@ -112,7 +112,7 @@ void	exec_one(t_msl *ms, t_elem *arg)
 		builtins_execution(ms, arg, 0);
 	ms->pid[0] = fork();
 	if (ms->pid[0] < 0)
-		display_error_exec("bash: ", "fork", 15);
+		display_error_exec("minishell: ", "fork", 15);
 	if (ms->pid[0] == 0)
 	{
 		if (match_multi("/usr/bin/env", "/bin/env", "env", args_cmd[0]))
@@ -161,7 +161,7 @@ char	**getarr_cmd(t_elem *arg)
 
 	arr_cmd = ft_calloc(nb_cmd(arg) + 1, sizeof(char *));
 	if (!arr_cmd)
-		display_error_exec("bash: ", "arr_cmd", 15);
+		display_error_exec("minishell: ", "arr_cmd", 15);
 	tmp_arg = arg;
 	i = -1;
 	while (tmp_arg != NULL)
@@ -277,25 +277,75 @@ void	write_output(t_block *block)
 	}
 }
 
-void	write_input(t_block *block)
+// check if heredoc as input return 1 and if heredoc il the last input return 2 else 0
+int	is_heredoc(t_block *block)
 {
 	t_elem	*tmp_arg;
-	
-	printf("input need to open and write all content as entry\n");
+	int		index_here;
+	int		index_input;
+
+	index_here = 0;
+	index_input = 0;
 	if (block->in)
 	{
-		// printf("input\n");
 		tmp_arg = block->in;
 		while (tmp_arg != NULL)
 		{
-			if (tmp_arg->type == INPUT)
-				printf("file : %s\n", tmp_arg->name);
-			else
-				printf("heredoc limiter : %s\n", tmp_arg->name);
+			index_input++;
+			if (tmp_arg->type == HEREDOC)
+			// {
+				index_here = index_input;
+			// 	printf("heredoc limiter : %s\n", tmp_arg->name);
+			// }
 			tmp_arg = tmp_arg->next;
 		}
-		printf("\n");
+		if (index_here == index_input)
+			return (2);
+		else if (index_here)
+			return (1);
 	}
+	return (0);
+}
+
+char	*get_heredoc(t_block *block, int saveit)
+{
+	if (saveit == 1)
+		// loop to simulate getting input but not saving it
+		printf("Simulate here_doc\n");
+	else if (saveit == 2)
+		printf("Save here_doc\n");
+		// adding input into string and returning it
+	return (NULL);
+}
+
+int	check_input(t_msl *ms, t_block *block)
+{
+	t_elem	*tmp_arg;
+	int		heredoc;
+
+	heredoc = is_heredoc(block);
+	get_heredoc(block, heredoc);
+	if (block->in)
+	{
+		tmp_arg = block->in;
+		while (tmp_arg != NULL)
+		{
+			if (block->fd_in)
+				close (block->fd_in);
+			if (tmp_arg->type == INPUT)
+			{
+				block->fd_in = open(tmp_arg->name, O_RDONLY);
+				if (block->fd_in < 0)
+					return (display_error_exec("minishell: ", tmp_arg->name, 2), 1);
+			}
+			tmp_arg = tmp_arg->next;
+		}
+		if (heredoc == 2)
+			block->is_input = HEREDOC;
+		else
+			block->is_input = INPUT;
+	}
+	return (0);
 }
 
 void	execution(t_msl *ms)
@@ -308,25 +358,16 @@ void	execution(t_msl *ms)
 	i = -1;
 	while (ms->blocks[++i])
 	{
-		if (ms->blocks[i]->in)
-			write_input(ms->blocks[i]);
-		if (ms->blocks[i]->arg)
-			exec_cmd(ms, i);
-		if (ms->blocks[i]->out)
-			write_output(ms->blocks[i]);
+		if (check_input(ms, ms->blocks[i]) == 0)	// add check output
+		{
+			if (ms->blocks[i]->arg)
+				exec_cmd(ms, i);
+		}
 	}
 	status = 0;
 	i = -1;
 	while (++i < ms->c_cmd)
 		waitpid(ms->pid[i], &status, 0);
-
-	// if (ms->status)
-	// 	printf("status : %d\n", ms->status);
-	// else
-	// {
-		ms->status = WEXITSTATUS(status);
-		// printf("status exit : %d\n", ms->status);
-	// }
-
+	ms->status = WEXITSTATUS(status);
 	// clean all parsing
 }
