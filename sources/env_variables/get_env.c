@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 15:01:19 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/23 09:57:33 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/27 11:07:24 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*getenv_var(char *name, char *value)
 	varlen = ft_strlen_null(name) + ft_strlen_null(value) + 1;
 	str_var = ft_calloc(varlen + 1, sizeof(char));
 	if (!str_var)
-		return (display_error_exec("bash: ", "getenv_var: ", 6), NULL);
+		return (display_error_exec("minishell: ", "getenv_var: ", 6), NULL);
 	i = -1;
 	while (name[++i])
 		str_var[i] = name[i];
@@ -63,7 +63,7 @@ char	**ft_getenv(t_msl *ms)
 		return (NULL);
 	getenv = ft_calloc(envsize(ms, ENV) + 1, sizeof(char *));
 	if (!getenv)
-		return (display_error_exec("bash: ", "getenv: ", 6), NULL);
+		return (display_error_exec("minishell: ", "getenv: ", 6), NULL);
 	tmp_env = ms->env;
 	i = -1;
 	while (tmp_env != NULL)

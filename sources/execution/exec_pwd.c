@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 21:21:14 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/22 20:23:21 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/27 11:12:38 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	invalid_pwd(char c)
 {
-	display_error_exec("bash: pwd: -", &c, 1);
+	display_error_exec("minishell: pwd: -", &c, 1);
 	return (2);
 }
 

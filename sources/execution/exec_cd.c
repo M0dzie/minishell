@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 09:46:41 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/26 12:44:04 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/27 11:11:30 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_homepath(t_msl *ms)
 	tmp_var = getvar(ms, "HOME");
 	ms->status = 1;
 	if (!tmp_var)
-		return (display_error_exec("bash: cd: ", NULL, 16), NULL);
+		return (display_error_exec("minishell: cd: ", NULL, 16), NULL);
 	return (tmp_var->value);
 }
 
@@ -70,7 +70,7 @@ int	change_dir(t_msl *ms, char *path_dir, char **envp)
 
 int	rtn_error_cd(char c)
 {
-	display_error_exec("bash: cd: -", &c, 1);
+	display_error_exec("minishell: cd: -", &c, 1);
 	return (2);
 }
 
@@ -85,7 +85,7 @@ char	*get_trim_path(t_msl *ms, char *path)
 	path_home = get_homepath(ms);
 	// printf("%s\n", path_home);
 	if (!path_home)
-		return (display_error_exec("bash: cd: ", "HOME: ", 8), NULL);
+		return (display_error_exec("minishell: cd: ", "HOME: ", 8), NULL);
 	len_path = ft_strlen_null(path_home) + ft_strlen_null(path);
 	trim_path = ft_calloc(len_path, sizeof(char));
 	if (!trim_path)
@@ -119,7 +119,7 @@ int	is_cd_valid(t_msl *ms, char **args_cmd, int mode)
 		trim_path = get_trim_path(ms, args_cmd[1]);
 		printf("-%s-\n", trim_path);
 		if (access(trim_path, X_OK) != 0)
-			return (display_error_exec("bash: cd: ", args_cmd[1], 2), 1);
+			return (display_error_exec("minishell: cd: ", args_cmd[1], 2), 1);
 	}
 	return (0);
 }
@@ -136,9 +136,9 @@ int	check_arg_cd(t_msl *ms, char **args_cmd)
 	else if (access(args_cmd[1], X_OK) != 0)
 	{
 		if (access(args_cmd[1], F_OK) == 0)
-			display_error_exec("bash: cd: ", args_cmd[1], 12);
+			display_error_exec("minishell: cd: ", args_cmd[1], 12);
 		else
-			display_error_exec("bash: cd: ", args_cmd[1], 2);
+			display_error_exec("minishell: cd: ", args_cmd[1], 2);
 		valid = 1;
 	}
 	return (valid);
@@ -151,7 +151,7 @@ char	*getvar_oldpwd(t_msl *ms, char *name)
 	tmp_var = getvar(ms, name);
 	if (!tmp_var->value)
 		// printf("No var\n");
-		return (display_error_exec("bash: cd: ", name, 17), NULL);
+		return (display_error_exec("minishell: cd: ", name, 17), NULL);
 	// printf("OLDPWD : %s\n", tmp_var->value);
 	return (tmp_var->value);
 }
@@ -168,7 +168,7 @@ int	exec_cd(t_msl *ms, char **args_cmd)
 	exit_stat = 0;
 	if (args_len > 2)
 	{
-		display_error_exec("bash: cd: ", NULL, 10);
+		display_error_exec("minishell: cd: ", NULL, 10);
 		exit_stat = 1;
 	}
 	else if (args_len == 2)

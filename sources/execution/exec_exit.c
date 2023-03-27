@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 19:28:54 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/18 20:56:42 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/27 23:18:35 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	display_exit(t_msl *ms, int exit_nb, int num_error, char *arg)
 	{
 		if (ms->c_pipe == 0)
 			ft_putendl_fd("exit", 2);
-		display_error_exec("bash: exit: ", arg, num_error);
+		display_error_exec("minishell: exit: ", arg, num_error);
 	}
 	else
 	{
@@ -127,29 +127,3 @@ void	exec_exit(t_msl *ms, char **args_cmd)
 	else
 		display_exit(ms, 0, 0, NULL);
 }
-
-// void	exec_exit(t_msl *ms, char **args_cmd)
-// {
-// 	if (ms->c_pipe == 0)
-// 	{	
-// 		if (ft_arrlen(args_cmd) > 2)
-// 		{
-// 			if (is_onlynum(args_cmd[1]))
-// 				display_exit(ms, 1, 10, NULL);
-// 			else
-// 				display_exit(ms, 2, 11, args_cmd[1]);
-// 		}
-// 		else if (ft_arrlen(args_cmd) == 2)
-// 		{
-// 			if (is_onlynum(args_cmd[1]))
-// 			{
-// 				if (!is_toolong(ms, args_cmd[1]))
-// 					display_exit(ms, ft_atolong(args_cmd[1]), 0, NULL);
-// 			}
-// 			else
-// 				display_exit(ms, 2, 11, args_cmd[1]);
-// 		}
-// 		else
-// 			display_exit(ms, 0, 0, NULL);
-// 	}
-// }
