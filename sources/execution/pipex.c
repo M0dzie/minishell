@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:28 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/27 22:11:20 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/28 15:42:57 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,19 @@
 
 void	distribute_cmd(t_msl *ms, int index)
 {
+	// ft_putstr_fd("distribute : ", 2);
+	// ft_putstr_fd(ms->blocks[index]->arg->name, 2);
+	// ft_putstr_fd("\n", 2);
 	if (is_builtins(ms->blocks[index]->arg->name))
 		builtins_execution(ms, ms->blocks[index]->arg, 1);
 	else
 		standard_execution(ms, ms->blocks[index]->arg);
+}
+
+void	dupclose(int fd1, int fd2)
+{
+	dup2(fd1, fd2);
+	close(fd1);
 }
 
 void	handle_output(t_msl *ms, int index, int mode, int position)
@@ -26,8 +35,11 @@ void	handle_output(t_msl *ms, int index, int mode, int position)
 	{
 		if (ms->blocks[index]->is_output)
 		{
-			dup2(ms->blocks[index]->fd_out, STDOUT_FILENO);
-			close(ms->blocks[index]->fd_out);
+			dupclose(ms->blocks[index]->fd_out, STDOUT_FILENO);
+
+			// dup2(ms->blocks[index]->fd_out, STDOUT_FILENO);
+			// close(ms->blocks[index]->fd_out);
+
 			// if (ms->blocks[index]->is_output == TRUNC)
 			// {
 			// 	// printf("dup2 file fd %d\n", ms->blocks[index]->fd_in);
@@ -39,7 +51,8 @@ void	handle_output(t_msl *ms, int index, int mode, int position)
 		}
 		else
 		{
-			dup2(ms->pipes[index + position][1], STDOUT_FILENO);
+			dupclose(ms->pipes[index + position][1], STDOUT_FILENO);
+			// dup2(ms->pipes[index + position][1], STDOUT_FILENO);
 			// close(ms->pipes[index + position][1]);
 		}
 	}
@@ -54,8 +67,13 @@ void	handle_output(t_msl *ms, int index, int mode, int position)
 	// 		// 	printf("dup2 heredoc input\n");
 	// 	}
 		// else
-		// 	close(ms->pipes[index + position][1]);
+			close(ms->pipes[index + position][1]);
 	}
+}
+
+void	dupheredoc(t_msl *ms, int index)
+{
+	printf("dup2 heredoc input\n");
 }
 
 void	handle_input(t_msl *ms, int index, int mode, int position)
@@ -65,33 +83,54 @@ void	handle_input(t_msl *ms, int index, int mode, int position)
 		if (ms->blocks[index]->is_input)
 		{
 			if (ms->blocks[index]->is_input == INPUT)
-			{
-				printf("dup2 file fd %d\n", ms->blocks[index]->fd_in);
-				dup2(ms->blocks[index]->fd_in, STDIN_FILENO);
-				close(ms->blocks[index]->fd_in);
-			}
+				dupclose(ms->blocks[index]->fd_in, STDIN_FILENO);
 			else
-				printf("dup2 heredoc input\n");
+				dupheredoc(ms, index);
 		}
 		else
-		{
-			dup2(ms->pipes[index + position][0], STDIN_FILENO);
-			// close(ms->pipes[index + position][0]);
-		}
+			dupclose(ms->pipes[index + position][0], STDIN_FILENO);
 	}
 	else if (mode == 1)
 	{
 		if (ms->blocks[index]->is_input)
 		{
 			if (ms->blocks[index]->is_input == INPUT)
-				// printf("close file fd\n");
 				close(ms->blocks[index]->fd_in);
 			// else
 			// 	printf("dup2 heredoc input\n");
 		}
 		else
-			close(ms->pipes[index + position][0]);
-			// close(ms->pipes[index + position][1]);
+			// close(ms->pipes[index + position][0]);
+			close(ms->pipes[index + position][1]);
+	}
+}
+
+int	fds_valid(int fd1, int fd2)
+{
+	if (fd1 < 0 || fd2 < 0)
+		return (0);
+	return (1);
+}
+
+void	exec_one(t_msl *ms, t_elem *arg)
+{
+	if (!fds_valid(ms->blocks[0]->fd_in, ms->blocks[0]->fd_out))
+		ms->status = 1;
+	if (arg)
+	{
+		if (is_builtins(arg->name) && fds_valid(ms->blocks[0]->fd_in, ms->blocks[0]->fd_out))
+			builtins_execution(ms, arg, 0);
+	}
+	ms->pid[0] = fork();
+	if (ms->pid[0] < 0)
+		display_error_exec("minishell: ", "fork", 15);
+	if (ms->pid[0] == 0)
+	{
+		if (ms->blocks[0]->is_input && fds_valid(ms->blocks[0]->fd_in, ms->blocks[0]->fd_out))
+			handle_input(ms, 0, CHILD, 0);
+		if (!is_builtins(arg->name) && fds_valid(ms->blocks[0]->fd_in, ms->blocks[0]->fd_out))
+			standard_execution(ms, arg);
+		exit(ms->status);
 	}
 }
 
@@ -102,18 +141,19 @@ void	exec_last_cmd(t_msl *ms, int index)
 		display_error_exec("minishell: ", "fork", 15);
 	else if (ms->pid[index] == 0)
 	{
+		// close(ms->pipes[index][1]);
 		handle_input(ms, index, CHILD, -1);
 		handle_output(ms, index, CHILD, -1);
-		if (ms->blocks[index]->arg)
+		if (ms->blocks[index]->arg && fds_valid(ms->blocks[index]->fd_in, ms->blocks[index]->fd_out))
 			distribute_cmd(ms, index);
 		exit(ms->status);
 	}
 	else
 	{
-		// close(ms->pipes[index - 1][0]);
-		// handle_input(ms, index, PARENT, -1);
-		// handle_output(ms, index, CHILD, -1);
+		close(ms->pipes[index - 1][1]);
 		// close (ms->pipes[index][1]);
+		// handle_input(ms, index, PARENT, -1);
+		// handle_output(ms, index, PARENT, -1);
 	}
 }
 
@@ -124,10 +164,10 @@ void	exec_middle_cmd(t_msl *ms, int index)
 		display_error_exec("minishell: ", "fork", 15);
 	else if (ms->pid[index] == 0)
 	{
-		close(ms->pipes[index][0]);
+		// close(ms->pipes[index][0]);
 		handle_input(ms, index, CHILD, -1);
 		handle_output(ms, index, CHILD, 0);
-		if (ms->blocks[index]->arg)
+		if (ms->blocks[index]->arg && fds_valid(ms->blocks[index]->fd_in, ms->blocks[index]->fd_out))
 			distribute_cmd(ms, index);
 		exit(ms->status);
 	}
@@ -145,19 +185,28 @@ void	exec_first_cmd(t_msl *ms, int index)
 		display_error_exec("minishell: ", "fork", 15);
 	else if (ms->pid[index] == 0)
 	{
-		close(ms->pipes[index][0]);
+		// close(ms->pipes[index][0]);
 		handle_input(ms, index, CHILD, 0);
-		
-		dup2(ms->pipes[index][1], STDOUT_FILENO);
-		close(ms->pipes[index][1]);
+		handle_output(ms, index, CHILD, 0);
+		// dup2(ms->pipes[index][1], STDOUT_FILENO);
+		// close(ms->pipes[index][1]);
 
+		// if (!ms->blocks[index]->arg->name)
+		// {
+		// 	exit(ms->status);
+		// }
 
-		if (ms->blocks[index]->arg)
+		// if (ms->blocks[index]->arg && ms->blocks[index]->fd_in >= 0)
+		if (ms->blocks[index]->arg && fds_valid(ms->blocks[index]->fd_in, ms->blocks[index]->fd_out))
 			distribute_cmd(ms, index);
 		exit(ms->status);
 	}
 	else
-		close(ms->pipes[index][1]);
+	{
+		handle_input(ms, index, PARENT, 0);
+		handle_output(ms, index, PARENT, 0);
+		// close(ms->pipes[index][1]);
+	}
 }
 
 void	exec_pipe(t_msl *ms, int i_pid, int pos_in, int pos_out)

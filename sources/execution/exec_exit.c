@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 19:28:54 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/27 23:18:35 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/28 15:44:03 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,5 @@ void	exec_exit(t_msl *ms, char **args_cmd)
 			display_exit(ms, 2, 11, args_cmd[1]);
 	}
 	else
-		display_exit(ms, 0, 0, NULL);
+		exit (ms->status);
 }
