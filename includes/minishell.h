@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/28 10:34:39 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/28 15:52:38 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ void	exec_one(t_msl *ms, t_elem *arg);
 void	exec_signal(void);
 void	free_global(t_msl *ms);
 void	handle_cmd(t_msl *ms, char **tmp_args, char **envp);
+void	handle_input(t_msl *ms, int index, int mode, int position);
+void	handle_output(t_msl *ms, int index, int mode, int position);
 void	init_env(t_msl *ms, char **envp);
 void	input_signal(void);
 void	ms_strtok(t_msl *ms, char *input);
