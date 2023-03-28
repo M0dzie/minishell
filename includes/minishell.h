@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/28 09:44:01 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/28 10:34:39 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ int		check_sign(char *token, int i);
 int		count_tokens(char *input);
 int		display_error_exec(char *first, char *second, int num_error);
 int		display_errors(t_msl *ms, char *input, int type);
-int		display_errors_pipe(t_msl *ms, char *input, int type);
 int		display_errors_redirect(t_msl *ms, char *input, int type);
 int		envsize(t_msl *ms, int mode);
 int		exec_cd(t_msl *ms, char **args_cmd);
@@ -124,6 +123,7 @@ int		match_multi(char *s1, char *s2, char *s3, char *cmd);
 int		parsing_errors(t_msl *ms, char *input, int c_pipe);
 int		parsing_pipes_input(t_msl *ms);
 int		parsing_quotes(t_msl *ms);
+int		parsing_redir(t_msl *ms, char *input);
 int		strict_cmp(const char *builts, const char *cmd);
 
 t_var	*getvar(t_msl *ms, char *name);

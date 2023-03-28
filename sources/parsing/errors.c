@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/28 09:43:48 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/28 10:34:33 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,6 @@ int	display_errors(t_msl *ms, char *input, int type)
 	return (ms->status = 2, -1);
 }
 
-int	display_errors_pipe(t_msl *ms, char *input, int type)
-{
-	int	i;
-
-	i = -1;
-	ft_putstr_fd("minishell: ", 2);
-	if (type == '/')
-	{
-		while (input[++i] && input[i] != '|')
-			ft_putchar_fd(input[i], 2);
-		ft_putendl_fd(": Is a directory", 2);
-		ms->status = 126;
-		if (input[i] == '|')
-			return (ms->c_cmd--, input += i + 1, ms->input += i + 1, 0);
-	}
-	return (-1);
-}
-
 static int	pos_pipes(t_msl *ms, char *input)
 {
 	int	i;
@@ -77,11 +59,27 @@ static int	pos_pipes(t_msl *ms, char *input)
 	return (0);
 }
 
+int	parsing_redir(t_msl *ms, char *input)
+{
+	int	i;
+
+	i = -1;
+	while (input[++i])
+	{
+		if ((input[i] == '\'' || input[i] == '\"') && \
+		!check_opened_quotes(ms, input, i + 1, input[i]))
+			i = ms->lst_delim;
+		if (input[i] == '>' || input[i] == '<')
+			if (display_errors_redirect(ms, input + i, input[i]) == -1)
+				return (-1);
+	}
+	return (0);
+}
+
 int	parsing_errors(t_msl *ms, char *input, int c_pipe)
 {
-	if (input[0] == '/' && (input[1] == '.' || \
-	input[1] == '/') || input[0] == ' ')
-		return (display_errors_pipe(ms, input, input[0]));
+	if (parsing_redir(ms, input) == -1)
+		return (-1);
 	if (input[0] == '|' || input[0] == '&' || input[0] == ';' \
 	|| input[0] == '(' || input[0] == ')')
 		return (display_errors(ms, input, input[0]));
