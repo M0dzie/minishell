@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/27 23:18:19 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/28 15:42:19 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,26 +103,6 @@ void	execute_cmd(t_msl *ms, char **cmd_args)
 	exit (127);
 }
 
-void	exec_one(t_msl *ms, t_elem *arg)
-{
-	char	**args_cmd;
-
-	args_cmd = getarr_cmd(arg);
-	if (is_builtins(arg->name))
-		builtins_execution(ms, arg, 0);
-	ms->pid[0] = fork();
-	if (ms->pid[0] < 0)
-		display_error_exec("minishell: ", "fork", 15);
-	if (ms->pid[0] == 0)
-	{
-		if (match_multi("/usr/bin/env", "/bin/env", "env", args_cmd[0]))
-			ms->status = exec_env(ms, args_cmd);
-		else if (!is_builtins(arg->name))
-			standard_execution(ms, arg);
-		exit(ms->status);
-	}
-}
-
 int	is_builtins(char *cmd)
 {
 	char	*tmp_cmd;
@@ -180,7 +160,7 @@ int	match_multi(char *s1, char *s2, char *s3, char *cmd)
 	return (0);
 }
 
-void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe)
+void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe)	// remove use_pipe
 {
 	char	**args_cmd;
 
@@ -189,7 +169,8 @@ void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe)
 		ms->status = exec_echo(ms, args_cmd);
 	else if (match_multi("/usr/bin/pwd", "/bin/pwd", "pwd", arg->name))		// WIP		will print ms->pwd
 		ms->status = exec_pwd(ms, args_cmd);
-	else if (match_multi("/usr/bin/env", "/bin/env", "env", arg->name) && use_pipe)	// DONE
+	// else if (match_multi("/usr/bin/env", "/bin/env", "env", arg->name) && use_pipe)	// DONE
+	else if (match_multi("/usr/bin/env", "/bin/env", "env", arg->name))	// DONE
 		ms->status = exec_env(ms, args_cmd);
 	else if (ft_strmatch("cd", arg->name))		// WIP		need update of ms->pwd and env variables PWD, OLDPWD
 		ms->status = exec_cd(ms, args_cmd);
@@ -293,10 +274,7 @@ int	is_heredoc(t_block *block)
 		{
 			index_input++;
 			if (tmp_arg->type == HEREDOC)
-			// {
 				index_here = index_input;
-			// 	printf("heredoc limiter : %s\n", tmp_arg->name);
-			// }
 			tmp_arg = tmp_arg->next;
 		}
 		if (index_here == index_input)
@@ -348,6 +326,34 @@ int	check_input(t_msl *ms, t_block *block)
 	return (0);
 }
 
+int	check_output(t_msl *ms, t_block *block)
+{
+	t_elem	*tmp_file;
+
+	tmp_file = block->out;
+	while (tmp_file != NULL)
+	{
+		if (tmp_file->type == TRUNC)
+			block->fd_out = open(tmp_file->name, O_CREAT | O_RDWR | O_TRUNC, 0664);
+		if (tmp_file->type == APPEND)
+			block->fd_out = open(tmp_file->name, O_CREAT | O_RDWR | O_APPEND, 0664);
+		if (block->fd_out < 0)
+		{
+			if (tmp_file->name[ft_strlen_null(tmp_file->name) - 1] == '/')
+				return (display_error_exec("minishell: ", tmp_file->name, 18), 1);
+			else if (tmp_file->name[0] == '/')
+				return (display_error_exec("minishell: ", tmp_file->name, 13), 1);
+			else if (ft_strchr(tmp_file->name, '/') == 0)
+				return (display_error_exec("minishell: ", tmp_file->name, 13), 1);
+			else
+				return (display_error_exec("minishell: ", tmp_file->name, 2), 1);
+		}
+		close(block->fd_out);
+		tmp_file = tmp_file->next;
+	}
+	return (0);
+}
+
 void	execution(t_msl *ms)
 {
 	int	i;
@@ -358,11 +364,10 @@ void	execution(t_msl *ms)
 	i = -1;
 	while (ms->blocks[++i])
 	{
-		if (check_input(ms, ms->blocks[i]) == 0)	// add check output
-		{
-			if (ms->blocks[i]->arg)
-				exec_cmd(ms, i);
-		}
+		check_input(ms, ms->blocks[i]);
+		if (ms->blocks[i]->out)
+			check_output(ms, ms->blocks[i]);
+		exec_cmd(ms, i);
 	}
 	status = 0;
 	i = -1;
