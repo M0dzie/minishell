@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/28 15:42:19 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/28 22:06:32 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,27 +237,6 @@ void	display_block(t_block *block)
 	}
 }
 
-void	write_output(t_block *block)
-{
-	t_elem	*tmp_arg;
-	
-	printf("write result into file\n");
-	if (block->out)
-	{
-		// printf("output\n");
-		tmp_arg = block->out;
-		while (tmp_arg != NULL)
-		{
-			if (tmp_arg->type == TRUNC)
-				printf("trunc file : %s\n", tmp_arg->name);
-			else
-				printf("append file : %s\n", tmp_arg->name);
-			tmp_arg = tmp_arg->next;
-		}
-		printf("\n");
-	}
-}
-
 // check if heredoc as input return 1 and if heredoc il the last input return 2 else 0
 int	is_heredoc(t_block *block)
 {
@@ -285,13 +264,84 @@ int	is_heredoc(t_block *block)
 	return (0);
 }
 
-char	*get_heredoc(t_block *block, int saveit)
+static char	*input_join(char *input, char const *buf)
 {
+	char	*tmp_join;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	if (!input)
+		tmp_join = malloc(sizeof(char) * (ft_strlen(buf) + 1));
+	else
+		tmp_join = malloc(sizeof(char) * (ft_strlen(input) \
+			+ ft_strlen(buf) + 1));
+	if (!tmp_join)
+		return (free(tmp_join), \
+		tmp_join = NULL, NULL);
+	if (input)
+	{
+		while (input[j])
+			tmp_join[i++] = input[j++];
+		free(input);
+	}
+	j = 0;
+	while (buf[j])
+		tmp_join[i++] = buf[j++];
+	tmp_join[i] = '\0';
+	return (tmp_join);
+}
+
+static char	*get_input(t_block *block, t_elem *elem)
+{
+	char	*tmp_input;
+
+	block->input = NULL;
+	tmp_input = NULL;
+	while (ft_strmatch(tmp_input, elem->name) == 0)
+	{
+		tmp_input = readline("> ");
+		if (tmp_input == 0)
+			return (display_error_exec("minishell: ", elem->name, 9), NULL);
+		if (ft_strmatch(tmp_input, elem->name) == 0)
+		{
+			tmp_input = ft_strjoin(tmp_input, "\n");
+			if (!block->input)
+				block->input = ft_strdup(tmp_input);
+			else
+				block->input = input_join(block->input, tmp_input);
+		}
+	}
+	return (free(tmp_input), NULL);
+}
+
+t_elem	*getlast_elem(t_elem *elem)
+{
+	t_elem	*tmp_elem;
+
+	tmp_elem = elem;
+	while (tmp_elem->next != NULL)
+		tmp_elem = tmp_elem->next;
+	return (elem);
+}
+
+char	*get_heredoc(t_msl *ms, t_block *block, int saveit)
+{
+	t_elem	*tmp_arg;
+
+	tmp_arg = block->in;
+	while (tmp_arg != NULL)
+	{
+		if (tmp_arg->type == HEREDOC)
+			get_input(block, tmp_arg);
+		tmp_arg = tmp_arg->next;
+	}
 	if (saveit == 1)
-		// loop to simulate getting input but not saving it
-		printf("Simulate here_doc\n");
-	else if (saveit == 2)
-		printf("Save here_doc\n");
+		free(block->input);
+	// else if (saveit == 2)
+	// 	printf("save here_doc \n%s\n", block->input);
+
 		// adding input into string and returning it
 	return (NULL);
 }
@@ -302,7 +352,7 @@ int	check_input(t_msl *ms, t_block *block)
 	int		heredoc;
 
 	heredoc = is_heredoc(block);
-	get_heredoc(block, heredoc);
+	get_heredoc(ms, block, heredoc);
 	if (block->in)
 	{
 		tmp_arg = block->in;
@@ -348,9 +398,9 @@ int	check_output(t_msl *ms, t_block *block)
 			else
 				return (display_error_exec("minishell: ", tmp_file->name, 2), 1);
 		}
-		close(block->fd_out);
 		tmp_file = tmp_file->next;
 	}
+	block->is_output = 1;
 	return (0);
 }
 

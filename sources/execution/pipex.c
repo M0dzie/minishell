@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:28 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/28 15:42:57 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/28 21:48:57 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,14 @@ void	handle_output(t_msl *ms, int index, int mode, int position)
 
 void	dupheredoc(t_msl *ms, int index)
 {
-	printf("dup2 heredoc input\n");
+	int	tmp_pipe[2];
+
+	pipe(tmp_pipe);
+	dup2(tmp_pipe[0], 0);
+	write(tmp_pipe[1], ms->blocks[index]->input, ft_strlen_null(ms->blocks[index]->input));
+	free(ms->blocks[index]->input);
+	close(tmp_pipe[1]);
+	// printf("dup2 heredoc\n");
 }
 
 void	handle_input(t_msl *ms, int index, int mode, int position)
@@ -128,6 +135,8 @@ void	exec_one(t_msl *ms, t_elem *arg)
 	{
 		if (ms->blocks[0]->is_input && fds_valid(ms->blocks[0]->fd_in, ms->blocks[0]->fd_out))
 			handle_input(ms, 0, CHILD, 0);
+		if (ms->blocks[0]->is_output && fds_valid(ms->blocks[0]->fd_in, ms->blocks[0]->fd_out))
+			handle_output(ms, 0, CHILD, 0);
 		if (!is_builtins(arg->name) && fds_valid(ms->blocks[0]->fd_in, ms->blocks[0]->fd_out))
 			standard_execution(ms, arg);
 		exit(ms->status);
