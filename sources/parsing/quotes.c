@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/24 12:23:37 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/28 15:45:12 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,29 @@ char	*parsing_env_var(t_msl *ms, char *token)
 	return (token);
 }
 
+// static char	*handle_env_var(t_msl *ms, char *token)
+// {
+// 	char	*new;
+
+// 	token = parsing_env_var(ms, token);
+// 	if (!token)
+// 		return (NULL);
+// 	new = ft_calloc(ft_strlen(token) + 3, sizeof(char));
+// 	if (!new)
+// 		return (NULL);
+// 	new[0] = '\"';
+// 	ft_strlcpy(new + 1, token, ft_strlen(token) + 1);
+// 	new[ft_strlen(new)] = '\"';
+// 	printf("new = %s\n", new);
+// 	return (new);
+// }
+
 char	*parsing_quotes_split(t_msl *ms, char *token)
 {
 	int	i;
 
 	i = -1;
+	// token = handle_env_var(ms, token);
 	token = parsing_env_var(ms, token);
 	if (!token)
 		return (NULL);
