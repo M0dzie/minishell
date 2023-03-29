@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   del_quotes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:13:09 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 22:12:19 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/29 11:18:20 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,9 @@ char	*del_quotes(char *input, int index, int lst_delim, char quote)
 	new_word = word_to_change(input + index + 1, quote);
 	after = get_after_delim(input, lst_delim);
 	if (!before || !new_word || !after)
-		return (free(before), free(new_word), free(after), NULL);
+		return (free(before), free(new_word), free(after), free(input), NULL);
 	new_line = clear_line(before, new_word, after);
 	if (!new_line)
-		return (free(before), free(new_word), free(after), NULL);
-	return (free(before), free(new_word), free(after), \
-	free(input), new_line);
+		return (free(before), free(new_word), free(after), free(input), NULL);
+	return (free(before), free(new_word), free(after), free(input), new_line);
 }
