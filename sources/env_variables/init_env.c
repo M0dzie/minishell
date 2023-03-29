@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 11:40:43 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/24 18:33:06 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/29 17:59:25 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,6 @@ t_var	*new_var(char *name, char *value, int in_env)
 void	init_nullenv(t_msl *ms)
 {
 	var_add_back(ms, new_var("PWD", ms->pwd, 1));
-	// var_add_back(ms, new_var("LS_COLORS", "", 1));
-	// var_add_back(ms, new_var("LESSCLOSE", "/usr/bin/lesspipe %s %s", 1));
-	// var_add_back(ms, new_var("LESSOPEN", "| /usr/bin/lesspipe %s", 1));
 	var_add_back(ms, new_var("SHLVL", "1", 1));
 	var_add_back(ms, new_var("OLDPWD", NULL, 0));
 }
@@ -58,6 +55,7 @@ void	init_env(t_msl *ms, char **envp)
 	char	bufpwd[BUFSIZ];
 
 	i = -1;
+	tmp_split = NULL;
 	ms->pwd = getcwd(bufpwd, BUFSIZ);
 	ms->env = ft_calloc(ft_arrlen(envp) + 1, sizeof(t_var *));
 	if (!envp[0])
@@ -69,9 +67,12 @@ void	init_env(t_msl *ms, char **envp)
 		{
 			if (ft_strmatch(tmp_split[0], "SHLVL"))
 				tmp_split[1] = ft_itoa(ft_atoi(tmp_split[1]) + 1);
+			// var_add_back(ms, new_var(ft_strdup_null(tmp_split[0]), ft_strdup_null(tmp_split[1]), 1));
 			var_add_back(ms, new_var(tmp_split[0], tmp_split[1], 1));
 		}
+		// ft_arrfree(tmp_split);
 	}
+	// free(ms->env);
 	ms->arrenv = ft_getenv(ms);
 	ms->arrexport = ft_getexport(ms);
 }
