@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/28 22:06:32 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/29 18:02:36 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,20 +165,20 @@ void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe)	// remove use_pipe
 	char	**args_cmd;
 
 	args_cmd = getarr_cmd(arg);
-	if (match_multi("/usr/bin/echo", "/bin/echo", "echo", arg->name))
+	if (match_multi("/usr/bin/echo", "/bin/echo", "echo", arg->name) && use_pipe)
 		ms->status = exec_echo(ms, args_cmd);
-	else if (match_multi("/usr/bin/pwd", "/bin/pwd", "pwd", arg->name))		// WIP		will print ms->pwd
+	else if (match_multi("/usr/bin/pwd", "/bin/pwd", "pwd", arg->name) && use_pipe)		// WIP		will print ms->pwd
 		ms->status = exec_pwd(ms, args_cmd);
-	// else if (match_multi("/usr/bin/env", "/bin/env", "env", arg->name) && use_pipe)	// DONE
-	else if (match_multi("/usr/bin/env", "/bin/env", "env", arg->name))	// DONE
+	else if (match_multi("/usr/bin/env", "/bin/env", "env", arg->name) && use_pipe)	// DONE
+	// else if (match_multi("/usr/bin/env", "/bin/env", "env", arg->name))	// DONE
 		ms->status = exec_env(ms, args_cmd);
-	else if (ft_strmatch("cd", arg->name))		// WIP		need update of ms->pwd and env variables PWD, OLDPWD
+	else if (ft_strmatch("cd", arg->name) && !use_pipe)		// WIP		need update of ms->pwd and env variables PWD, OLDPWD
 		ms->status = exec_cd(ms, args_cmd);
-	else if (ft_strmatch("export", arg->name))	//			if successful need to update ms->arrexport and ms->arrenv
+	else if (ft_strmatch("export", arg->name) && use_pipe)	//			if successful need to update ms->arrexport and ms->arrenv
 		ms->status = exec_export(ms, args_cmd);
-	else if (ft_strmatch("unset", arg->name))		//			if successful need to update ms->arrexport and ms->arrenv
+	else if (ft_strmatch("unset", arg->name) && !use_pipe)		//			if successful need to update ms->arrexport and ms->arrenv
 		ms->status = exec_unset(ms, args_cmd);
-	else if (ft_strmatch("exit", arg->name))		// DONE
+	else if (ft_strmatch("exit", arg->name) && !use_pipe)		// DONE
 		exec_exit(ms, args_cmd);
 	ft_arrfree(args_cmd);
 }
@@ -404,6 +404,61 @@ int	check_output(t_msl *ms, t_block *block)
 	return (0);
 }
 
+void	free_env(t_msl *ms)
+{
+	t_var	*tmp_env;
+
+	while (ms->env != NULL)
+	{
+		tmp_env = ms->env->next;
+		ms->env->name = NULL;
+		free(ms->env->name);
+		ms->env->value = NULL;
+		free(ms->env->value);
+		ms->env->in_env = 0;
+		ms->env->next = NULL;
+		free(ms->env);
+		ms->env = tmp_env;
+	}
+	// free(ms->pwd);
+}
+
+void	freelist_elem(t_elem *elem)
+{
+	t_elem	*tmp_elem;
+
+	while (elem != NULL)
+	{
+		tmp_elem = elem->next;
+		elem->name = NULL;
+		elem->type = 0;
+		free(elem->name);
+		free(elem);
+		elem = tmp_elem;
+	}
+}
+
+void	free_exec(t_msl *ms)
+{
+	t_block	*tmp_block;
+	int		i;
+
+	i = 0;
+	while (ms->blocks[i])
+	{
+		// free arg, in, out
+		if (ms->blocks[i]->arg)
+			freelist_elem(ms->blocks[i]->arg);
+		if (ms->blocks[i]->in)
+			freelist_elem(ms->blocks[i]->in);
+		if (ms->blocks[i]->out)
+			freelist_elem(ms->blocks[i]->out);
+		free(ms->blocks[i]);
+		i++;
+	}
+	free(ms->blocks);
+}
+
 void	execution(t_msl *ms)
 {
 	int	i;
@@ -425,4 +480,13 @@ void	execution(t_msl *ms)
 		waitpid(ms->pid[i], &status, 0);
 	ms->status = WEXITSTATUS(status);
 	// clean all parsing
+	free_exec(ms);
+
+	// add to main
+	free_env(&ms);
+	ft_arrfree(ms->arrenv);
+	ft_arrfree(ms->arrexport);
+	close(0);
+	close(1);
+	close(2);
 }

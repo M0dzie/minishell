@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:28 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/28 21:48:57 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/29 17:38:50 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	distribute_cmd(t_msl *ms, int index)
 {
-	// ft_putstr_fd("distribute : ", 2);
-	// ft_putstr_fd(ms->blocks[index]->arg->name, 2);
-	// ft_putstr_fd("\n", 2);
 	if (is_builtins(ms->blocks[index]->arg->name))
 		builtins_execution(ms, ms->blocks[index]->arg, 1);
 	else
@@ -80,7 +77,6 @@ void	dupheredoc(t_msl *ms, int index)
 	write(tmp_pipe[1], ms->blocks[index]->input, ft_strlen_null(ms->blocks[index]->input));
 	free(ms->blocks[index]->input);
 	close(tmp_pipe[1]);
-	// printf("dup2 heredoc\n");
 }
 
 void	handle_input(t_msl *ms, int index, int mode, int position)
@@ -137,6 +133,8 @@ void	exec_one(t_msl *ms, t_elem *arg)
 			handle_input(ms, 0, CHILD, 0);
 		if (ms->blocks[0]->is_output && fds_valid(ms->blocks[0]->fd_in, ms->blocks[0]->fd_out))
 			handle_output(ms, 0, CHILD, 0);
+		if (is_builtins(arg->name) && fds_valid(ms->blocks[0]->fd_in, ms->blocks[0]->fd_out))
+			builtins_execution(ms, arg, 1);
 		if (!is_builtins(arg->name) && fds_valid(ms->blocks[0]->fd_in, ms->blocks[0]->fd_out))
 			standard_execution(ms, arg);
 		exit(ms->status);
