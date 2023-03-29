@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/29 18:02:36 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/29 18:07:53 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -483,10 +483,10 @@ void	execution(t_msl *ms)
 	free_exec(ms);
 
 	// add to main
-	free_env(&ms);
-	ft_arrfree(ms->arrenv);
-	ft_arrfree(ms->arrexport);
-	close(0);
-	close(1);
-	close(2);
+	// free_env(&ms);
+	// ft_arrfree(ms->arrenv);
+	// ft_arrfree(ms->arrexport);
+	// close(0);
+	// close(1);
+	// close(2);
 }
