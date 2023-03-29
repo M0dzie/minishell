@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/27 11:30:42 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/29 12:05:25 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ static char	*get_value(t_msl *ms, char *token)
 		i++;
 	token = get_before_delim(token, i);
 	if (!token)
-		return (NULL);
+		return (free(token), NULL);
 	tmp = getvar(ms, token);
 	if (!tmp)
-		return (ms->lst_delim = ft_strlen(token), "");
-	return (ms->lst_delim = ft_strlen(token), tmp->value);
+		return (ms->lst_delim = ft_strlen(token), free(token), "");
+	return (ms->lst_delim = ft_strlen(token), free(token), tmp->value);
 }
 
 static char	*check_value(t_msl *ms, char *token)

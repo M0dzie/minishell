@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:56:59 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/27 09:38:18 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/29 14:52:44 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,11 @@ void	ms_strtok(t_msl *ms, char *input)
 
 	ms->tokens = ft_calloc((count_tokens(input) + 1), sizeof(char *));
 	if (!ms->tokens)
-		return ;
+		return (free(input));
 	j = -1;
 	k = 0;
 	parse_input(ms, input, j, k);
 	if (!ms->tokens)
-		return ;
+		return (free(input), ft_arrfree(ms->tokens));
+	free(input);
 }

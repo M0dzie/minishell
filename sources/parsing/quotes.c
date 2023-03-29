@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/28 15:45:12 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/29 12:45:24 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,25 @@ int	check_opened_quotes(t_msl *ms, char *input, int i, char quote)
 	return (1);
 }
 
+char	*ft_strdup_free(char *src)
+{
+	int		i;
+	char	*new;
+
+	i = -1;
+	new = ft_calloc(ft_strlen(src) + 1, sizeof(char));
+	if (!new)
+		return (free(src), NULL);
+	while (src[++i])
+		new[i] = src[i];
+	printf("new = %s\n", new);
+	return (free(src), new);
+}
+
 char	*parsing_env_var(t_msl *ms, char *token)
 {
-	int	i;
-	int	in_dquote;
+	int		i;
+	int		in_dquote;
 
 	i = -1;
 	in_dquote = 0;
@@ -51,29 +66,11 @@ char	*parsing_env_var(t_msl *ms, char *token)
 	return (token);
 }
 
-// static char	*handle_env_var(t_msl *ms, char *token)
-// {
-// 	char	*new;
-
-// 	token = parsing_env_var(ms, token);
-// 	if (!token)
-// 		return (NULL);
-// 	new = ft_calloc(ft_strlen(token) + 3, sizeof(char));
-// 	if (!new)
-// 		return (NULL);
-// 	new[0] = '\"';
-// 	ft_strlcpy(new + 1, token, ft_strlen(token) + 1);
-// 	new[ft_strlen(new)] = '\"';
-// 	printf("new = %s\n", new);
-// 	return (new);
-// }
-
 char	*parsing_quotes_split(t_msl *ms, char *token)
 {
 	int	i;
 
 	i = -1;
-	// token = handle_env_var(ms, token);
 	token = parsing_env_var(ms, token);
 	if (!token)
 		return (NULL);
