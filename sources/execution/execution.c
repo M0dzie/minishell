@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/30 15:29:32 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/30 23:36:10 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -411,18 +411,12 @@ void	free_env(t_msl *ms)
 
 	while (ms->env != NULL)
 	{
-		tmp_env = ms->env->next;
-		ms->env->name = NULL;
-		ms->env->value = NULL;
-		ms->env->in_env = 0;
-		ms->env->next = NULL;
-		free(ms->env->name);
-		free(ms->env->value);
-		free(ms->env);
-		ms->env = tmp_env;
+		tmp_env = ms->env;
+		ms->env = ms->env->next;
+		free(tmp_env->name);
+		free(tmp_env->value);
+		free(tmp_env);
 	}
-	// free(ms->env);
-	// free(ms->pwd);
 }
 
 void	freelist_elem(t_elem *elem)
@@ -448,7 +442,6 @@ void	free_exec(t_msl *ms)
 	i = 0;
 	while (ms->blocks[i])
 	{
-		// free arg, in, out
 		if (ms->blocks[i]->arg)
 			freelist_elem(ms->blocks[i]->arg);
 		if (ms->blocks[i]->in)
@@ -482,7 +475,7 @@ void	execution(t_msl *ms)
 		waitpid(ms->pid[i], &status, 0);
 	ms->status = WEXITSTATUS(status);
 	// clean all parsing
-	free_exec(ms);
+	// free_exec(ms);
 
 	// add to main
 	// free_env(&ms);

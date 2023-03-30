@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:28 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/30 16:32:27 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/30 21:25:21 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	exec_one(t_msl *ms, t_elem *arg)
 		ms->status = 1;
 	if (arg)
 		if (is_builtins(arg->name) && fds_valid(ms, 0))
-			if (ft_strmatch("export", arg->name) && arg->next != NULL)
+			// if (ft_strmatch("export", arg->name) && arg->next != NULL)
 				builtins_execution(ms, arg, 0);
 	ms->pid[0] = fork();
 	if (ms->pid[0] < 0)

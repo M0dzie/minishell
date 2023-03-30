@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/30 16:05:15 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/30 20:19:04 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ extern int		g_signal;
 # define FIRST 0
 # define MID 1
 # define LAST 2
+
+# define BEFORE 0
+# define AFTER 1
 
 typedef struct s_var
 {
@@ -153,7 +156,8 @@ void	pipe_one(char **args_cmd, t_msl *ms, char **envp);
 void	read_prompt(t_msl *ms, char **envp);
 void	signal_handler(int signal);
 void	standard_execution(t_msl *ms, t_elem *arg);
-void	var_add_back(t_msl *ms, t_var *var);
+// void	var_add_back(t_msl *ms, t_var *var);
+void	var_add_back(t_var **stack, t_var *var);
 
 void	print_args(char **args);
 
