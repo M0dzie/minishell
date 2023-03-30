@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/28 15:52:38 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/30 16:05:15 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ extern int		g_signal;
 # define PARENT 1
 
 # define FIRST 0
-# define MID -1
-# define LAST -1
+# define MID 1
+# define LAST 2
 
 typedef struct s_var
 {
@@ -137,6 +137,8 @@ void	exec_cmd(t_msl *ms, int i);
 void	exec_exit(t_msl *ms, char **args_cmd);
 void	exec_one(t_msl *ms, t_elem *arg);
 void	exec_signal(void);
+void	free_env(t_msl *ms);
+void	free_exec(t_msl *ms);
 void	free_global(t_msl *ms);
 void	handle_cmd(t_msl *ms, char **tmp_args, char **envp);
 void	handle_input(t_msl *ms, int index, int mode, int position);
