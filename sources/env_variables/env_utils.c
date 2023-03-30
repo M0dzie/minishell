@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:52:42 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/23 09:58:00 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/30 16:34:34 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,21 @@ char	**split_equal(char *env_var)
 
 	len = 0;
 	split_equal = ft_calloc(3, sizeof(char *));
+	if (!split_equal)
+		return (NULL);
 	while (env_var[len] != '=')
 		len++;
 	split_equal[0] = ft_calloc(len + 1, sizeof(char));
+	if (!split_equal[0])
+		return (free(split_equal), NULL);
 	i = -1;
 	while (++i < len)
 		split_equal[0][i] = env_var[i];
 	len += 1;
-	len_two = ft_strlen(env_var) - len;
+	len_two = ft_strlen_null(env_var) - len;
 	split_equal[1] = ft_calloc(len_two + 1, sizeof(char));
+	if (!split_equal[0])
+		return (free(split_equal[0]), free(split_equal), NULL);
 	i = -1;
 	while (++i < len_two)
 		split_equal[1][i] = env_var[i + len];
