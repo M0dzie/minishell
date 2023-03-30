@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/29 18:07:53 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/30 15:29:32 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	display_error_exec(char *first, char *second, int num_error)
 	err[6] = "cannot allocate memory";
 	err[7] = ": cannot create or modify: ";
 	err[8] = ": environnement VARIABLES not found";
-	err[9] = ": warning: here-document delimited by end-of-file, wanted: ";
+	// err[9] = ": warning: here-document delimited by end-of-file, wanted: ";
 	err[10] = "too many arguments";
 	err[11] = ": numeric argument required";
 	err[12] = ": Not a directory";
@@ -174,7 +174,7 @@ void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe)	// remove use_pipe
 		ms->status = exec_env(ms, args_cmd);
 	else if (ft_strmatch("cd", arg->name) && !use_pipe)		// WIP		need update of ms->pwd and env variables PWD, OLDPWD
 		ms->status = exec_cd(ms, args_cmd);
-	else if (ft_strmatch("export", arg->name) && use_pipe)	//			if successful need to update ms->arrexport and ms->arrenv
+	else if (ft_strmatch("export", arg->name)/* && use_pipe*/)	//			if successful need to update ms->arrexport and ms->arrenv
 		ms->status = exec_export(ms, args_cmd);
 	else if (ft_strmatch("unset", arg->name) && !use_pipe)		//			if successful need to update ms->arrexport and ms->arrenv
 		ms->status = exec_unset(ms, args_cmd);
@@ -303,7 +303,8 @@ static char	*get_input(t_block *block, t_elem *elem)
 	{
 		tmp_input = readline("> ");
 		if (tmp_input == 0)
-			return (display_error_exec("minishell: ", elem->name, 9), NULL);
+			// return (display_error_exec("minishell: ", elem->name, 9), NULL);
+			return (ft_putstr_fd("minishell: warning: here-document delimited by end-of-file, wanted ", 2), ft_putendl_fd(elem->name, 2), NULL);
 		if (ft_strmatch(tmp_input, elem->name) == 0)
 		{
 			tmp_input = ft_strjoin(tmp_input, "\n");
@@ -412,14 +413,15 @@ void	free_env(t_msl *ms)
 	{
 		tmp_env = ms->env->next;
 		ms->env->name = NULL;
-		free(ms->env->name);
 		ms->env->value = NULL;
-		free(ms->env->value);
 		ms->env->in_env = 0;
 		ms->env->next = NULL;
+		free(ms->env->name);
+		free(ms->env->value);
 		free(ms->env);
 		ms->env = tmp_env;
 	}
+	// free(ms->env);
 	// free(ms->pwd);
 }
 
