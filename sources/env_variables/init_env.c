@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 11:40:43 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/29 17:59:25 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/30 16:34:57 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	var_add_back(t_msl *ms, t_var *var)
 
 	if (!ms->env->name)
 		ms->env = var;
+	// if (!ms->env)
+	// 	ms->env = var;
 	else
 	{
 		add_back = ms->env;
@@ -53,24 +55,41 @@ void	init_env(t_msl *ms, char **envp)
 	char	**tmp_split;
 	int		i;
 	char	bufpwd[BUFSIZ];
+	char	*tmp_increm;
 
 	i = -1;
 	tmp_split = NULL;
 	ms->pwd = getcwd(bufpwd, BUFSIZ);
-	ms->env = ft_calloc(ft_arrlen(envp) + 1, sizeof(t_var *));
+	ms->env = ft_calloc(2, sizeof(t_var *));
 	if (!envp[0])
 		init_nullenv(ms);
 	while (envp[++i])
 	{
 		tmp_split = split_equal(envp[i]);
+		// tmp_split = ft_split(envp[i], '=');
 		if (!ft_strmatch(tmp_split[0], "_"))
 		{
+
 			if (ft_strmatch(tmp_split[0], "SHLVL"))
-				tmp_split[1] = ft_itoa(ft_atoi(tmp_split[1]) + 1);
-			// var_add_back(ms, new_var(ft_strdup_null(tmp_split[0]), ft_strdup_null(tmp_split[1]), 1));
-			var_add_back(ms, new_var(tmp_split[0], tmp_split[1], 1));
+			{
+				tmp_increm = ft_itoa(ft_atoi(tmp_split[1]) + 1);
+				var_add_back(ms, new_var(tmp_split[0], tmp_increm, 1));
+				// tmp_split[1] = ft_itoa(ft_atoi(tmp_split[1]) + 1);
+				// free(tmp_increm);
+				// ft_arrfree(tmp_split);
+			}
+			else
+			{
+				// var_add_back(ms, new_var(ft_strdup_null(tmp_split[0]), ft_strdup_null(tmp_split[1]), 1));
+				// var_add_back(ms, new_var_free(tmp_split, 1));
+				var_add_back(ms, new_var(tmp_split[0], tmp_split[1], 1));
+				// ft_arrfree(tmp_split);
+			}
+			// ft_arrfree(tmp_split);
+			free(tmp_split);
 		}
-		// ft_arrfree(tmp_split);
+		else
+			ft_arrfree(tmp_split);
 	}
 	// free(ms->env);
 	ms->arrenv = ft_getenv(ms);
