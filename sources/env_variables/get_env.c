@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 15:01:19 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/27 11:07:24 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/30 23:36:28 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_var	*getvar(t_msl *ms, char *name)
 {
 	t_var	*tmp_stack;
 
-	if (ms->env->name)
+	if (ms->env)
 	{
 		tmp_stack = ms->env;
 		while (tmp_stack != NULL)
@@ -59,7 +59,7 @@ char	**ft_getenv(t_msl *ms)
 	char	**getenv;
 	int		i;
 
-	if (!ms->env->name)
+	if (!ms->env)
 		return (NULL);
 	getenv = ft_calloc(envsize(ms, ENV) + 1, sizeof(char *));
 	if (!getenv)

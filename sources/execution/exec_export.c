@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:43:24 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/27 11:12:31 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/30 21:47:02 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,14 @@ void	var_handling(t_msl *ms, char *args_cmd)
 			tmp_var->in_env = 1;
 		}
 		else
-			var_add_back(ms, new_var(tmp_split[0], tmp_split[1], 1));
+			// var_add_back(ms, new_var(tmp_split[0], tmp_split[1], 1));	// fix
 		ms->arrenv = ft_getenv(ms);
 	}
 	else
 	{
 		tmp_var = getvar(ms, args_cmd);
-		if (!tmp_var)
-			var_add_back(ms, new_var(args_cmd, NULL, 0));
+		// if (!tmp_var)
+			// var_add_back(ms, new_var(args_cmd, NULL, 0));	// fix
 	}
 	ms->arrexport = ft_getexport(ms);
 }

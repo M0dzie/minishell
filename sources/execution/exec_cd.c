@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 09:46:41 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/27 11:11:30 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/30 21:34:36 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	change_dir(t_msl *ms, char *path_dir, char **envp)
 	{
 		tmp_old = getvar(ms, "PWD");
 		// tmp_old = getcwd(buf_oldpwd, BUFSIZ);
-		printf("Path %s\n", path_dir);
+		// printf("Path %s\n", path_dir);
 		valid_dir = chdir(path_dir);
 		if (valid_dir == 0)
 		{
@@ -55,7 +55,7 @@ int	change_dir(t_msl *ms, char *path_dir, char **envp)
 			}
 			ms->pwd = getcwd(buf_pwd, BUFSIZ);
 
-			printf("new dir    %s\n", ms->pwd);
+			// printf("new dir    %s\n", ms->pwd);
 			
 			// printf("pwd : %s\noldpwd : %s\n", getvar(ms, "PWD")->value, getvar(ms, "OLDPWD")->value);
 			ms->arrenv = ft_getenv(ms);
@@ -117,7 +117,7 @@ int	is_cd_valid(t_msl *ms, char **args_cmd, int mode)
 	else if (mode == 2)
 	{
 		trim_path = get_trim_path(ms, args_cmd[1]);
-		printf("-%s-\n", trim_path);
+		// printf("-%s-\n", trim_path);
 		if (access(trim_path, X_OK) != 0)
 			return (display_error_exec("minishell: cd: ", args_cmd[1], 2), 1);
 	}
