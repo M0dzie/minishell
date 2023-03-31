@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/31 09:48:21 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/31 12:57:19 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,6 @@ int	check_opened_quotes(t_msl *ms, char *input, int i, char quote)
 	if (input[i] == quote)
 		return (ms->lst_delim = i, 0);
 	return (1);
-}
-
-static int	check_export(t_msl *ms, char *token)
-{
-	if (token[0] == '\"')
-		if (token[1] == '\"')
-			if (!token[2])
-				return (1);
-	if (token[0] == '\'')
-		if (token[1] == '\'')
-			if (!token[2])
-				return (1);
-	return (0);
 }
 
 static char	*parsing_env_var(t_msl *ms, char *token)
@@ -76,8 +63,7 @@ char	*parsing_quotes_split(t_msl *ms, char *token)
 	{
 		if (token[i] == '\'' || token[i] == '\"')
 		{
-			if (!check_opened_quotes(ms, token, i + 1, token[i]) && \
-			!check_export(ms, token))
+			if (!check_opened_quotes(ms, token, i + 1, token[i]))
 			{
 				token = del_quotes(token, i, ms->lst_delim + 1, \
 				token[i]);
