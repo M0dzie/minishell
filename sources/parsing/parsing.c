@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/29 14:35:33 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/31 11:08:05 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ void	read_prompt(t_msl *ms, char **envp)
 	ms_strtok(ms, ms->input);
 	if (!ms->tokens)
 		return ;
-	// print_args(ms->tokens);
+	print_args(ms->tokens);
 	execution(ms);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/30 21:45:47 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/31 14:24:08 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_putendl_fd("Error\nMinishell doesn't take any parameters.", \
 		2), 0);
 	init_env(&ms, envp);
-	ms.status = 0;
 	g_signal = 0;
+	ms.status = 0;
 	while (1)
 	{
 		input_signal();
@@ -32,8 +32,8 @@ int	main(int argc, char **argv, char **envp)
 		add_history(ms.input);
 		if (ms.input == 0)
 		{
-			free_global(&ms);
-			return (printf("exit\n"), free(ms.input), rl_clear_history(), 0);
+			g_signal = ms.status;
+			return (printf("exit\n"), free_global(&ms), g_signal);
 		}
 		read_prompt(&ms, envp);
 	}

@@ -2,7 +2,10 @@
 
 ## Need change
 
-Nothing for now
+```sh
+echo bonjour 1> "$PATHH"
+```
+error `minishell: ': Permission denied` should be `No such file or directory`
 
 ## For leaks
 Use this `command`
