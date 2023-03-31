@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 09:46:41 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/30 21:34:36 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/31 15:48:59 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	change_dir(t_msl *ms, char *path_dir, char **envp)
 			// printf("new dir    %s\n", ms->pwd);
 			
 			// printf("pwd : %s\noldpwd : %s\n", getvar(ms, "PWD")->value, getvar(ms, "OLDPWD")->value);
+			ft_arrfree(ms->arrenv);
+			ft_arrfree(ms->arrexport);
 			ms->arrenv = ft_getenv(ms);
 			ms->arrexport = ft_getexport(ms);
 		}
@@ -95,7 +97,7 @@ char	*get_trim_path(t_msl *ms, char *path)
 		trim_path[i] = path_home[i];
 	trim_path[i] = '/';
 	ft_strlcat(trim_path, path + 1, len_path + 2);
-	return (trim_path);
+	return (free(path_home), trim_path);
 }
 
 int	is_cd_valid(t_msl *ms, char **args_cmd, int mode)
@@ -162,8 +164,6 @@ int	exec_cd(t_msl *ms, char **args_cmd)
 	int	exit_stat;
 	char	*tmp_path;
 
-	// printf("exec cd\n");
-
 	args_len = ft_arrlen(args_cmd);
 	exit_stat = 0;
 	if (args_len > 2)
@@ -195,7 +195,5 @@ int	exec_cd(t_msl *ms, char **args_cmd)
 	}
 	else
 		exit_stat = change_dir(ms, get_homepath(ms), ms->arrenv);
-	// printf("exit nb %d\n", exit_stat);
-	// exit (exit_stat);
 	return (exit_stat);
 }

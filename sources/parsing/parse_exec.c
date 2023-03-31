@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:02:51 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/27 20:42:03 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/31 13:02:12 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	elem_addback(t_elem **stack, t_elem *new_elem)
 	t_elem	*addback;
 
 	if (!(*stack))
-		*stack = new_elem;
+		(*stack) = new_elem;
 	else
 	{
 		addback = (*stack);
@@ -35,6 +35,7 @@ t_elem	*new_elem(char *name, int type)
 	if (!new_elem)
 		return (display_error_exec("minishell: ", "new_elem", 15), NULL);
 	new_elem->name = ft_strdup_null(name);
+	// new_elem->name = name;
 	new_elem->type = type;
 	new_elem->next = NULL;
 	return (new_elem);

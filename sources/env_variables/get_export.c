@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_export.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 15:01:57 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/27 11:07:24 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/31 14:55:27 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ char	**ft_getexport(t_msl *ms)
 	arrenv = get_tmpenv(ms);
 	if (!arrenv)
 		return (NULL);
+	// getexport = ft_calloc(envsize(ms, EXPORT) + 1, sizeof(char *));
 	getexport = ft_calloc(envsize(ms, EXPORT) + 1, sizeof(char *));
 	if (!getexport)
 		return (display_error_exec("minishell: ", "getexport: ", 6), NULL);
