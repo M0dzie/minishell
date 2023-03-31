@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/29 12:45:24 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/31 09:48:21 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,20 @@ int	check_opened_quotes(t_msl *ms, char *input, int i, char quote)
 	return (1);
 }
 
-char	*ft_strdup_free(char *src)
+static int	check_export(t_msl *ms, char *token)
 {
-	int		i;
-	char	*new;
-
-	i = -1;
-	new = ft_calloc(ft_strlen(src) + 1, sizeof(char));
-	if (!new)
-		return (free(src), NULL);
-	while (src[++i])
-		new[i] = src[i];
-	printf("new = %s\n", new);
-	return (free(src), new);
+	if (token[0] == '\"')
+		if (token[1] == '\"')
+			if (!token[2])
+				return (1);
+	if (token[0] == '\'')
+		if (token[1] == '\'')
+			if (!token[2])
+				return (1);
+	return (0);
 }
 
-char	*parsing_env_var(t_msl *ms, char *token)
+static char	*parsing_env_var(t_msl *ms, char *token)
 {
 	int		i;
 	int		in_dquote;
@@ -78,7 +76,8 @@ char	*parsing_quotes_split(t_msl *ms, char *token)
 	{
 		if (token[i] == '\'' || token[i] == '\"')
 		{
-			if (!check_opened_quotes(ms, token, i + 1, token[i]))
+			if (!check_opened_quotes(ms, token, i + 1, token[i]) && \
+			!check_export(ms, token))
 			{
 				token = del_quotes(token, i, ms->lst_delim + 1, \
 				token[i]);
