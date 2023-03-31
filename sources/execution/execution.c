@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/30 23:36:10 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/31 14:02:07 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -405,54 +405,7 @@ int	check_output(t_msl *ms, t_block *block)
 	return (0);
 }
 
-void	free_env(t_msl *ms)
-{
-	t_var	*tmp_env;
 
-	while (ms->env != NULL)
-	{
-		tmp_env = ms->env;
-		ms->env = ms->env->next;
-		free(tmp_env->name);
-		free(tmp_env->value);
-		free(tmp_env);
-	}
-}
-
-void	freelist_elem(t_elem *elem)
-{
-	t_elem	*tmp_elem;
-
-	while (elem != NULL)
-	{
-		tmp_elem = elem->next;
-		elem->name = NULL;
-		elem->type = 0;
-		free(elem->name);
-		free(elem);
-		elem = tmp_elem;
-	}
-}
-
-void	free_exec(t_msl *ms)
-{
-	t_block	*tmp_block;
-	int		i;
-
-	i = 0;
-	while (ms->blocks[i])
-	{
-		if (ms->blocks[i]->arg)
-			freelist_elem(ms->blocks[i]->arg);
-		if (ms->blocks[i]->in)
-			freelist_elem(ms->blocks[i]->in);
-		if (ms->blocks[i]->out)
-			freelist_elem(ms->blocks[i]->out);
-		free(ms->blocks[i]);
-		i++;
-	}
-	free(ms->blocks);
-}
 
 void	execution(t_msl *ms)
 {
@@ -460,6 +413,7 @@ void	execution(t_msl *ms)
 	int	status;
 
 	parsing_exec(ms);
+	ft_arrfree(ms->tokens);
 	exec_signal();
 	i = -1;
 	while (ms->blocks[++i])
@@ -475,7 +429,7 @@ void	execution(t_msl *ms)
 		waitpid(ms->pid[i], &status, 0);
 	ms->status = WEXITSTATUS(status);
 	// clean all parsing
-	// free_exec(ms);
+	free_exec(ms);
 
 	// add to main
 	// free_env(&ms);

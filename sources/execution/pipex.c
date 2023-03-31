@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:28 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/30 21:25:21 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/03/31 13:51:57 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,9 @@ void	handle_output(t_msl *ms, int index, int mode, int position)
 	if (mode == 0)
 	{
 		if (ms->blocks[index]->is_output)
-		{
 			dupclose(ms->blocks[index]->fd_out, STDOUT_FILENO);
-
-			// dup2(ms->blocks[index]->fd_out, STDOUT_FILENO);
-			// close(ms->blocks[index]->fd_out);
-
-			// if (ms->blocks[index]->is_output == TRUNC)
-			// {
-			// 	// printf("dup2 file fd %d\n", ms->blocks[index]->fd_in);
-			// 	dup2(ms->blocks[index]->fd_in, STDIN_FILENO);
-			// 	close(ms->blocks[index]->fd_in);
-			// }
-			// else
-			// 	printf("dup2 heredoc input\n");
-		}
 		else
-		{
 			dupclose(ms->pipes[index + position][1], STDOUT_FILENO);
-			// dup2(ms->pipes[index + position][1], STDOUT_FILENO);
-			// close(ms->pipes[index + position][1]);
-		}
 	}
 	else if (mode == 1)
 	{
@@ -64,7 +46,7 @@ void	handle_output(t_msl *ms, int index, int mode, int position)
 	// 		// 	printf("dup2 heredoc input\n");
 	// 	}
 		// else
-			close(ms->pipes[index + position][1]);
+			// close(ms->pipes[index + position][1]);
 	}
 }
 
@@ -99,8 +81,6 @@ void	handle_input(t_msl *ms, int index, int mode, int position)
 		{
 			if (ms->blocks[index]->is_input == INPUT)
 				close(ms->blocks[index]->fd_in);
-			// else
-			// 	printf("dup2 heredoc input\n");
 		}
 		else if (position == 2)
 		{
