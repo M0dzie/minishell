@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/31 14:24:08 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/03/31 14:56:00 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_putendl_fd("Error\nMinishell doesn't take any parameters.", \
 		2), 0);
 	init_env(&ms, envp);
-	g_signal = 0;
 	ms.status = 0;
+	g_signal = 0;
 	while (1)
 	{
 		input_signal();
