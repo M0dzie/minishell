@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/31 14:02:07 by msapin           ###   ########.fr       */
+/*   Updated: 2023/04/01 10:18:16 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,6 @@ void	execute_cmd(t_msl *ms, char **cmd_args)
 
 int	is_builtins(char *cmd)
 {
-	char	*tmp_cmd;
-	char	**tmp_split;
-
 	if (!cmd || !cmd[0])
 		return (0);
 	if (match_multi("/usr/bin/echo", "/bin/echo", "echo", cmd) |
@@ -160,36 +157,55 @@ int	match_multi(char *s1, char *s2, char *s3, char *cmd)
 	return (0);
 }
 
-void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe)	// remove use_pipe
+void	builtins_execution(t_msl *ms, t_block *block)
 {
-	char	**args_cmd;
-
-	args_cmd = getarr_cmd(arg);
-	if (match_multi("/usr/bin/echo", "/bin/echo", "echo", arg->name) && use_pipe)
-		ms->status = exec_echo(ms, args_cmd);
-	else if (match_multi("/usr/bin/pwd", "/bin/pwd", "pwd", arg->name) && use_pipe)		// WIP		will print ms->pwd
-		ms->status = exec_pwd(ms, args_cmd);
-	else if (match_multi("/usr/bin/env", "/bin/env", "env", arg->name) && use_pipe)	// DONE
-	// else if (match_multi("/usr/bin/env", "/bin/env", "env", arg->name))	// DONE
-		ms->status = exec_env(ms, args_cmd);
-	else if (ft_strmatch("cd", arg->name) && !use_pipe)		// WIP		need update of ms->pwd and env variables PWD, OLDPWD
-		ms->status = exec_cd(ms, args_cmd);
-	else if (ft_strmatch("export", arg->name)/* && use_pipe*/)	//			if successful need to update ms->arrexport and ms->arrenv
-		ms->status = exec_export(ms, args_cmd);
-	else if (ft_strmatch("unset", arg->name) && !use_pipe)		//			if successful need to update ms->arrexport and ms->arrenv
-		ms->status = exec_unset(ms, args_cmd);
-	else if (ft_strmatch("exit", arg->name) && !use_pipe)		// DONE
-		exec_exit(ms, args_cmd);
-	ft_arrfree(args_cmd);
+	if (match_multi("/usr/bin/echo", "/bin/echo", "echo", block->arg->name))
+		ms->status = exec_echo(ms, block->args_cmd);
+	else if (match_multi("/usr/bin/pwd", "/bin/pwd", "pwd", block->arg->name))		// WIP		will print ms->pwd
+		ms->status = exec_pwd(ms, block->args_cmd);
+	else if (match_multi("/usr/bin/env", "/bin/env", "env", block->arg->name))	// DONE
+		ms->status = exec_env(ms, block->args_cmd);
+	else if (ft_strmatch("cd", block->arg->name))		// WIP		need update of ms->pwd and env variables PWD, OLDPWD
+		ms->status = exec_cd(ms, block->args_cmd);
+	else if (ft_strmatch("export", block->arg->name))	//			if successful need to update ms->arrexport and ms->arrenv
+		ms->status = exec_export(ms, block->args_cmd);
+	else if (ft_strmatch("unset", block->arg->name))		//			if successful need to update ms->arrexport and ms->arrenv
+		ms->status = exec_unset(ms, block->args_cmd);
+	else if (ft_strmatch("exit", block->arg->name))		// DONE
+		exec_exit(ms, block->args_cmd);
 }
 
-void	standard_execution(t_msl *ms, t_elem *arg)
-{
-	char	**args_cmd;
+// // void	builtins_execution(t_msl *ms, t_elem *arg, int use_pipe)	// remove use_pipe
+// void	builtins_execution(t_msl *ms, t_block *block, int use_pipe)	// remove use_pipe
+// {
+// 	// char	**args_cmd;
 
-	args_cmd = getarr_cmd(arg);		// fix by using tmp_cmd in the structure
-	execute_cmd(ms, args_cmd);
-	ft_arrfree(args_cmd);
+// 	// args_cmd = getarr_cmd(arg);
+// 	if (match_multi("/usr/bin/echo", "/bin/echo", "echo", block->arg->name) && use_pipe)
+// 		ms->status = exec_echo(ms, block->args_cmd);
+// 	else if (match_multi("/usr/bin/pwd", "/bin/pwd", "pwd", block->arg->name) && use_pipe)		// WIP		will print ms->pwd
+// 		ms->status = exec_pwd(ms, block->args_cmd);
+// 	else if (match_multi("/usr/bin/env", "/bin/env", "env", block->arg->name) && use_pipe)	// DONE
+// 	// else if (match_multi("/usr/bin/env", "/bin/env", "env", arg->name))	// DONE
+// 		ms->status = exec_env(ms, block->args_cmd);
+// 	else if (ft_strmatch("cd", block->arg->name) && !use_pipe)		// WIP		need update of ms->pwd and env variables PWD, OLDPWD
+// 		ms->status = exec_cd(ms, block->args_cmd);
+// 	else if (ft_strmatch("export", block->arg->name)/* && use_pipe*/)	//			if successful need to update ms->arrexport and ms->arrenv
+// 		ms->status = exec_export(ms, block->args_cmd);
+// 	else if (ft_strmatch("unset", block->arg->name)/* && !use_pipe*/)		//			if successful need to update ms->arrexport and ms->arrenv
+// 		ms->status = exec_unset(ms, block->args_cmd);
+// 	else if (ft_strmatch("exit", block->arg->name) && !use_pipe)		// DONE
+// 		exec_exit(ms, block->args_cmd);
+// 	// ft_arrfree(args_cmd);
+// }
+
+void	standard_execution(t_msl *ms, t_block *block)
+{
+	// char	**args_cmd;
+
+	// args_cmd = getarr_cmd(arg);		// fix by using tmp_cmd in the structure
+	execute_cmd(ms, block->args_cmd);
+	// ft_arrfree(args_cmd);
 }
 
 void	display_block(t_block *block)

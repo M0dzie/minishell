@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:02:51 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/31 13:02:12 by msapin           ###   ########.fr       */
+/*   Updated: 2023/04/01 16:58:47 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	fill_blocks(t_msl *ms)
 			else
 				elem_addback(&ms->blocks[i]->arg, new_elem(ms->tokens[j], ARG));
 		}
+		ms->blocks[i]->args_cmd = getarr_cmd(ms->blocks[i]->arg);
 	}
 }
 
@@ -100,6 +101,7 @@ void	init_block(t_msl *ms, int i)
 	ms->blocks[i]->in = NULL;
 	ms->blocks[i]->out = NULL;
 	ms->blocks[i]->input = NULL;
+	ms->blocks[i]->args_cmd = NULL;
 	ms->blocks[i]->fd_in = 0;
 	ms->blocks[i]->fd_out = 0;
 	ms->blocks[i]->is_input = 0;
