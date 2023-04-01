@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   switch_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/31 15:55:45 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/01 22:40:02 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ static char	*check_value(t_msl *ms, char *token)
 	if (token[0] == ' ' || !token[0] || token[0] == '\'' || \
 	token[0] == '\"')
 	{
+		if ((token[0] == '\'' || token[0] == '\"') && \
+		(token[1] == '\'' || token[1] == '\"'))
+			return (ms->fst_delim++, ms->lst_delim = 0, "$");
 		if ((token[0] == '\'' || token[0] == '\"') && \
 		!check_opened_quotes(ms, token, 1, token[0]))
 			return (ms->lst_delim = 0, "");
