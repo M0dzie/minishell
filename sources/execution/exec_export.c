@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:43:24 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/30 21:47:02 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/01 16:31:56 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,35 @@ int	invalid_identifier(char *name)
 	return (0);
 }
 
+void	update_varenv(t_var *tmp_var, char *value)
+{
+	int	i;
+	int	j;
+
+	if (!tmp_var)
+		return ;
+	if (tmp_var->value)
+		free(tmp_var->value);
+	tmp_var->value = ft_calloc(len_env(value, AFTER) + 1, sizeof(char));
+	if (!tmp_var->value)
+	{
+		display_error_exec("minishell: ", "tmp_var->value", 15);
+		return ;
+	}
+	i = 0;
+	if (ft_strchr(value, '='))
+	{
+		while (value[i] && value[i] != '=')
+			i++;
+		if (value[i] == '=')
+			i++;
+	}
+	j = -1;
+	while (value[++j + i])
+		tmp_var->value[j] = value[j + i];
+	tmp_var->in_env = 1;
+}
+
 void	var_handling(t_msl *ms, char *args_cmd)
 {
 	t_var	*tmp_var;
@@ -84,19 +113,24 @@ void	var_handling(t_msl *ms, char *args_cmd)
 		tmp_var = getvar(ms, tmp_split[0]);
 		if (tmp_var)
 		{
-			tmp_var->value = tmp_split[1];
+			// update_varenv(tmp_var, args_cmd);
+			free(tmp_var->value);
+			tmp_var->value = ft_strdup_null(tmp_split[1]);
 			tmp_var->in_env = 1;
 		}
 		else
-			// var_add_back(ms, new_var(tmp_split[0], tmp_split[1], 1));	// fix
-		ms->arrenv = ft_getenv(ms);
+			var_add_back(&ms->env, new_varenv(args_cmd, 1));	// fix
+		ft_arrfree(tmp_split);
 	}
 	else
 	{
 		tmp_var = getvar(ms, args_cmd);
-		// if (!tmp_var)
-			// var_add_back(ms, new_var(args_cmd, NULL, 0));	// fix
+		if (!tmp_var)
+			var_add_back(&ms->env, new_var(ft_strdup_null(args_cmd), NULL, 0));	// fix
 	}
+	ft_arrfree(ms->arrenv);
+	ft_arrfree(ms->arrexport);
+	ms->arrenv = ft_getenv(ms);
 	ms->arrexport = ft_getexport(ms);
 }
 
@@ -115,9 +149,7 @@ int	exec_export(t_msl *ms, char **args_cmd)
 	{
 		tmp_exit = invalid_identifier(args_cmd[i]);
 		if (tmp_exit == 0 && ms->c_pipe == 0)
-		{
 			var_handling(ms, args_cmd[i]);
-		}
 		else
 			exit_stat = tmp_exit;
 	}

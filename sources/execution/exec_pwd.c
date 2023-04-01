@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pwd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 21:21:14 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/31 14:19:00 by msapin           ###   ########.fr       */
+/*   Updated: 2023/03/31 17:48:49 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	exec_pwd(t_msl *ms, char **args_cmd)
 	int		valid;
 
 	valid = 0;
-	// if (args_cmd[1] && args_cmd[1][0])
 	if (args_cmd[1])
 	{
 		if (args_cmd[1][0] == '-')

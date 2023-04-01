@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:28 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/31 13:51:57 by msapin           ###   ########.fr       */
+/*   Updated: 2023/04/01 16:54:38 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 void	distribute_cmd(t_msl *ms, int index)
 {
 	if (is_builtins(ms->blocks[index]->arg->name))
-		builtins_execution(ms, ms->blocks[index]->arg, 1);
+		// builtins_execution(ms, ms->blocks[index]->arg, 1);
+		builtins_execution(ms, ms->blocks[index]);
 	else
-		standard_execution(ms, ms->blocks[index]->arg);
+		// standard_execution(ms, ms->blocks[index]->arg);	// delete function
+		execute_cmd(ms, ms->blocks[index]->args_cmd);
 }
 
 void	dupclose(int fd1, int fd2)
@@ -34,6 +36,7 @@ void	handle_output(t_msl *ms, int index, int mode, int position)
 			dupclose(ms->blocks[index]->fd_out, STDOUT_FILENO);
 		else
 			dupclose(ms->pipes[index + position][1], STDOUT_FILENO);
+			// dup2(ms->pipes[index + position][1], STDOUT_FILENO);
 	}
 	else if (mode == 1)
 	{
@@ -99,14 +102,24 @@ int	fds_valid(t_msl *ms, int index)
 	return (1);
 }
 
-void	exec_one(t_msl *ms, t_elem *arg)
+int	is_builtins_solo(t_block *block, char *cmd)
+{
+	if (!cmd || !cmd[0])
+		return (0);
+	if (ft_strmatch("cd", cmd) | ft_strmatch("unset", cmd) |
+		(ft_strmatch("export", cmd) && block->arg->next != NULL) | 
+		ft_strmatch("exit", cmd))
+		return (1);
+	return (0);
+}
+
+void	exec_one(t_msl *ms, t_block *block)
 {
 	if (!fds_valid(ms, 0))
 		ms->status = 1;
-	if (arg)
-		if (is_builtins(arg->name) && fds_valid(ms, 0))
-			// if (ft_strmatch("export", arg->name) && arg->next != NULL)
-				builtins_execution(ms, arg, 0);
+	if (block->arg)
+		if (is_builtins_solo(block, block->arg->name) && fds_valid(ms, 0))
+			builtins_execution(ms, block);
 	ms->pid[0] = fork();
 	if (ms->pid[0] < 0)
 		display_error_exec("minishell: ", "fork", 15);
@@ -116,10 +129,10 @@ void	exec_one(t_msl *ms, t_elem *arg)
 			handle_input(ms, 0, CHILD, 0);
 		if (ms->blocks[0]->is_output && fds_valid(ms, 0))
 			handle_output(ms, 0, CHILD, 0);
-		if (is_builtins(arg->name) && fds_valid(ms, 0))
-			builtins_execution(ms, arg, 1);
-		if (!is_builtins(arg->name) && fds_valid(ms, 0))
-			standard_execution(ms, arg);
+		if (is_builtins(block->arg->name) && !is_builtins_solo(block, block->arg->name) && fds_valid(ms, 0))
+			builtins_execution(ms, block);
+		if (!is_builtins(block->arg->name) && fds_valid(ms, 0))
+			execute_cmd(ms, block->args_cmd);
 		exit(ms->status);
 	}
 }
@@ -245,7 +258,7 @@ void	exec_pipe(t_msl *ms, int index, int mode)
 void	exec_cmd(t_msl *ms, int i)
 {
 	if (ms->c_cmd == 1)
-		exec_one(ms, ms->blocks[i]->arg);
+		exec_one(ms, ms->blocks[i]);
 	else if (i == 0)
 		// exec_first_cmd(ms, i);
 		exec_pipe(ms, i, FIRST);
