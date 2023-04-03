@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   switch_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/01 22:40:02 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/03 11:11:48 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,26 @@ static char	*get_value(t_msl *ms, char *token)
 	return (ms->lst_delim = ft_strlen(token), free(token), tmp->value);
 }
 
+char	*display_signal(t_msl *ms)
+{
+	char	*res;
+
+	if (g_signal > 0)
+		ms->status = g_signal;
+	res = ft_itoa(ms->status);
+	if (!res)
+		return (NULL);
+	ms->lst_delim = 1;
+	g_signal = 0;
+	return (res);
+}
+
 static char	*check_value(t_msl *ms, char *token)
 {
 	if (token[0] == '=' || token[0] == ':')
 		return (ms->fst_delim++, ms->lst_delim = 0, "$");
 	if (token[0] == '?' )
-	{
-		if (g_signal > 0)
-			return (ms->status = g_signal, ms->fst_delim = 1, \
-			g_signal = 0, ft_itoa(ms->status));
-		return (ms->lst_delim = 1, ft_itoa(ms->status));
-	}
+		return (display_signal(ms));
 	if (token[0] == ' ' || !token[0] || token[0] == '\'' || \
 	token[0] == '\"')
 	{
