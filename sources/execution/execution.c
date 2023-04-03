@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/03 21:32:42 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/03 21:48:45 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -437,12 +437,12 @@ void	execution(t_msl *ms)
 	i = -1;
 	while (ms->blocks[++i])
 	{
-		printf("before input\n");
+		// printf("before input\n");
 		check_input(ms, ms->blocks[i]);
 		if (ms->blocks[i]->out)
 			check_output(ms, ms->blocks[i]);
 		exec_cmd(ms, i);
-		printf("after input\n");
+		// printf("after input\n");
 	}
 	status = 0;
 	i = -1;
