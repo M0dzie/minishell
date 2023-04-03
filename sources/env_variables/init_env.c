@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 11:40:43 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/03 20:39:15 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/03 21:49:38 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	var_add_back(t_var **stack, t_var *var)
 
 	if (!(*stack))
 	{
-		printf("empty\n");
+		// printf("empty\n");
 		(*stack) = var;
 	}
 	else

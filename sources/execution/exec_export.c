@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:43:24 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/03 21:43:32 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/03 21:49:49 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,13 +131,13 @@ void	var_handling(t_msl *ms, char *args_cmd)
 	// if (ms->env->name == NULL)
 	if (ms->env == NULL)
 	{
-		printf("env empty\n");
+		// printf("env empty\n");
 		// free(ms->env);
 		// ms->env = fill_emptyenv(ms, args_cmd);
 		// ms->env = fill_emptyenv(ms, &ms->env, args_cmd);
 		fill_emptyenv(ms, &ms->env, args_cmd);
 
-		printf("env name %s\n", ms->env->name);
+		// printf("env name %s\n", ms->env->name);
 		// fill_emptyenv(ms, args_cmd);
 	}
 	else if (ft_strchr(args_cmd, '='))
