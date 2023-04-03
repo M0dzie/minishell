@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/03 11:11:48 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/03 12:13:15 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,21 @@ static char	*get_value(t_msl *ms, char *token)
 
 char	*display_signal(t_msl *ms)
 {
-	char	*res;
-
 	if (g_signal > 0)
 		ms->status = g_signal;
-	res = ft_itoa(ms->status);
-	if (!res)
+	ms->print_sig = ft_itoa(ms->status);
+	if (!ms->print_sig)
 		return (NULL);
 	ms->lst_delim = 1;
 	g_signal = 0;
-	return (res);
+	return (ms->print_sig);
 }
 
 static char	*check_value(t_msl *ms, char *token)
 {
 	if (token[0] == '=' || token[0] == ':')
 		return (ms->fst_delim++, ms->lst_delim = 0, "$");
-	if (token[0] == '?' )
+	if (token[0] == '?')
 		return (display_signal(ms));
 	if (token[0] == ' ' || !token[0] || token[0] == '\'' || \
 	token[0] == '\"')
