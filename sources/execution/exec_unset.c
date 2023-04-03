@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:44:39 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/31 18:34:12 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/03 20:38:54 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,39 +77,65 @@ void	unset_handling(t_msl *ms, char *var_name)
 	t_var	*tmp_next;
 
 	tmp_var = getvar(ms, var_name);
+	// printf("unset %s\n", tmp_var->name);
 	if (tmp_var)
 	{
 		tmp_prev = get_previous_var(ms, var_name);
 		tmp_next = tmp_var->next;
 		if (tmp_next == NULL && tmp_prev)
 		{
-			// printf("unset last var\n");
+			printf("unset last var %s\n", var_name);
+			free(tmp_var->name);
+			free(tmp_var->value);
 			free(tmp_var);
 			tmp_prev->next = NULL;
 		}
 		else if (tmp_prev == NULL && tmp_next)
 		{
-			// printf("unset first var\n");
 			ms->env = tmp_next;
-			free(tmp_prev);
+			free(tmp_var->name);
+			free(tmp_var->value);
+			free(tmp_var);
+			printf("unset first var %s\n", var_name);
 		}
 		else if (tmp_next == NULL && tmp_prev == NULL)
 		{
-			tmp_var->name = NULL;
-			tmp_var->value = NULL;
+			printf("%s is the only var in env\n", tmp_var->name);
+			// tmp_var->name = NULL;
+			// tmp_var->value = NULL;
+			free(tmp_var->name);
+			free(tmp_var->value);
+			free(tmp_var);
+			ms->env = NULL;
+
+
+			// // printf("%s\n", ms->env->name);
+			// if (ms->env->name)
+			// 	free(ms->env->name);
+			// if (ms->env->value)
+			// 	free(ms->env->value);
+			// // free(tmp_var);
 			// free(ms->env);
-			// printf("%s is the only var in env\n", tmp_var->name);
+			// // free_env(ms);
 		}
 		else
 		{
 			// printf("var in middle\n");
+			free(tmp_var->name);
+			free(tmp_var->value);
 			free(tmp_var);
 			tmp_prev->next = tmp_next;
 		}
-		ft_arrfree(ms->arrenv);
-		ft_arrfree(ms->arrexport);
-		ms->arrenv = ft_getenv(ms);
-		ms->arrexport = ft_getexport(ms);
+		if (ms->arrenv)
+			ft_arrfree(ms->arrenv);
+		if (ms->arrexport)
+			ft_arrfree(ms->arrexport);
+		// if (ms->env)
+		// {
+		// 	printf("update array\n");
+			ms->arrenv = ft_getenv(ms);
+			ms->arrexport = ft_getexport(ms);
+		// }
 	}
 }
 

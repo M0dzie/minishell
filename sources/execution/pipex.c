@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:28 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/01 16:54:38 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/03 21:34:41 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int	is_builtins_solo(t_block *block, char *cmd)
 
 void	exec_one(t_msl *ms, t_block *block)
 {
+	// printf("exec one\n");
 	if (!fds_valid(ms, 0))
 		ms->status = 1;
 	if (block->arg)
@@ -129,10 +130,19 @@ void	exec_one(t_msl *ms, t_block *block)
 			handle_input(ms, 0, CHILD, 0);
 		if (ms->blocks[0]->is_output && fds_valid(ms, 0))
 			handle_output(ms, 0, CHILD, 0);
-		if (is_builtins(block->arg->name) && !is_builtins_solo(block, block->arg->name) && fds_valid(ms, 0))
-			builtins_execution(ms, block);
-		if (!is_builtins(block->arg->name) && fds_valid(ms, 0))
-			execute_cmd(ms, block->args_cmd);
+		if (block->arg)
+		{
+			if (is_builtins(block->arg->name) && !is_builtins_solo(block, block->arg->name) && fds_valid(ms, 0))
+			{
+				// ft_putendl_fd("builtins pipe", 2);
+				builtins_execution(ms, block);
+			}
+			if (!is_builtins(block->arg->name) && fds_valid(ms, 0))
+			{
+				// ft_putendl_fd("command standard", 2);
+				execute_cmd(ms, block->args_cmd);
+			}
+		}
 		exit(ms->status);
 	}
 }

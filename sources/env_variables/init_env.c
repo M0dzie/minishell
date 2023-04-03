@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 11:40:43 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/01 17:01:53 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/03 20:39:15 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ void	var_add_back(t_var **stack, t_var *var)
 	t_var	*add_back;
 
 	if (!(*stack))
+	{
+		printf("empty\n");
 		(*stack) = var;
+	}
 	else
 	{
 		add_back = (*stack);
@@ -61,10 +64,11 @@ t_var	*new_var(char *name, char *value, int in_env)
 t_var	*init_nullenv(t_msl *ms)
 {
 	t_var	*env_stack;
+	char	bufpwd[BUFSIZ];
 
-	var_add_back(&env_stack, new_var("PWD", ms->pwd, 1));
-	var_add_back(&env_stack, new_var("SHLVL", "1", 1));
-	var_add_back(&env_stack, new_var("OLDPWD", NULL, 0));
+	var_add_back(&env_stack, new_var(ft_strdup("PWD"), ft_strdup(getcwd(bufpwd, BUFSIZ)), 1));
+	var_add_back(&env_stack, new_var(ft_strdup("SHLVL"), ft_strdup("1"), 1));
+	var_add_back(&env_stack, new_var(ft_strdup("OLDPWD"), NULL, 0));
 	return (env_stack);
 }
 
@@ -210,9 +214,13 @@ void	init_env(t_msl *ms, char **envp)
 	// ms->pwd = getcwd(bufpwd, BUFSIZ);
 	// ms->env = ft_calloc(1, sizeof(t_var *));
 	if (!envp[0])
-		init_nullenv(ms);
+		ms->env = init_nullenv(ms);
 	else
+	{
 		ms->env = gen_env(envp);
+		if (!getvar(ms, "OLDPWD"))
+			var_add_back(&ms->env, new_var(ft_strdup("OLDPWD"), NULL, 0));
+	}
 
 	// printf("first var name %s value %s\n", ms->env->name, ms->env->value);
 	

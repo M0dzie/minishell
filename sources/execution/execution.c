@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:25 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/01 10:18:16 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/03 21:32:42 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int	is_builtins(char *cmd)
 		return (0);
 	if (match_multi("/usr/bin/echo", "/bin/echo", "echo", cmd) |
 		match_multi("/usr/bin/pwd", "/bin/pwd", "pwd", cmd) |
+		match_multi("/usr/bin/env", "/bin/env", "env", cmd) |
 		ft_strmatch("cd", cmd) | ft_strmatch("unset", cmd) |
 		ft_strmatch("export", cmd) | ft_strmatch("exit", cmd))
 		return (1);
@@ -159,6 +160,7 @@ int	match_multi(char *s1, char *s2, char *s3, char *cmd)
 
 void	builtins_execution(t_msl *ms, t_block *block)
 {
+	// printf("builtins execution\n");
 	if (match_multi("/usr/bin/echo", "/bin/echo", "echo", block->arg->name))
 		ms->status = exec_echo(ms, block->args_cmd);
 	else if (match_multi("/usr/bin/pwd", "/bin/pwd", "pwd", block->arg->name))		// WIP		will print ms->pwd
@@ -329,6 +331,7 @@ static char	*get_input(t_block *block, t_elem *elem)
 			else
 				block->input = input_join(block->input, tmp_input);
 		}
+		// free(tmp_input);
 	}
 	return (free(tmp_input), NULL);
 }
@@ -434,10 +437,12 @@ void	execution(t_msl *ms)
 	i = -1;
 	while (ms->blocks[++i])
 	{
+		printf("before input\n");
 		check_input(ms, ms->blocks[i]);
 		if (ms->blocks[i]->out)
 			check_output(ms, ms->blocks[i]);
 		exec_cmd(ms, i);
+		printf("after input\n");
 	}
 	status = 0;
 	i = -1;

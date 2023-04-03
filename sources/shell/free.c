@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 21:43:51 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/01 16:06:19 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/03 21:04:45 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,20 @@ void	free_env(t_msl *ms)
 	while (tmp_env != NULL)
 	{
 		next = tmp_env->next;
-		free(tmp_env->name);
-		if (tmp_env->in_env)
+		if (tmp_env->name)
+		{
+			// printf("free name %s\n", tmp_env->name);
+			free(tmp_env->name);
+		}
+		if (/*tmp_env->in_env && */tmp_env->value)
+		{
+			// printf("free value %s\n", tmp_env->value);
 			free(tmp_env->value);
+		}
 		free(tmp_env);
 		tmp_env = next;
 	}
+	// tmp_env = NULL;
 }
 
 void	freelist_elem(t_elem *elem)
@@ -71,12 +79,14 @@ void	free_exec(t_msl *ms)
 		}
 		if (ms->blocks[i]->in)
 		{
-			close(ms->blocks[i]->fd_in);
+			if (ms->blocks[i]->fd_in >= 0)
+				close(ms->blocks[i]->fd_in);
 			freelist_elem(ms->blocks[i]->in);
 		}
 		if (ms->blocks[i]->out)
 		{
-			close(ms->blocks[i]->fd_out);
+			if (ms->blocks[i]->fd_out >= 0)
+				close(ms->blocks[i]->fd_out);
 			freelist_elem(ms->blocks[i]->out);
 		}
 		if (ms->blocks[i]->input)
@@ -100,8 +110,10 @@ void	free_global(t_msl *ms)
 	// if (ms->input)
 	// 	free(ms->input);
 	rl_clear_history();
-	ft_arrfree(ms->arrenv);
-	ft_arrfree(ms->arrexport);
+	if (ms->arrenv)
+		ft_arrfree(ms->arrenv);
+	if (ms->arrexport)
+		ft_arrfree(ms->arrexport);
 	close(0);
 	close(1);
 	close(2);

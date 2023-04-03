@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 09:46:41 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/01 15:21:43 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/03 13:33:26 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,24 @@ int	change_dir(t_msl *ms, char *path_dir)
 			if (tmp_var)
 			{
 				// update_varenv(tmp_var, path_dir);
-				free(tmp_var->value);
+				if (tmp_var->value)
+				{
+				// 	printf("value exist\n");
+					free(tmp_var->value);
+				}
 				tmp_var->value = ft_strdup_null(tmp_old->value);
 			}
 			tmp_var = getvar(ms, "PWD");
 			if (tmp_var)
 			{
 				// update_varenv(tmp_var, getcwd(buf_pwd, BUFSIZ));
-				free(tmp_var->value);
+				if (tmp_var->value)
+				{
+					free(tmp_var->value);
+				}
 				tmp_var->value = ft_strdup_null(getcwd(buf_pwd, BUFSIZ));
 			}
-			ms->pwd = getcwd(buf_pwd, BUFSIZ);	// maybe delete it
+			// ms->pwd = getcwd(buf_pwd, BUFSIZ);	// maybe delete it
 			ft_arrfree(ms->arrenv);
 			ft_arrfree(ms->arrexport);
 			ms->arrenv = ft_getenv(ms);
@@ -148,10 +155,10 @@ char	*getvar_oldpwd(t_msl *ms, char *name)
 	t_var	*tmp_var;
 
 	tmp_var = getvar(ms, name);
-	if (!tmp_var->value)
-		// printf("No var\n");
+	if (!tmp_var)
 		return (display_error_exec("minishell: cd: ", name, 17), NULL);
-	// printf("OLDPWD : %s\n", tmp_var->value);
+	if (!tmp_var->value)
+		return (display_error_exec("minishell: cd: ", name, 17), NULL);
 	return (tmp_var->value);
 }
 
@@ -177,8 +184,11 @@ int	exec_cd(t_msl *ms, char **args_cmd)
 		{
 			if (args_cmd[1][0] == '-')
 			{
-				printf("%s\n", getvar_oldpwd(ms, "OLDPWD"));
-				change_dir(ms, getvar_oldpwd(ms, "OLDPWD"));
+				if (getvar_oldpwd(ms, "OLDPWD"))
+				{
+					printf("%s\n", getvar_oldpwd(ms, "OLDPWD"));
+					change_dir(ms, getvar_oldpwd(ms, "OLDPWD"));
+				}
 			}
 			else if (args_cmd[1][0] == '~')
 			{
