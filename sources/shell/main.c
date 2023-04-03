@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:38:17 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/31 14:56:00 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/03 13:12:45 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	main(int argc, char **argv, char **envp)
 		add_history(ms.input);
 		if (ms.input == 0)
 		{
-			g_signal = ms.status;
+			if (g_signal == 0)
+				g_signal = ms.status;
 			return (printf("exit\n"), free_global(&ms), g_signal);
 		}
 		read_prompt(&ms, envp);

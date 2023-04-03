@@ -6,11 +6,22 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/31 12:57:19 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/03 14:53:15 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	check_sign(char *token, int i)
+{
+	while (token[i] && token[i] != '\"')
+	{
+		if (token[i] == '$')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 int	check_opened_quotes(t_msl *ms, char *input, int i, char quote)
 {
