@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:02:51 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/01 16:58:47 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/03 21:10:30 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	fill_blocks(t_msl *ms)
 			else
 				elem_addback(&ms->blocks[i]->arg, new_elem(ms->tokens[j], ARG));
 		}
-		ms->blocks[i]->args_cmd = getarr_cmd(ms->blocks[i]->arg);
+		if (ms->blocks[i]->arg)
+			ms->blocks[i]->args_cmd = getarr_cmd(ms->blocks[i]->arg);
 	}
 }
 
