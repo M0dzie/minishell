@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/03 12:13:15 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/03 13:36:21 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char	*display_signal(t_msl *ms)
 
 static char	*check_value(t_msl *ms, char *token)
 {
+	ms->print_sig = NULL;
 	if (token[0] == '=' || token[0] == ':')
 		return (ms->fst_delim++, ms->lst_delim = 0, "$");
 	if (token[0] == '?')
@@ -104,5 +105,7 @@ char	*switch_var(t_msl *ms, char *token, int i)
 		return (free(before), free(next), free(token), NULL);
 	if (!var[0])
 		return (free(before), free(next), free(token), free(var), NULL);
-	return (free(before), free(next), free(token), var);
+	if (!ms->print_sig)
+		return (free(before), free(next), free(token), var);
+	return (free(before), free(next), free(token), free(ms->print_sig), var);
 }
