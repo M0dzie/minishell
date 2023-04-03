@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_export.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 15:01:57 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/31 14:55:27 by msapin           ###   ########.fr       */
+/*   Updated: 2023/04/03 19:14:50 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ char	**get_tmpenv(t_msl *ms)
 	char	**arrenv;
 	int		i;
 
-	if (!ms->env->name)
+	// if (!ms->env->name)
+	if (!ms->env)
 		return (NULL);
 	arrenv = ft_calloc(envsize(ms, EXPORT) + 1, sizeof(char *));
 	if (!arrenv)
@@ -111,6 +112,8 @@ char	**ft_getexport(t_msl *ms)
 	char	**arrenv;
 	char	**getexport;
 
+	if (!ms->env)
+		return (NULL);
 	arrenv = get_tmpenv(ms);
 	if (!arrenv)
 		return (NULL);
