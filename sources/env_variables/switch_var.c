@@ -6,22 +6,11 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/03 13:36:21 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/03 14:53:24 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	check_sign(char *token, int i)
-{
-	while (token[i] && token[i] != '\"')
-	{
-		if (token[i] == '$')
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 static int	ms_isalnum(int c)
 {
@@ -48,7 +37,7 @@ static char	*get_value(t_msl *ms, char *token)
 	return (ms->lst_delim = ft_strlen(token), free(token), tmp->value);
 }
 
-char	*display_signal(t_msl *ms)
+static char	*display_signal(t_msl *ms)
 {
 	if (g_signal > 0)
 		ms->status = g_signal;
