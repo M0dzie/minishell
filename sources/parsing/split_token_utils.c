@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_token_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 20:57:58 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/25 20:58:48 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/03 15:13:13 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	count_tokens(char *input)
 	int		n_tok;
 
 	i = -1;
-	n_tok = 0;
+	n_tok = 1;
 	while (input[++i])
 	{
 		if (is_space(input[i]) || input[i] == '|' || !input[i + 1])
