@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/03 14:53:15 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/03 21:58:08 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_opened_quotes(t_msl *ms, char *input, int i, char quote)
 	return (1);
 }
 
-static char	*parsing_env_var(t_msl *ms, char *token)
+char	*parsing_env_var(t_msl *ms, char *token)
 {
 	int		i;
 	int		in_dquote;
@@ -67,9 +67,6 @@ char	*parsing_quotes_split(t_msl *ms, char *token)
 	int	i;
 
 	i = -1;
-	token = parsing_env_var(ms, token);
-	if (!token)
-		return (NULL);
 	while (token[++i])
 	{
 		if (token[i] == '\'' || token[i] == '\"')

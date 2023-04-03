@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/03 15:48:51 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/03 21:58:03 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ void	read_prompt(t_msl *ms, char **envp)
 	count_pipes(ms);
 	if (ms->input[0] == '\0' || parsing_errors(ms, ms->input, \
 	ms->c_pipe) == -1 || parsing_quotes(ms) == -1)
+		return (free(ms->input));
+	ms->input = parsing_env_var(ms, ms->input);
+	if (!ms->input)
 		return (free(ms->input));
 	ms_strtok(ms, ms->input);
 	if (!ms->tokens)
