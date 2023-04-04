@@ -3,111 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 11:40:43 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/03 21:49:38 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/04 18:53:26 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	var_add_back(t_var **stack, t_var *var)
-{
-	t_var	*add_back;
-
-	if (!(*stack))
-	{
-		// printf("empty\n");
-		(*stack) = var;
-	}
-	else
-	{
-		add_back = (*stack);
-		while (add_back->next != NULL)
-			add_back = add_back->next;
-		add_back->next = var;
-	}
-}
-
-// void	var_add_back(t_msl *ms, t_var *var)
+// void	var_add_back(t_var **stack, t_var *var)
 // {
 // 	t_var	*add_back;
 
-// 	if (!ms->env->name)
-// 		ms->env = var;
-// 	// if (!ms->env)
-// 	// 	ms->env = var;
+// 	if (!(*stack))
+// 		(*stack) = var;
 // 	else
 // 	{
-// 		add_back = ms->env;
+// 		add_back = (*stack);
 // 		while (add_back->next != NULL)
 // 			add_back = add_back->next;
 // 		add_back->next = var;
 // 	}
 // }
 
-t_var	*new_var(char *name, char *value, int in_env)
-{
-	t_var	*new_var;
+// t_var	*new_var(char *name, char *value, int in_env)
+// {
+// 	t_var	*new_var;
 
-	new_var = ft_calloc(1, sizeof(t_var));
-	if (!new_var)
-		return (NULL);
-	new_var->name = name;
-	new_var->value = value;
-	new_var->in_env = in_env;
-	new_var->next = NULL;
-	return (new_var);
-}
+// 	new_var = ft_calloc(1, sizeof(t_var));
+// 	if (!new_var)
+// 		return (NULL);
+// 	new_var->name = name;
+// 	new_var->value = value;
+// 	new_var->in_env = in_env;
+// 	new_var->next = NULL;
+// 	return (new_var);
+// }
 
-t_var	*init_nullenv(t_msl *ms)
-{
-	t_var	*env_stack;
-	char	bufpwd[BUFSIZ];
+// t_var	*init_nullenv(t_msl *ms)
+// {
+// 	t_var	*env_stack;
+// 	char	bufpwd[BUFSIZ];
 
-	var_add_back(&env_stack, new_var(ft_strdup("PWD"), ft_strdup(getcwd(bufpwd, BUFSIZ)), 1));
-	var_add_back(&env_stack, new_var(ft_strdup("SHLVL"), ft_strdup("1"), 1));
-	var_add_back(&env_stack, new_var(ft_strdup("OLDPWD"), NULL, 0));
-	return (env_stack);
-}
+// 	var_add_back(&env_stack, new_var(ft_strdup("PWD"), ft_strdup(getcwd(bufpwd,
+// 			BUFSIZ)), 1));
+// 	var_add_back(&env_stack, new_var(ft_strdup("SHLVL"), ft_strdup("1"), 1));
+// 	var_add_back(&env_stack, new_var(ft_strdup("OLDPWD"), NULL, 0));
+// 	return (env_stack);
+// }
 
-int	is_underscore(char *var_env)
-{
-	if (!var_env || !var_env[1])
-		return (0);
-	if (var_env[0] == '_' && var_env[1] == '=')
-		return (1);
-	return (0);
-}
+// int	is_underscore(char *var_env)
+// {
+// 	if (!var_env || !var_env[1])
+// 		return (0);
+// 	if (var_env[0] == '_' && var_env[1] == '=')
+// 		return (1);
+// 	return (0);
+// }
 
-int	len_env(char *env, int mode)
-{
-	int	len_before;
-	int	len_after;
+// int	len_env(char *env, int mode)
+// {
+// 	int	len_before;
+// 	int	len_after;
 
-	if (!env)
-		return (0);
-	len_before = 0;
-	if (mode == BEFORE)
-	{
-		while (env[len_before] && env[len_before] != '=')
-			len_before++;
-		return (len_before);
-	}
-	else
-	{
-		len_after = 0;
-		while (env[len_before] && env[len_before] != '=')
-			len_before++;
-		if (env[len_before + len_after] == '=')
-			len_before++;
-		while (env[len_before + len_after])
-			len_after++;
-		return (len_after);
-	}
-	return (0);
-}
+// 	if (!env)
+// 		return (0);
+// 	len_before = 0;
+// 	if (mode == BEFORE)
+// 	{
+// 		while (env[len_before] && env[len_before] != '=')
+// 			len_before++;
+// 		return (len_before);
+// 	}
+// 	else
+// 	{
+// 		len_after = 0;
+// 		while (env[len_before] && env[len_before] != '=')
+// 			len_before++;
+// 		if (env[len_before + len_after] == '=')
+// 			len_before++;
+// 		while (env[len_before + len_after])
+// 			len_after++;
+// 		return (len_after);
+// 	}
+// 	return (0);
+// }
 
 t_var	*new_varenv(char *env, int in_env)
 {
@@ -204,29 +185,17 @@ t_var	*gen_env(char **envp)
 
 void	init_env(t_msl *ms, char **envp)
 {
-	// char	**tmp_split;
-	int		i;
 	char	bufpwd[BUFSIZ];
-	char	*tmp_increm;
 
-	i = -1;
-	// tmp_split = NULL;
-	// ms->pwd = getcwd(bufpwd, BUFSIZ);
-	// ms->env = ft_calloc(1, sizeof(t_var *));
-	if (!envp[0])
-		ms->env = init_nullenv(ms);
-	else
-	{
-		ms->env = gen_env(envp);
-		if (!getvar(ms, "OLDPWD"))
-			var_add_back(&ms->env, new_var(ft_strdup("OLDPWD"), NULL, 0));
-	}
-
-	// printf("first var name %s value %s\n", ms->env->name, ms->env->value);
-	
+	ms->env = gen_env(envp);
+	if (!getvar(ms, "PWD"))
+		var_add_back(&ms->env, new_var(ft_strdup("PWD"),
+			ft_strdup(getcwd(bufpwd, BUFSIZ)), 1));
+	if (!getvar(ms, "SHLVL"))
+		var_add_back(&ms->env, new_var(ft_strdup("SHLVL"), ft_strdup("1"),
+			1));
+	if (!getvar(ms, "OLDPWD"))
+		var_add_back(&ms->env, new_var(ft_strdup("OLDPWD"), NULL, 0));
 	ms->arrenv = ft_getenv(ms);
-	// printf("%s\n", ms->arrenv[0]);
-	// free_env(ms);
-	// printf("first var name %s value %s\n", ms->env->name, ms->env->value);
 	ms->arrexport = ft_getexport(ms);
 }
