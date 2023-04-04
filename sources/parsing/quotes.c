@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 10:49:43 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/03 21:58:08 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/04 11:02:25 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	check_sign(char *token, int i)
+static int	check_sign(char *token, int i)
 {
 	while (token[i] && token[i] != '\"')
 	{
@@ -34,32 +34,32 @@ int	check_opened_quotes(t_msl *ms, char *input, int i, char quote)
 	return (1);
 }
 
-char	*parsing_env_var(t_msl *ms, char *token)
+char	*parsing_env_var(t_msl *ms, char *input)
 {
 	int		i;
 	int		in_dquote;
 
 	i = -1;
 	in_dquote = 0;
-	while (token[++i])
+	while (input[++i])
 	{
-		if (token[i] == '\'' && !check_opened_quotes(ms, token, i + 1, '\'') \
+		if (input[i] == '\'' && !check_opened_quotes(ms, input, i + 1, '\'') \
 		&& !in_dquote)
 			i = ms->lst_delim;
-		if (token[i] == '$' || token[i] == '\"')
+		if (input[i] == '$' || input[i] == '\"')
 		{
-			if (token[i] == '\"')
+			if (input[i] == '\"')
 				in_dquote = !in_dquote;
-			if (token[i] == '$' || (in_dquote && check_sign(token, i + 1)))
+			if (input[i] == '$' || (in_dquote && check_sign(input, i + 1)))
 			{
-				token = switch_var(ms, token, i);
-				if (!token)
+				input = switch_var(ms, input, i);
+				if (!input)
 					return (NULL);
 				i = ms->fst_delim;
 			}
 		}
 	}
-	return (token);
+	return (input);
 }
 
 char	*parsing_quotes_split(t_msl *ms, char *token)

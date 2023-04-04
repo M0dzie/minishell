@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:52:42 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/03 11:31:45 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/04 13:24:06 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,19 @@ int	envsize(t_msl *ms, int mode)
 		tmp_env = tmp_env->next;
 	}
 	return (envsize);
+}
+
+int	is_even(t_msl *ms, char *token, char quote)
+{
+	int	i;
+	int	res;
+
+	i = -1;
+	res = 0;
+	while (token[++i])
+		if (token[i] == quote)
+			res++;
+	if (res % 2 == 0)
+		return (1);
+	return (0);
 }
