@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 22:49:28 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/03 21:34:41 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/04 18:32:08 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,29 @@ void	handle_output(t_msl *ms, int index, int mode, int position)
 	if (mode == 0)
 	{
 		if (ms->blocks[index]->is_output)
+			// dupclose(ms->blocks[index + position]->fd_out, STDOUT_FILENO);
 			dupclose(ms->blocks[index]->fd_out, STDOUT_FILENO);
 		else
-			dupclose(ms->pipes[index + position][1], STDOUT_FILENO);
-			// dup2(ms->pipes[index + position][1], STDOUT_FILENO);
+			// dupclose(ms->pipes[index + position][1], STDOUT_FILENO);
+			dup2(ms->pipes[index + position][1], STDOUT_FILENO);
 	}
 	else if (mode == 1)
 	{
-	// 	if (ms->blocks[index]->is_output)
-	// 	{
-	// 		if (ms->blocks[index]->is_output == TRUNC)
-	// 			// printf("close file fd\n");
-	// 			close(ms->blocks[index]->fd_in);
-	// 		// else
-	// 		// 	printf("dup2 heredoc input\n");
-	// 	}
-		// else
-			// close(ms->pipes[index + position][1]);
+		if (ms->blocks[index]->is_output)
+		{
+			// if (ms->blocks[index]->is_output == TRUNC)
+			// 	// printf("close file fd\n");
+				close(ms->blocks[index + position]->fd_out);
+			// // else
+			// // 	printf("dup2 heredoc input\n");
+		}
+		else if (position == 2)
+		{
+			close(ms->pipes[index - 1][0]);
+			close(ms->pipes[index][1]);
+		}
+		else
+			close(ms->pipes[index + position][1]);
 	}
 }
 
@@ -257,10 +263,12 @@ void	exec_pipe(t_msl *ms, int index, int mode)
 		else if (mode == MID)
 		{
 			handle_input(ms, index, PARENT, 2);
+			// handle_output(ms, index, PARENT, 2);
 		}
 		else if (mode == LAST)
 		{
 			handle_input(ms, index, PARENT, -1);
+			handle_output(ms, index, PARENT, -1);
 		}
 	}
 }
@@ -276,6 +284,6 @@ void	exec_cmd(t_msl *ms, int i)
 		// exec_last_cmd(ms, i);
 		exec_pipe(ms, i, LAST);
 	else
-		// exec_middle_cmd(ms, i);
-		exec_pipe(ms, i, MID);
+		exec_middle_cmd(ms, i);
+		// exec_pipe(ms, i, MID);
 }

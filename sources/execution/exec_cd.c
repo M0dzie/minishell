@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 09:46:41 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/03 13:33:26 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/04 13:20:33 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,32 +36,24 @@ int	change_dir(t_msl *ms, char *path_dir)
 	if (ms->c_pipe == 0)
 	{
 		tmp_old = getvar(ms, "PWD");
-		// printf("PWD : %s\n", getvar(ms, "PWD")->value);
 		valid_dir = chdir(path_dir);
 		if (valid_dir == 0)
 		{
 			tmp_var = getvar(ms, "OLDPWD");
 			if (tmp_var)
 			{
-				// update_varenv(tmp_var, path_dir);
 				if (tmp_var->value)
-				{
-				// 	printf("value exist\n");
 					free(tmp_var->value);
-				}
-				tmp_var->value = ft_strdup_null(tmp_old->value);
+				if (tmp_old)
+					tmp_var->value = ft_strdup_null(tmp_old->value);
 			}
 			tmp_var = getvar(ms, "PWD");
 			if (tmp_var)
 			{
-				// update_varenv(tmp_var, getcwd(buf_pwd, BUFSIZ));
 				if (tmp_var->value)
-				{
 					free(tmp_var->value);
-				}
 				tmp_var->value = ft_strdup_null(getcwd(buf_pwd, BUFSIZ));
 			}
-			// ms->pwd = getcwd(buf_pwd, BUFSIZ);	// maybe delete it
 			ft_arrfree(ms->arrenv);
 			ft_arrfree(ms->arrexport);
 			ms->arrenv = ft_getenv(ms);
@@ -84,11 +76,8 @@ char	*get_trim_path(t_msl *ms, char *path)
 	int		len_path;
 	int		i;
 
-	// path_home = getenv("HOME");
 	path_home = get_homepath(ms);
-	// printf("%s -> %s\n", path_home, path);
 	if (!path_home)
-		// return (display_error_exec("minishell: cd: ", "HOME: ", 8), NULL);
 		return (NULL);
 	len_path = ft_strlen_null(path_home) + ft_strlen_null(path);
 	trim_path = ft_calloc(len_path + 1, sizeof(char));
@@ -99,8 +88,6 @@ char	*get_trim_path(t_msl *ms, char *path)
 		trim_path[i] = path_home[i];
 	trim_path[i] = '/';
 	ft_strlcat(trim_path, path + 1, len_path + 2);
-
-	// trim_path = NULL;
 	return (trim_path);
 }
 
@@ -167,8 +154,6 @@ int	exec_cd(t_msl *ms, char **args_cmd)
 	int	args_len;
 	int	exit_stat;
 	char	*tmp_path;
-
-	// printf("execution cd\n");
 
 	args_len = ft_arrlen(args_cmd);
 	exit_stat = 0;

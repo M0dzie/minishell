@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 21:43:51 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/03 21:04:45 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/04 12:36:27 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,12 @@ void	free_env(t_msl *ms)
 	{
 		next = tmp_env->next;
 		if (tmp_env->name)
-		{
-			// printf("free name %s\n", tmp_env->name);
 			free(tmp_env->name);
-		}
-		if (/*tmp_env->in_env && */tmp_env->value)
-		{
-			// printf("free value %s\n", tmp_env->value);
+		if (tmp_env->value)
 			free(tmp_env->value);
-		}
 		free(tmp_env);
 		tmp_env = next;
 	}
-	// tmp_env = NULL;
 }
 
 void	freelist_elem(t_elem *elem)
@@ -64,6 +57,16 @@ void	arrint_free(t_msl *ms)
 	free(ms->pipes);
 }
 
+void	free_redir(t_elem *elem, int fd)
+{
+	if (elem)
+	{
+		if (fd > 0)
+			close(fd);
+		freelist_elem(elem);
+	}
+}
+
 void	free_exec(t_msl *ms)
 {
 	t_block	*tmp_block;
@@ -77,38 +80,22 @@ void	free_exec(t_msl *ms)
 			freelist_elem(ms->blocks[i]->arg);
 			ft_arrfree(ms->blocks[i]->args_cmd);
 		}
-		if (ms->blocks[i]->in)
-		{
-			if (ms->blocks[i]->fd_in >= 0)
-				close(ms->blocks[i]->fd_in);
-			freelist_elem(ms->blocks[i]->in);
-		}
-		if (ms->blocks[i]->out)
-		{
-			if (ms->blocks[i]->fd_out >= 0)
-				close(ms->blocks[i]->fd_out);
-			freelist_elem(ms->blocks[i]->out);
-		}
+		free_redir(ms->blocks[i]->in, ms->blocks[i]->fd_in);
+		free_redir(ms->blocks[i]->out, ms->blocks[i]->fd_out);
 		if (ms->blocks[i]->input)
 			free(ms->blocks[i]->input);
 		free(ms->blocks[i]);
 		i++;
 	}
+	free(ms->blocks[i]);
 	free(ms->blocks);
 	free(ms->pid);
 	arrint_free(ms);
 }
 
-void	free_blocks(t_msl *ms)
-{
-
-}
-
 void	free_global(t_msl *ms)
 {
 	free_env(ms);
-	// if (ms->input)
-	// 	free(ms->input);
 	rl_clear_history();
 	if (ms->arrenv)
 		ft_arrfree(ms->arrenv);

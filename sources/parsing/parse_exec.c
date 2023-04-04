@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 17:02:51 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/03 21:10:30 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/04 19:24:01 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	malloc_pipe(t_msl *ms)
 
 void	init_block(t_msl *ms, int i)
 {
-	ms->blocks[i] = malloc(sizeof(t_block));
+	ms->blocks[i] = ft_calloc(1, sizeof(t_block));
 	if (!ms->blocks[i])
 		display_error_exec("minishell: ", "ms->blocks[i]", 15);
 	ms->blocks[i]->arg = NULL;
@@ -123,7 +123,7 @@ void	parsing_exec(t_msl *ms)
 	j = -1;
 	while (++i <= ms->c_pipe)
 		init_block(ms, i);
-	ms->pid = ft_calloc(ms->c_cmd, sizeof(pid_t));
+	ms->pid = ft_calloc(ms->c_pipe + 2, sizeof(pid_t));
 	if (!ms->pid)
 		display_error_exec("minishell: ", "pid", 15);
 	malloc_pipe(ms);

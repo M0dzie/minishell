@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 15:01:19 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/03 19:15:11 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/04 18:45:57 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ char	**ft_getenv(t_msl *ms)
 	char	**getenv;
 	int		i;
 
-	// if (!ms->env->name)
 	if (!ms->env)
 		return (NULL);
 	getenv = ft_calloc(envsize(ms, ENV) + 1, sizeof(char *));
