@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+         #
+#    By: msapin <msapin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 18:51:59 by thmeyer           #+#    #+#              #
-#    Updated: 2023/03/30 21:42:58 by mehdisapin       ###   ########.fr        #
+#    Updated: 2023/04/04 19:30:05 by msapin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,20 +70,22 @@ OBJS_DIRS			=	$(OBJ_BUILTINS_PATH)	$(OBJ_CHECK_ERR_PATH)	\
 #           	  SOURCES		         #
 # ###################################### #
 
-SRC_BUILTINS_FILES	=	built_in.c
+SRC_BUILTINS_FILES	=	env_exec.c	echo_exec.c	exit_exec.c	export_exec.c	\
+						pwd_exec.c	unset_exec.c	cd_exec.c	cd_utils.c	\
+						export_utils.c	unset_utils.c
 
 SRC_CHECK_ERR_FILES	=	
 
 SRC_ENV_VAR_FILES	=	switch_var.c	init_env.c	get_env.c	get_export.c	\
-						env_utils.c
+						init_env_utils.c	env_utils.c
 
 SRC_PARSING_FILES	=	parsing.c quotes.c errors.c redir.c del_quotes.c \
 						split_token.c parse_exec.c split_token_utils.c
 
-SRC_EXECUTION_FILES	=	execution.c	pipex.c	exec_exit.c	exec_pwd.c exec_cd.c	\
-						exec_echo.c	exec_env.c	exec_export.c	exec_unset.c
+SRC_EXECUTION_FILES	=	execution.c	pipex.c	command.c	command_utils.c	\
+						
 
-SRC_REDIR_FILES		=	
+SRC_REDIR_FILES		=	input.c	output.c	heredoc.c
 
 SRC_SHELL_FILES		=	main.c signal.c	free.c
 
