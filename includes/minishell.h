@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/04 11:12:14 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/04 13:22:08 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int		exec_pwd(t_msl *ms, char **args_cmd);
 int		exec_unset(t_msl *ms, char **args_cmd);
 // int		invalid_first(char *name);
 int		is_builtins(char *cmd);
+int	 is_even(t_msl *ms, char *token, char quote);
 int		is_in_quote(t_msl *ms, char *input, int in_quote);
 int		is_token_delimiter(char input);
 // int		is_valid_builtins(t_msl *ms, t_elem *arg, char **cmd_args);

@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:35:45 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/03 15:38:09 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/04 13:24:01 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,6 @@ static char	*display_signal(t_msl *ms)
 	ms->lst_delim = 1;
 	g_signal = 0;
 	return (ms->print_sig);
-}
-
-int	is_even(t_msl *ms, char *token, char quote)
-{
-	int	i;
-	int	res;
-
-	i = -1;
-	res = 0;
-	while (token[++i])
-		if (token[i] == quote)
-			res++;
-	if (res % 2 == 0)
-		return (1);
-	return (0);
 }
 
 static char	*check_value(t_msl *ms, char *token)
