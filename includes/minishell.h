@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:23:06 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/04 13:22:08 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/04 19:31:11 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,5 +155,19 @@ void	parsing_exec(t_msl *ms);
 void	read_prompt(t_msl *ms, char **envp);
 // void	standard_execution(t_msl *ms, t_block *block);
 void	var_add_back(t_var **stack, t_var *var);
+
+
+void	update_arr(t_msl *ms);
+int		invalid_identifier(char *name);
+int		invalid_identifier_unset(char *name);
+char	*get_homepath(t_msl *ms);
+char	*get_trim_path(t_msl *ms, char *path);
+int		check_arg_cd(t_msl *ms, char **args_cmd);
+int		check_output(t_msl *ms, t_block *block);
+int		is_heredoc(t_block *block);
+void	get_heredoc(t_msl *ms, t_block *block, int saveit);
+int		check_input(t_msl *ms, t_block *block);
+int		is_underscore(char *var_env);
+
 
 #endif
