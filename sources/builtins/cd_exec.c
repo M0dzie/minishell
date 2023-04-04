@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 14:12:46 by msapin            #+#    #+#             */
-/*   Updated: 2023/04/04 19:16:36 by msapin           ###   ########.fr       */
+/*   Updated: 2023/04/04 19:33:10 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,22 @@ int	change_dir(t_msl *ms, char *path_dir)
 		tmp_old = getvar(ms, "PWD");
 		if (chdir(path_dir) == 0)
 		{
-			tmp_var = getvar(ms, "OLDPWD");
-			if (tmp_var)
-			{
-				if (tmp_var->value)
-					free(tmp_var->value);
-				tmp_var->value = ft_strdup_null(tmp_old->value);
-			}
-			// update_pwd(tmp_var, tmp_old, 0);
-			tmp_var = getvar(ms, "PWD");
-			if (tmp_var)
-			{
-				if (tmp_var->value)
-					free(tmp_var->value);
-				tmp_var->value = ft_strdup_null(getcwd(buf_pwd, BUFSIZ));
-				// update_pwd(tmp_var, NULL, 1);
-			}
+			// tmp_var = getvar(ms, "OLDPWD");
+			// if (tmp_var)
+			// {
+			// 	if (tmp_var->value)
+			// 		free(tmp_var->value);
+			// 	tmp_var->value = ft_strdup_null(tmp_old->value);
+			// }
+			// // update_pwd(tmp_var, tmp_old, 0);
+			// tmp_var = getvar(ms, "PWD");
+			// if (tmp_var)
+			// {
+			// 	if (tmp_var->value)
+			// 		free(tmp_var->value);
+			// 	tmp_var->value = ft_strdup_null(getcwd(buf_pwd, BUFSIZ));
+			// 	// update_pwd(tmp_var, NULL, 1);
+			// }
 
 			//	OLD VERSION
 			tmp_var = getvar(ms, "OLDPWD");

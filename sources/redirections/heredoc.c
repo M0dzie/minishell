@@ -6,7 +6,7 @@
 /*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 17:44:14 by msapin            #+#    #+#             */
-/*   Updated: 2023/04/04 17:49:37 by msapin           ###   ########.fr       */
+/*   Updated: 2023/04/04 19:37:32 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static char	*input_join(char *input, char const *buf)
 	return (tmp_join);
 }
 
-static char	*get_input(t_block *block, t_elem *elem)
+static char	*get_input(t_msl *ms, t_block *block, t_elem *elem)
 {
 	char	*tmp_input;
 
@@ -81,7 +81,10 @@ static char	*get_input(t_block *block, t_elem *elem)
 			return (ft_putstr_fd("minishell: warning: here-document delimited by end-of-file, wanted ", 2), ft_putendl_fd(elem->name, 2), NULL);
 		if (ft_strmatch(tmp_input, elem->name) == 0)
 		{
-			tmp_input = ft_strjoin(tmp_input, "\n");
+			tmp_input = parsing_env_var(ms, tmp_input);
+			if (!tmp_input)
+				return (NULL);
+			tmp_input = ft_strjoin(tmp_input, "\n");	// fix leaks
 			if (!block->input)
 				block->input = ft_strdup(tmp_input);
 			else
@@ -99,7 +102,7 @@ void	get_heredoc(t_msl *ms, t_block *block, int saveit)
 	while (tmp_arg != NULL)
 	{
 		if (tmp_arg->type == HEREDOC)
-			get_input(block, tmp_arg);
+			get_input(ms, block, tmp_arg);
 		tmp_arg = tmp_arg->next;
 	}
 	if (saveit == 1)
