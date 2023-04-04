@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:38:38 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/03 14:43:22 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/04 14:07:56 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	exec_env(t_msl *ms, char **args_cmd)
 	int	nb_args;
 	int	i;
 
-	if (!getvar(ms, "PATH") && !match_multi("/usr/bin/env", "/bin/env", NULL, args_cmd[0]))
+	if (!getvar(ms, "PATH") && !match_multi("/usr/bin/env", "/bin/env", NULL, 
+	args_cmd[0]))
 		return (display_error_exec("env: ", args_cmd[0], 2), 127);
 	nb_args = ft_arrlen(args_cmd);
 	if (nb_args > 1)

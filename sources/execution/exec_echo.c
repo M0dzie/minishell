@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:41:27 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/03/20 20:37:57 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/04 14:06:17 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-// #include "../../includes/minimehdi.h"
 
 int	is_valid_option(char *arg)
 {

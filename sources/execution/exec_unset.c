@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_unset.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:44:39 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/03 20:38:54 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/04 14:05:05 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ int	invalid_identifier_unset(char *name)
 		return (display_error_exec("minishell: unset: '", name, 14), 1);
 	if (invalid_option_unset(name))
 		return (2);
-	invalid_char = "`&*/\\{}[]";
+	if (ft_isdigit(name[0]))
+		return (display_error_exec("minishell: unset: '", name, 14), 1);
+	invalid_char = "!?@#$%^`~&*/\\{}[]-=+;:'\".,<>|";
 	i = -1;
 	while (name[++i])
 	{
@@ -70,6 +72,32 @@ t_var	*get_previous_var(t_msl *ms, char *var_name)
 	return (prev);
 }
 
+void	update_arr(t_msl *ms)
+{
+	if (ms->arrenv)
+		ft_arrfree(ms->arrenv);
+	if (ms->arrexport)
+		ft_arrfree(ms->arrexport);
+	ms->arrenv = ft_getenv(ms);
+	ms->arrexport = ft_getexport(ms);
+}
+
+void	switch_tmp_var(t_var *var, t_var *tmp, t_var *src)
+{
+	free(var->name);
+	free(var->value);
+	free(var);
+	tmp->next = src;
+}
+
+void	switch_ms_var(t_var *var, t_msl *ms, t_var *src)
+{
+	free(var->name);
+	free(var->value);
+	free(var);
+	ms->env = src;
+}
+
 void	unset_handling(t_msl *ms, char *var_name)
 {
 	t_var	*tmp_var;
@@ -77,65 +105,19 @@ void	unset_handling(t_msl *ms, char *var_name)
 	t_var	*tmp_next;
 
 	tmp_var = getvar(ms, var_name);
-	// printf("unset %s\n", tmp_var->name);
 	if (tmp_var)
 	{
 		tmp_prev = get_previous_var(ms, var_name);
 		tmp_next = tmp_var->next;
 		if (tmp_next == NULL && tmp_prev)
-		{
-			printf("unset last var %s\n", var_name);
-			free(tmp_var->name);
-			free(tmp_var->value);
-			free(tmp_var);
-			tmp_prev->next = NULL;
-		}
+			switch_tmp_var(tmp_var, tmp_prev, NULL);
 		else if (tmp_prev == NULL && tmp_next)
-		{
-			ms->env = tmp_next;
-			free(tmp_var->name);
-			free(tmp_var->value);
-			free(tmp_var);
-			printf("unset first var %s\n", var_name);
-		}
+			switch_ms_var(tmp_var, ms, tmp_next);
 		else if (tmp_next == NULL && tmp_prev == NULL)
-		{
-			printf("%s is the only var in env\n", tmp_var->name);
-			// tmp_var->name = NULL;
-			// tmp_var->value = NULL;
-			free(tmp_var->name);
-			free(tmp_var->value);
-			free(tmp_var);
-			ms->env = NULL;
-
-
-			// // printf("%s\n", ms->env->name);
-			// if (ms->env->name)
-			// 	free(ms->env->name);
-			// if (ms->env->value)
-			// 	free(ms->env->value);
-			// // free(tmp_var);
-			// free(ms->env);
-			// // free_env(ms);
-		}
+			switch_ms_var(tmp_var, ms, NULL);
 		else
-		{
-			// printf("var in middle\n");
-			free(tmp_var->name);
-			free(tmp_var->value);
-			free(tmp_var);
-			tmp_prev->next = tmp_next;
-		}
-		if (ms->arrenv)
-			ft_arrfree(ms->arrenv);
-		if (ms->arrexport)
-			ft_arrfree(ms->arrexport);
-		// if (ms->env)
-		// {
-		// 	printf("update array\n");
-			ms->arrenv = ft_getenv(ms);
-			ms->arrexport = ft_getexport(ms);
-		// }
+			switch_tmp_var(tmp_var, tmp_prev, tmp_next);
+		update_arr(ms);
 	}
 }
 
