@@ -6,17 +6,11 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/04 09:04:20 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/04 10:49:35 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	print_args(char **args)
-{
-	for (int i = 0; args[i]; i++)
-		printf("token[%d] = %s\n", i, args[i]);
-}
 
 static void	count_pipes(t_msl *ms)
 {
@@ -57,6 +51,5 @@ void	read_prompt(t_msl *ms, char **envp)
 	ms_strtok(ms, ms->input);
 	if (!ms->tokens)
 		return ;
-	// print_args(ms->tokens);
 	execution(ms);
 }

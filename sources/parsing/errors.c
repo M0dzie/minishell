@@ -6,7 +6,7 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:57 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/03/28 10:34:33 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/04 11:06:08 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	pos_pipes(t_msl *ms, char *input)
 	return (0);
 }
 
-int	parsing_redir(t_msl *ms, char *input)
+static int	parsing_redir(t_msl *ms, char *input)
 {
 	int	i;
 

@@ -6,13 +6,13 @@
 /*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 20:57:58 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/03 15:13:13 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/04 11:04:25 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	is_space(char c)
+static int	is_space(char c)
 {
 	if (c == ' ' || c == '\t')
 		return (1);
