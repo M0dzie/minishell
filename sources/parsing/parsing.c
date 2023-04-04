@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:49:26 by thmeyer           #+#    #+#             */
-/*   Updated: 2023/04/03 21:58:03 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/04 09:04:20 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	read_prompt(t_msl *ms, char **envp)
 		return (free(ms->input));
 	ms->input = parsing_env_var(ms, ms->input);
 	if (!ms->input)
-		return (free(ms->input));
+		return ;
 	ms_strtok(ms, ms->input);
 	if (!ms->tokens)
 		return ;
