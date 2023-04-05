@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 21:43:51 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/04 12:36:27 by msapin           ###   ########.fr       */
+/*   Updated: 2023/04/05 02:11:09 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_env(t_msl *ms)
-{
-	t_var	*tmp_env;
-	t_var	*next;
+// void	free_env(t_msl *ms)
+// {
+// 	t_var	*tmp_env;
+// 	t_var	*next;
 
-	tmp_env = ms->env;
-	while (tmp_env != NULL)
-	{
-		next = tmp_env->next;
-		if (tmp_env->name)
-			free(tmp_env->name);
-		if (tmp_env->value)
-			free(tmp_env->value);
-		free(tmp_env);
-		tmp_env = next;
-	}
-}
+// 	tmp_env = ms->env;
+// 	while (tmp_env != NULL)
+// 	{
+// 		next = tmp_env->next;
+// 		if (tmp_env->name)
+// 			free(tmp_env->name);
+// 		if (tmp_env->value)
+// 			free(tmp_env->value);
+// 		free(tmp_env);
+// 		tmp_env = next;
+// 	}
+// }
 
 void	freelist_elem(t_elem *elem)
 {
@@ -57,7 +57,7 @@ void	arrint_free(t_msl *ms)
 	free(ms->pipes);
 }
 
-void	free_redir(t_elem *elem, int fd)
+static void	free_redir(t_elem *elem, int fd)
 {
 	if (elem)
 	{
