@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 17:44:14 by msapin            #+#    #+#             */
-/*   Updated: 2023/04/05 02:07:14 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/05 10:31:13 by thmeyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static char	*add_newline(char *next_line)
 	return (tmp_join);
 }
 
-static char	*get_input(t_msl *ms, t_block *block, t_elem *elem)
+static void	*get_input(t_msl *ms, t_block *block, t_elem *elem)
 {
 	char	*tmp_input;
 	char	*tmp_input_two;
@@ -107,9 +107,10 @@ end-of-file, wanted ", 2), ft_putendl_fd(elem->name, 2), NULL);
 			else
 				block->input = input_join(block->input, tmp_input_two);
 			free(tmp_input_two);
+			free(tmp_input);
+			tmp_input = NULL;
 		}
 	}
-	return (free(tmp_input), NULL);
 }
 
 void	get_heredoc(t_msl *ms, t_block *block, int saveit)
