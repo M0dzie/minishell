@@ -6,7 +6,7 @@
 /*   By: mehdisapin <mehdisapin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 15:01:57 by mehdisapin        #+#    #+#             */
-/*   Updated: 2023/04/03 19:14:50 by mehdisapin       ###   ########.fr       */
+/*   Updated: 2023/04/04 21:22:14 by mehdisapin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ char	**get_tmpenv(t_msl *ms)
 	char	**arrenv;
 	int		i;
 
-	// if (!ms->env->name)
 	if (!ms->env)
 		return (NULL);
 	arrenv = ft_calloc(envsize(ms, EXPORT) + 1, sizeof(char *));
@@ -117,7 +116,6 @@ char	**ft_getexport(t_msl *ms)
 	arrenv = get_tmpenv(ms);
 	if (!arrenv)
 		return (NULL);
-	// getexport = ft_calloc(envsize(ms, EXPORT) + 1, sizeof(char *));
 	getexport = ft_calloc(envsize(ms, EXPORT) + 1, sizeof(char *));
 	if (!getexport)
 		return (display_error_exec("minishell: ", "getexport: ", 6), NULL);
@@ -127,10 +125,8 @@ char	**ft_getexport(t_msl *ms)
 		index = 0;
 		j = -1;
 		while (arrenv[++j])
-		{
 			if (varcmp(arrenv[i], arrenv[j]) > 0)
 				index++;
-		}
 		getexport[index] = ft_strdup_null(arrenv[i]);
 	}
 	return (ft_arrfree(arrenv), getexport);
