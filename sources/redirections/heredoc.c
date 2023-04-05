@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thmeyer < thmeyer@student.42lyon.fr >      +#+  +:+       +#+        */
+/*   By: msapin <msapin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 17:44:14 by msapin            #+#    #+#             */
-/*   Updated: 2023/04/05 10:41:17 by thmeyer          ###   ########.fr       */
+/*   Updated: 2023/04/05 11:07:32 by msapin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,6 @@ static char	*get_input(t_msl *ms, t_block *block, t_elem *elem)
 end-of-file, wanted ", 2), ft_putendl_fd(elem->name, 2), NULL);
 		if (ft_strmatch(tmp_input, elem->name) == 0)
 		{
-			tmp_input = parsing_env_var(ms, tmp_input);
-			if (!tmp_input)
-				return (NULL);
 			tmp_input_two = add_newline(tmp_input);
 			if (!block->input)
 				block->input = ft_strdup(tmp_input_two);
